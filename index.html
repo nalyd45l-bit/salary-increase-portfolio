@@ -553,6 +553,27 @@ footer{text-align:center;color:#7697be;font-size:11px;padding:24px 10px 0}
 @media(max-width:560px){#about .about-office-scene{display:none}#about .role-highlights{grid-template-columns:1fr;gap:8px;margin-top:15px}#about .fact{grid-template-columns:56px 1fr;padding:9px}#about .fact .round-icon{width:50px;height:50px;font-size:23px}#about .role-box{padding:18px}#about .profile-intro{gap:13px}#about .profile-photo{width:92px;height:92px}}
 @media print{.sitebar,.mobile-pdf-bar{display:none!important}body{padding-bottom:0!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}.panel{break-inside:avoid;box-shadow:none!important}a{color:inherit!important}}
 
+
+/* LIFE PAY official brand imagery */
+.brand-gallery{max-width:1500px;margin:0 auto 18px;border:1px solid rgba(23,128,238,.62);border-radius:26px;overflow:hidden;background:linear-gradient(125deg,#03162f,#041d3e 54%,#03152d);box-shadow:0 16px 55px rgba(0,0,0,.26),var(--glow)}
+.brand-gallery .inner{padding:clamp(28px,4vw,62px)}
+.brand-gallery-intro{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:24px}
+.brand-gallery-intro p{max-width:600px;color:#c5d8ef}
+.brand-wordmarks{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 25px}
+.brand-wordmarks span{display:inline-flex;align-items:center;padding:8px 15px;border:1px solid rgba(37,170,255,.45);border-radius:999px;background:rgba(3,34,72,.72);color:#f7faff;font-weight:800;letter-spacing:.06em;font-size:12px}
+.brand-wordmarks span:nth-child(2n){color:#35c9ff}
+.brand-image-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+.brand-image-card{min-width:0;border:1px solid rgba(37,170,255,.34);border-radius:18px;overflow:hidden;background:rgba(3,18,40,.8)}
+.brand-image-card img{display:block;width:100%;height:190px;object-fit:cover;background:#071a31}
+.brand-image-card:nth-child(2) img,.brand-image-card:nth-child(3) img,.brand-image-card:nth-child(5) img{object-fit:contain;background:#06172b}
+.brand-image-card div{padding:12px 13px 14px}
+.brand-image-card b{display:block;color:#f5f9ff;font-size:13px;margin-bottom:4px}
+.brand-image-card small{display:block;color:#b8cce4;font-size:11px;line-height:1.4}
+.brand-gallery-note{margin-top:15px!important;color:#9fb8d6!important;font-size:11px}
+@media(max-width:1050px){.brand-image-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.brand-image-card img{height:175px}}
+@media(max-width:620px){.brand-image-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.brand-image-card img{height:135px}.brand-image-card div{padding:10px}.brand-gallery-intro{display:block}.brand-wordmarks{gap:7px}.brand-wordmarks span{font-size:10px;padding:7px 10px}}
+@media(max-width:390px){.brand-image-grid{grid-template-columns:1fr}.brand-image-card img{height:190px}}
+
 </style>
 </head>
 <body>
@@ -562,7 +583,7 @@ footer{text-align:center;color:#7697be;font-size:11px;padding:24px 10px 0}
 <nav aria-label="Навигация по странице" class="navlinks">
 <a href="#about">Обо мне</a><a href="#duties">Обязанности</a><a href="#daily">Нагрузка</a>
 <a href="#projects">Проекты</a><a href="#piot">ТС ПИОТ</a><a href="#timeline">Этапы</a><a href="#esp">ESP</a><a href="#fn-bot">Бот ФН</a>
- <a href="#partner-intake">Передача заявок</a><a href="#erp-portal">LIFE PAY ERP</a><a href="#impact">Мой вклад</a><a href="#proposal">Предложение</a>
+ <a href="#partner-intake">Передача заявок</a><a href="#erp-portal">LIFE PAY ERP</a><a href="#brand-gallery">LIFE PAY</a><a href="#impact">Мой вклад</a><a href="#proposal">Предложение</a>
 </nav>
 <div class="nav-actions" aria-label="Действия с PDF">
   <button type="button" class="pdf-action pdf-open" title="В окне печати выбери «Сохранить как PDF»" onclick="window.print()">Предпросмотр PDF ↗</button>
@@ -817,6 +838,27 @@ footer{text-align:center;color:#7697be;font-size:11px;padding:24px 10px 0}
    <div><h3>Результат для сервисных партнёров</h3><p>Вместо разрозненных ручных запросов — единый инструмент, где можно самостоятельно проверить остатки, найти оборудование, посмотреть историю отгрузок и отследить отправление. Это упрощает инвентаризацию и делает движение оборудования прозрачнее.</p></div>
    <div class="erp-result-badge">Меньше ручных запросов<br/>Быстрее инвентаризация<br/>Прозрачнее контроль отгрузок</div>
   </div>
+ </div>
+</section>
+
+
+<section class="brand-gallery" id="brand-gallery" aria-label="Фирменные изображения LIFE PAY">
+ <div class="inner">
+  <div class="brand-gallery-intro">
+   <div><div class="eyebrow">LIFE PAY · ЭКОСИСТЕМА ПРОДУКТОВ</div><h2>Бренд, продукты и реальные сценарии</h2></div>
+   <p>Визуальные материалы с официального сайта LIFE PAY: платёжные решения, аналитика и оборудование, которые формируют единую экосистему для бизнеса.</p>
+  </div>
+  <div class="brand-wordmarks" aria-label="LIFE PAY — фирменные подписи">
+   <span>LIFE PAY</span><span>LIFE PAY</span><span>LIFE PAY</span><span>LIFE PAY</span><span>LIFE PAY</span><span>LIFE PAY</span>
+  </div>
+  <div class="brand-image-grid">
+   <article class="brand-image-card"><img src="https://life-pay.ru/assets/retail-ChY6dM2_.webp" alt="Оплата картой через терминал LIFE PAY в розничном магазине" loading="lazy"><div><b>Торговый эквайринг</b><small>Приём оплаты в розничной торговле</small></div></article>
+   <article class="brand-image-card"><img src="https://life-pay.ru/assets/tablepay-card-zj2MFkCR.webp" alt="Table Pay — оплата счёта по QR-коду" loading="lazy"><div><b>Table Pay и QR</b><small>Оплата со стола по QR-коду</small></div></article>
+   <article class="brand-image-card"><img src="https://life-pay.ru/assets/payments-HlX0JYac.webp" alt="Визуализация платёжных решений и СБП" loading="lazy"><div><b>Платежи и СБП</b><small>Современные сценарии безналичной оплаты</small></div></article>
+   <article class="brand-image-card"><img src="https://life-pay.ru/assets/analytics-Dy1vMOBh.webp" alt="Фирменная визуализация аналитики LIFE PAY" loading="lazy"><div><b>Учёт и аналитика</b><small>Данные для контроля и решений</small></div></article>
+   <article class="brand-image-card"><img src="https://life-pay.ru/assets/pos-DjBcYrC9.webp" alt="Смарт-терминал LIFE PAY с подтверждением оплаты" loading="lazy"><div><b>Кассовое оборудование</b><small>Смарт-терминалы и кассовые решения</small></div></article>
+  </div>
+  <p class="brand-gallery-note">Изображения: официальный сайт <a href="https://life-pay.ru/" target="_blank" rel="noopener" style="color:#35c9ff;text-decoration:underline">LIFE PAY</a>. Материалы добавлены как иллюстрации бренда и продуктовой экосистемы.</p>
  </div>
 </section>
 
