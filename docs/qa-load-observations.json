@@ -1,0 +1,66 @@
+[
+  {
+    "environment": "CI localhost; not a field speed score",
+    "elapsedMs": 651,
+    "timing": {
+      "domContentLoadedMs": 168.70000000001164,
+      "loadMs": 209.40000000000873,
+      "transferBytes": 51576
+    },
+    "mediaState": {
+      "currentSrc": "http://127.0.0.1:4173/salary-increase-portfolio/assets/media/hero-loop.mp4",
+      "width": 1280,
+      "height": 720,
+      "duration": 14.166667
+    },
+    "profile": "desktop-chrome"
+  },
+  {
+    "environment": "CI localhost; not a field speed score",
+    "elapsedMs": 589,
+    "timing": {
+      "domContentLoadedMs": 164.59999999999127,
+      "loadMs": 199.3000000000029,
+      "transferBytes": 51576
+    },
+    "mediaState": {
+      "currentSrc": "http://127.0.0.1:4173/salary-increase-portfolio/assets/media/hero-mobile.mp4",
+      "width": 854,
+      "height": 480,
+      "duration": 14.166667
+    },
+    "profile": "android-chrome"
+  },
+  {
+    "environment": "CI localhost; not a field speed score",
+    "elapsedMs": 795,
+    "timing": {
+      "domContentLoadedMs": 366,
+      "loadMs": 380,
+      "transferBytes": 51576
+    },
+    "mediaState": {
+      "currentSrc": "http://127.0.0.1:4173/salary-increase-portfolio/assets/media/hero-mobile.mp4",
+      "width": 853,
+      "height": 480,
+      "duration": 14.167
+    },
+    "profile": "iphone-safari"
+  },
+  {
+    "environment": "CI localhost; not a field speed score",
+    "elapsedMs": 1228,
+    "timing": {
+      "domContentLoadedMs": 519,
+      "loadMs": 530,
+      "transferBytes": 51576
+    },
+    "mediaState": {
+      "currentSrc": "http://127.0.0.1:4173/salary-increase-portfolio/assets/media/hero-loop.mp4",
+      "width": 1280,
+      "height": 720,
+      "duration": 14.167
+    },
+    "profile": "ipad-safari"
+  }
+]

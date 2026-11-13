@@ -1,0 +1,32 @@
+[
+  {
+    "url": "https://nalyd45l-bit.github.io/piot-analytics/",
+    "status": 200,
+    "final_url": "https://nalyd45l-bit.github.io/piot-analytics/"
+  },
+  {
+    "url": "https://life-pay-piot.tiiny.site/",
+    "status": 200,
+    "final_url": "https://life-pay-piot.tiiny.site/"
+  },
+  {
+    "url": "https://life-pay-web-6a5k.vercel.app/",
+    "status": 404,
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "url": "https://dreamjob.ru/employers/303078/vakansii/139199875",
+    "status": 200,
+    "final_url": "https://dreamjob.ru/employers/303078/vakansii/139199875"
+  },
+  {
+    "url": "https://finder.work/vacancies/37773448",
+    "status": 403,
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "url": "https://energybase.ru/vacancy/1169995",
+    "status": 403,
+    "error": "HTTP Error 403: Forbidden"
+  }
+]
