@@ -67,6 +67,7 @@
     toggle.hidden = !context;
     toggle.textContent = enabled ? 'Остановить движение' : 'Включить разбор по прокрутке';
     toggle.setAttribute('aria-pressed', String(enabled));
+    toggle.title = toggle.textContent;
     hint.textContent = enabled ? 'Прокрутите вниз, чтобы разобрать ФН‑36 ↓' : 'ФН‑36 · спокойный просмотр';
     if (enabled) schedule();
   };
