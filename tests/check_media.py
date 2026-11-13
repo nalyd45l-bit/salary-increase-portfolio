@@ -8,6 +8,8 @@ import subprocess
 ROOT = Path(__file__).resolve().parents[1]
 MEDIA = ROOT / 'assets' / 'media'
 ORIGINALS = {
+    'source-account.mp4': '9dff76f4d8c779895bf0658421b3e08e6da22f5c28a5e6aaf2bc2603699c67fe',
+    'source-payment.mp4': '380c35d857499b91e61ae26aa63e8d569711f55feb45c68be688fc338328a24c',
     'source-fn.mp4': '6f3923f0ac54fbc030d6e6d4733f405abecb48561d909f16da2db4d9788f6b53',
     'source-terminal.mp4': '674eff29f2e6623d2b88bda24215fe53e40f3ccd5b378b14c0a9f9debc27cc0d',
 }
@@ -21,7 +23,7 @@ for name, expected in ORIGINALS.items():
     check(hashlib.sha256((MEDIA / name).read_bytes()).hexdigest() == expected,
           f'{name}: original upload unchanged')
 
-for name, dimensions in [('hero-loop.mp4', (1280, 720)), ('hero-mobile.mp4', (854, 480))]:
+for name, dimensions, duration in [(f'{scene}-{variant}.mp4', dimensions, duration) for scene, duration in [('hero', 14.166667), ('fn36', 9.25), ('payment', 14.166667), ('account', 9.25)] for variant, dimensions in [('loop', (1280, 720)), ('mobile', (854, 480))]]:
     file = MEDIA / name
     info = json.loads(subprocess.check_output([
         'ffprobe', '-v', 'error', '-show_streams', '-show_format', '-of', 'json', str(file)
@@ -30,7 +32,7 @@ for name, dimensions in [('hero-loop.mp4', (1280, 720)), ('hero-mobile.mp4', (85
     check(len(streams) == 1 and streams[0]['codec_type'] == 'video', f'{name}: no audio track')
     check(streams[0]['codec_name'] == 'h264' and streams[0]['pix_fmt'] == 'yuv420p', f'{name}: H.264 / yuv420p')
     check((streams[0]['width'], streams[0]['height']) == dimensions, f'{name}: dimensions {dimensions}')
-    check(abs(float(info['format']['duration']) - 23.416667) < .05, f'{name}: complete two-video sequence')
+    check(abs(float(info['format']['duration']) - duration) < .05, f'{name}: complete loop duration {duration}')
     # Read MP4 atom boundaries, not arbitrary occurrences in compressed data.
     atoms = []
     with file.open('rb') as f:
