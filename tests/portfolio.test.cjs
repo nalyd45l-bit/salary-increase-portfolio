@@ -187,9 +187,8 @@ test('each project image can open and close; unsupported dialogs retain direct n
   assert.equal(event.defaultPrevented, false);
 });
 
-test('video starts after page load, pauses offscreen and resumes on return', async () => {
+test('video starts after page load and resumes after a hidden tab returns', async () => {
   const r = runtime({ ready: false });
-  r.observers[0].callback([{ isIntersecting: true }]);
   assert.equal(r.state.loads, 0);
   r.window.dispatchEvent(new r.window.Event('load'));
   await flush();
@@ -197,10 +196,13 @@ test('video starts after page load, pauses offscreen and resumes on return', asy
   assert.equal(r.video.muted, true);
   assert.ok(r.document.querySelector('.hero-media').classList.contains('is-playing'));
   const plays = r.state.plays;
-  r.observers[0].callback([{ isIntersecting: false }]);
+  r.document.hidden = true;
+  r.document.dispatchEvent(new r.window.Event('visibilitychange'));
   await flush();
   assert.ok(r.state.pauses > 0);
-  r.observers[0].callback([{ isIntersecting: true }]);
+  await flush();
+  r.document.hidden = false;
+  r.document.dispatchEvent(new r.window.Event('visibilitychange'));
   await flush();
   assert.equal(r.state.plays, plays + 1);
   assert.equal(r.document.querySelector('#motion-toggle'), null);
@@ -209,8 +211,7 @@ test('video starts after page load, pauses offscreen and resumes on return', asy
 test('reduced motion and data saving retain posters without player controls', async () => {
   for (const settings of [{ reduced: true }, { saveData: true }]) {
     const r = runtime(settings);
-    r.observers[0].callback([{ isIntersecting: true }]);
-    await flush();
+      await flush();
     assert.equal(r.state.loads, 0);
     assert.equal(r.state.plays, 0);
     assert.equal(r.document.querySelector('.cinematic-toggle, #motion-toggle, #fn-motion-toggle'), null);
@@ -219,7 +220,6 @@ test('reduced motion and data saving retain posters without player controls', as
 
 test('blocked autoplay and media errors keep the poster without visible player UI', async () => {
   const r = runtime({ autoplayBlocked: true });
-  r.observers[0].callback([{ isIntersecting: true }]);
   await flush();
   assert.match(r.document.querySelector('#media-status').textContent, /Автозапуск недоступен/);
   r.video.dispatchEvent(new r.window.Event('error'));

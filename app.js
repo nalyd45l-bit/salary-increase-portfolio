@@ -83,7 +83,7 @@
     const headerHeight = document.querySelector('.sitebar').getBoundingClientRect().height;
     const heroOnScreen = document.querySelector('.hero').getBoundingClientRect().bottom > headerHeight;
     const journey = document.querySelector('#fn-journey')?.getBoundingClientRect();
-    document.body.classList.toggle('nav-on-media', heroOnScreen || Boolean(journey && journey.top <= headerHeight && journey.bottom > headerHeight));
+    document.body.classList.toggle('nav-on-media', document.body.classList.contains('video-stage-enhanced') || heroOnScreen || Boolean(journey && journey.top <= headerHeight && journey.bottom > headerHeight));
     scheduled = false;
   };
   const scheduleScroll = () => {

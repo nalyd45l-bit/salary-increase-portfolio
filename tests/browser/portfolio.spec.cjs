@@ -129,7 +129,7 @@ test('PDF contains all cases even when the reader collapsed them', async ({ page
   await testInfo.attach('portfolio.pdf', { path: file, contentType: 'application/pdf' });
 });
 
-test('FN36 animates without scrolling and its background extends to the footer', async ({ page }, testInfo) => {
+test('FN36 animates without scrolling and video backgrounds cover every section', async ({ page }, testInfo) => {
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   await page.goto('./');
@@ -149,9 +149,12 @@ test('FN36 animates without scrolling and its background extends to the footer',
   await page.locator('#role-proposal').scrollIntoViewIfNeeded();
   await expect(page.locator('#fn-journey')).toHaveClass(/story-has-content/);
   await page.screenshot({ path: testInfo.outputPath('fn36-through-page.png') });
+  await expect(page.locator('.site-backdrop')).toHaveAttribute('data-active-scene', 'account');
   await page.locator('.footer').scrollIntoViewIfNeeded();
-  const ending = await page.locator('#fn36').evaluate(node => ({ background: node.getBoundingClientRect().bottom, footer: document.querySelector('.footer').getBoundingClientRect().bottom }));
-  expect(ending.background).toBeGreaterThanOrEqual(ending.footer);
+  await expect(page.locator('.site-backdrop')).toHaveAttribute('data-active-scene', 'account');
+  const ending = await page.locator('.site-backdrop').boundingBox();
+  expect(ending.y).toBe(0);
+  expect(ending.height).toBeGreaterThanOrEqual(await page.evaluate(() => innerHeight));
   expect(errors).toEqual([]);
 });
 
@@ -226,7 +229,7 @@ test('payment and account scenes autoplay silently without any player buttons', 
   await page.addStyleTag({ content: 'html{scroll-behavior:auto!important}' });
   for (const name of ['payment', 'account']) {
     const scene = page.locator(`#${name}-scene`);
-    const video = scene.locator('video');
+    const video = page.locator(`#${name}-video`);
     await scene.scrollIntoViewIfNeeded();
     await expect.poll(() => video.evaluate(node => node.currentTime), { timeout: 30000 }).toBeGreaterThan(.1);
     await expect(video).toHaveJSProperty('muted', true);
@@ -237,7 +240,7 @@ test('payment and account scenes autoplay silently without any player buttons', 
     await page.waitForTimeout(400);
     await expect.poll(() => video.evaluate(node => node.currentTime)).toBeGreaterThan(before + .1);
     await page.screenshot({ path: testInfo.outputPath(`${name}-scene.png`) });
-    if (name === 'account') await expect(page.locator('#payment-scene video')).toHaveJSProperty('paused', true);
+    if (name === 'account') await expect(page.locator('#payment-video')).toHaveJSProperty('paused', true);
   }
   await expect(page.locator('video')).toHaveCount(4);
   await expect(page.locator('#motion-toggle, #fn-motion-toggle, .cinematic-toggle')).toHaveCount(0);
@@ -264,4 +267,5 @@ test('all navigation buttons, project shortcuts and return to top reach their se
   await page.locator('.footer a[href="#about"]').last().click();
   await expect(page).toHaveURL(/#about$/);
   await expect(page.locator('h1')).toBeVisible();
+  await expect(page.locator('.site-backdrop')).toHaveAttribute('data-active-scene', 'hero');
 });
