@@ -80,6 +80,10 @@
       if (link.getAttribute('href') === `#${current}`) link.setAttribute('aria-current', 'location');
       else link.removeAttribute('aria-current');
     });
+    const headerHeight = document.querySelector('.sitebar').getBoundingClientRect().height;
+    const heroOnScreen = document.querySelector('.hero').getBoundingClientRect().bottom > headerHeight;
+    const journey = document.querySelector('#fn-journey')?.getBoundingClientRect();
+    document.body.classList.toggle('nav-on-media', heroOnScreen || Boolean(journey && journey.top <= headerHeight && journey.bottom > headerHeight));
     scheduled = false;
   };
   const scheduleScroll = () => {

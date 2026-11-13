@@ -188,3 +188,13 @@ body:has(.proposal-inputs :focus) .fn-control-dock{visibility:hidden}
 .profile-content h3,.profile-focus,.profile-facts dt,.profile-facts dd,.profile-contacts span,.profile-editor summary,.profile-editor-fields p,.responsibility-grid p{color:#344154}
 .profile-contacts a{color:#064da9}
 }
+/* The navigation floats over the video, with no white strip above the hero. */
+@media screen{
+.sitebar{position:fixed;inset:0 0 auto;width:100%}
+.nav{background:rgba(57,64,74,.34);border-color:rgba(255,255,255,.24);box-shadow:0 22px 60px rgba(0,0,0,.14);backdrop-filter:blur(18px) saturate(110%);-webkit-backdrop-filter:blur(18px) saturate(110%)}
+.hero{height:100svh;padding-top:var(--nav-height)}
+.nav-on-media .navlinks a{color:#f2f5f9}
+.nav-on-media .navlinks a:hover,.nav-on-media .navlinks a[aria-current]{color:#c4deff}
+.nav-on-media .navlinks a span{color:#d3ddeb}
+.nav-on-media .nav .print-button,.nav-on-media .menu-toggle{color:#fff;background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.3)}
+}
