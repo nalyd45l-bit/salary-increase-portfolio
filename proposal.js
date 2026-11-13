@@ -43,25 +43,5 @@
     manager.textContent = managerInput.value.trim();
     document.querySelector('#profile-manager-row').hidden = !manager.textContent;
   });
-  let photoUrl;
-  const photo = document.querySelector('#profile-photo');
-  const portraitStatus = document.querySelector('#portrait-status');
-  document.querySelector('#portrait-file').addEventListener('change', event => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-    if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type) || file.size > 8 * 1024 * 1024) {
-      portraitStatus.textContent = 'Выберите JPG, PNG или WebP размером до 8 МБ.';
-      return;
-    }
-    if (photoUrl) URL.revokeObjectURL(photoUrl);
-    photoUrl = URL.createObjectURL(file);
-    photo.onload = () => {
-      photo.hidden = false;
-      document.querySelector('#portrait-fallback').hidden = true;
-      portraitStatus.textContent = 'Фото добавлено в эту вкладку и будет включено в PDF.';
-    };
-    photo.onerror = () => { portraitStatus.textContent = 'Не удалось открыть изображение. Попробуйте другой файл.'; };
-    photo.src = photoUrl;
-  });
   update();
 })();

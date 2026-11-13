@@ -8,7 +8,7 @@ const { parseHTML } = require('linkedom');
 const csstree = require('css-tree');
 const root = path.resolve(__dirname, '..');
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
-const css = ['styles.css', 'story.css'].map(file => fs.readFileSync(path.join(root, file), 'utf8')).join('\n');
+const css = ['styles.css', 'story.css', 'readability.css'].map(file => fs.readFileSync(path.join(root, file), 'utf8')).join('\n');
 const app = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
 const parsed = () => parseHTML(html);
 
@@ -22,7 +22,7 @@ test('the static document has one doctype, unique IDs and no missing local resou
       const value = node.getAttribute(attr);
       if (!value || /^[a-z][a-z0-9+.-]*:/i.test(value)) continue;
       if (value.startsWith('#')) assert.ok(document.getElementById(value.slice(1)), value);
-      else assert.ok(fs.existsSync(path.join(root, value)), value);
+      else assert.ok(fs.existsSync(path.join(root, value.split(/[?#]/)[0])), value);
     }
   }
   for (const node of document.querySelectorAll('[srcset]')) {

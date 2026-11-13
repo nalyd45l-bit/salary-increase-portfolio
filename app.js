@@ -35,7 +35,11 @@
     savedDetails = undefined;
   };
   document.querySelectorAll('.print-button').forEach(button => {
-    button.addEventListener('click', () => { expandForPrint(); window.print(); });
+    button.addEventListener('click', async () => {
+      if (window.portfolioPortraitReady) await window.portfolioPortraitReady;
+      expandForPrint();
+      window.print();
+    });
   });
   window.addEventListener('beforeprint', expandForPrint);
   window.addEventListener('afterprint', restoreAfterPrint);

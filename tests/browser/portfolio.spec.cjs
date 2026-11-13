@@ -103,7 +103,7 @@ test('PDF contains all cases even when the reader collapsed them', async ({ page
     window.print = () => { window.__printCalled = true; };
   });
   await page.locator('#print-pdf').click();
-  expect(await page.evaluate(() => window.__printCalled)).toBe(true);
+  await expect.poll(() => page.evaluate(() => window.__printCalled)).toBe(true);
   expect(await page.locator('details').evaluateAll(nodes => nodes.every(node => node.open))).toBe(true);
   await page.emulateMedia({ media: 'print' });
   // Wait for lazy screenshots before native PDF rendering.
@@ -269,4 +269,31 @@ test('all navigation buttons, project shortcuts and return to top reach their se
   await expect(page).toHaveURL(/#about$/);
   await expect(page.locator('h1')).toBeVisible();
   await expect(page.locator('.site-backdrop')).toHaveAttribute('data-active-scene', 'hero');
+});
+
+test('typography stays opaque and readable over a white video frame', async ({ page }, testInfo) => {
+  await page.goto('./');
+  await page.evaluate(() => document.fonts.ready);
+  await expect(page.locator('body')).toHaveCSS('font-family', /Manrope/);
+  const result = await page.evaluate(() => {
+    const parse = value => { const n = value.match(/[\d.]+/g).map(Number); return [n[0], n[1], n[2], n[3] ?? 1]; };
+    const over = (fg, bg) => [0, 1, 2].map(i => fg[i] * fg[3] + bg[i] * (1 - fg[3]));
+    const luminance = c => c.map(x => { x /= 255; return x <= .04045 ? x / 12.92 : ((x + .055) / 1.055) ** 2.4; }).reduce((sum, x, i) => sum + x * [.2126, .7152, .0722][i], 0);
+    const selectors = ['.hero-description', '#profile-name', '.profile-facts dd', '.responsibility-grid p', '.project-intro>p', '.project-summary p', '.case-body li', '.market-date', '.salary-note', '.navlinks a', '#proposal-text', '.cinematic-copy>p'];
+    return selectors.map(selector => {
+      const node = document.querySelector(selector); const chain = [];
+      for (let item = node; item && item !== document.body; item = item.parentElement) chain.unshift(item);
+      let bg = [255, 255, 255];
+      for (const item of chain) bg = over(parse(getComputedStyle(item).backgroundColor), bg);
+      const fg = over(parse(getComputedStyle(node).color), bg);
+      const [light, dark] = [luminance(fg), luminance(bg)].sort((a, b) => b - a);
+      return { selector, ratio: (light + .05) / (dark + .05) };
+    });
+  });
+  for (const entry of result) expect(entry.ratio, entry.selector).toBeGreaterThanOrEqual(4.5);
+  await testInfo.attach('contrast.json', { body: JSON.stringify(result, null, 2), contentType: 'application/json' });
+  const opacity = await page.locator('.assembly-item').evaluateAll(nodes => nodes.every(node => getComputedStyle(node).opacity === '1'));
+  expect(opacity).toBe(true);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect(page.locator('.profile-grid')).toHaveCSS('transform', 'none');
 });
