@@ -273,27 +273,28 @@ test('all navigation buttons, project shortcuts and return to top reach their se
   await expect(page.locator('.site-backdrop')).toHaveAttribute('data-active-scene', 'hero');
 });
 
-test('typography stays opaque and readable over a white video frame', async ({ page }, testInfo) => {
+test('improved typography preserves the original glass and keeps text opaque', async ({ page }, testInfo) => {
   await page.goto('./');
   await page.evaluate(() => document.fonts.ready);
   await expect(page.locator('body')).toHaveCSS('font-family', /Manrope/);
-  const result = await page.evaluate(() => {
-    const parse = value => { const n = value.match(/[\d.]+/g).map(Number); return [n[0], n[1], n[2], n[3] ?? 1]; };
-    const over = (fg, bg) => [0, 1, 2].map(i => fg[i] * fg[3] + bg[i] * (1 - fg[3]));
-    const luminance = c => c.map(x => { x /= 255; return x <= .04045 ? x / 12.92 : ((x + .055) / 1.055) ** 2.4; }).reduce((sum, x, i) => sum + x * [.2126, .7152, .0722][i], 0);
-    const selectors = ['.hero-description', '#profile-name', '.profile-facts dd', '.responsibility-grid p', '.project-intro>p', '.project-summary p', '.case-body li', '.market-date', '.salary-note', '.navlinks a', '#proposal-text', '.cinematic-copy>p'];
-    return selectors.map(selector => {
-      const node = document.querySelector(selector); const chain = [];
-      for (let item = node; item && item !== document.body; item = item.parentElement) chain.unshift(item);
-      let bg = [255, 255, 255];
-      for (const item of chain) bg = over(parse(getComputedStyle(item).backgroundColor), bg);
-      const fg = over(parse(getComputedStyle(node).color), bg);
-      const [light, dark] = [luminance(fg), luminance(bg)].sort((a, b) => b - a);
-      return { selector, ratio: (light + .05) / (dark + .05) };
+  // Compare against the existing design with only the typography stylesheet disabled.
+  // A font change must not recolour the user's video panels or navigation.
+  const surfaces = await page.evaluate(() => {
+    const sheet = [...document.styleSheets].find(item => item.href?.includes('readability.css'));
+    const selectors = ['.hero-copy', '.nav', '.profile-grid', '.responsibility-grid article', '.project-index', '.project', '.section-heading', '.outcomes', '.market-card', '.development', '.role-proposal', '.cinematic-copy', '.fn-story-copy'];
+    const read = () => selectors.map(selector => {
+      const css = getComputedStyle(document.querySelector(selector));
+      return { selector, background: css.backgroundColor, image: css.backgroundImage, border: css.borderColor, blur: css.backdropFilter };
     });
+    sheet.disabled = true;
+    const original = read();
+    sheet.disabled = false;
+    return { original, typography: read() };
   });
-  for (const entry of result) expect(entry.ratio, entry.selector).toBeGreaterThanOrEqual(4.5);
-  await testInfo.attach('contrast.json', { body: JSON.stringify(result, null, 2), contentType: 'application/json' });
+  expect(surfaces.typography).toEqual(surfaces.original);
+  await testInfo.attach('original-glass.json', { body: JSON.stringify(surfaces, null, 2), contentType: 'application/json' });
+  await expect(page.locator('.hero-description')).toHaveCSS('text-shadow', /.+/);
+  expect(await page.locator('.hero-description').evaluate(node => getComputedStyle(node).textShadow)).not.toBe('none');
   const opacity = await page.locator('.assembly-item').evaluateAll(nodes => nodes.every(node => getComputedStyle(node).opacity === '1'));
   expect(opacity).toBe(true);
   await page.emulateMedia({ reducedMotion: 'reduce' });

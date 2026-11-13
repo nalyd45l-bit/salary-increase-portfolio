@@ -1,0 +1,770 @@
+{
+  "checked_code": "e6abd531ad64bee679a2340f5032bca3c005ef99",
+  "run": "https://github.com/nalyd45l-bit/salary-increase-portfolio/actions/runs/43447183589",
+  "results": [
+    {
+      "project": "desktop-chrome",
+      "surfaces": {
+        "original": [
+          {
+            "selector": ".hero-copy",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".nav",
+            "background": "rgba(255, 255, 255, 0.067)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.32)",
+            "blur": "blur(26px) saturate(1.15)"
+          },
+          {
+            "selector": ".profile-grid",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".responsibility-grid article",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.5)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".project-index",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".project",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".section-heading",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".outcomes",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".market-card",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".development",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".role-proposal",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".cinematic-copy",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".fn-story-copy",
+            "background": "rgba(83, 97, 112, 0.22)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(17px)"
+          }
+        ],
+        "typography": [
+          {
+            "selector": ".hero-copy",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".nav",
+            "background": "rgba(255, 255, 255, 0.067)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.32)",
+            "blur": "blur(26px) saturate(1.15)"
+          },
+          {
+            "selector": ".profile-grid",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".responsibility-grid article",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.5)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".project-index",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".project",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".section-heading",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".outcomes",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".market-card",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".development",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".role-proposal",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".cinematic-copy",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".fn-story-copy",
+            "background": "rgba(83, 97, 112, 0.22)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(17px)"
+          }
+        ]
+      }
+    },
+    {
+      "project": "android-chrome",
+      "surfaces": {
+        "original": [
+          {
+            "selector": ".hero-copy",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".nav",
+            "background": "rgba(255, 255, 255, 0.067)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.32)",
+            "blur": "blur(26px) saturate(1.15)"
+          },
+          {
+            "selector": ".profile-grid",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".responsibility-grid article",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.5)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".project-index",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".project",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".section-heading",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".outcomes",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".market-card",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".development",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".role-proposal",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".cinematic-copy",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".fn-story-copy",
+            "background": "rgba(83, 97, 112, 0.22)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(17px)"
+          }
+        ],
+        "typography": [
+          {
+            "selector": ".hero-copy",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".nav",
+            "background": "rgba(255, 255, 255, 0.067)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.32)",
+            "blur": "blur(26px) saturate(1.15)"
+          },
+          {
+            "selector": ".profile-grid",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".responsibility-grid article",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.5)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".project-index",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".project",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".section-heading",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".outcomes",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".market-card",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".development",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".role-proposal",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".cinematic-copy",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".fn-story-copy",
+            "background": "rgba(83, 97, 112, 0.22)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(17px)"
+          }
+        ]
+      }
+    },
+    {
+      "project": "iphone-safari",
+      "surfaces": {
+        "original": [
+          {
+            "selector": ".hero-copy",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".nav",
+            "background": "rgba(255, 255, 255, 0.067)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.32)",
+            "blur": "blur(26px) saturate(1.15)"
+          },
+          {
+            "selector": ".profile-grid",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".responsibility-grid article",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.5)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".project-index",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".project",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".section-heading",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".outcomes",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".market-card",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".development",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".role-proposal",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".cinematic-copy",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".fn-story-copy",
+            "background": "rgba(83, 97, 112, 0.22)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(17px)"
+          }
+        ],
+        "typography": [
+          {
+            "selector": ".hero-copy",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".nav",
+            "background": "rgba(255, 255, 255, 0.067)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.32)",
+            "blur": "blur(26px) saturate(1.15)"
+          },
+          {
+            "selector": ".profile-grid",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".responsibility-grid article",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.5)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".project-index",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".project",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".section-heading",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".outcomes",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".market-card",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".development",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".role-proposal",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".cinematic-copy",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".fn-story-copy",
+            "background": "rgba(83, 97, 112, 0.22)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(17px)"
+          }
+        ]
+      }
+    },
+    {
+      "project": "ipad-safari",
+      "surfaces": {
+        "original": [
+          {
+            "selector": ".hero-copy",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".nav",
+            "background": "rgba(255, 255, 255, 0.067)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.32)",
+            "blur": "blur(26px) saturate(1.15)"
+          },
+          {
+            "selector": ".profile-grid",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".responsibility-grid article",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.5)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".project-index",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".project",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".section-heading",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".outcomes",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".market-card",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".development",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".role-proposal",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".cinematic-copy",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".fn-story-copy",
+            "background": "rgba(83, 97, 112, 0.22)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(17px)"
+          }
+        ],
+        "typography": [
+          {
+            "selector": ".hero-copy",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".nav",
+            "background": "rgba(255, 255, 255, 0.067)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.32)",
+            "blur": "blur(26px) saturate(1.15)"
+          },
+          {
+            "selector": ".profile-grid",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".responsibility-grid article",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.5)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".project-index",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".project",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".section-heading",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".outcomes",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".market-card",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".development",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".role-proposal",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".cinematic-copy",
+            "background": "rgba(57, 64, 74, 0.34)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(18px) saturate(1.1)"
+          },
+          {
+            "selector": ".fn-story-copy",
+            "background": "rgba(83, 97, 112, 0.22)",
+            "image": "none",
+            "border": "rgba(255, 255, 255, 0.24)",
+            "blur": "blur(17px)"
+          }
+        ]
+      }
+    }
+  ]
+}
