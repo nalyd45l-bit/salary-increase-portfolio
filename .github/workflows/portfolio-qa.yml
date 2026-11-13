@@ -1,0 +1,33 @@
+name: Portfolio QA
+on:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Static structure and interaction tests
+        run: npm run check
+      - name: Install media and PDF verification tools
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg poppler-utils
+      - name: Verify original uploads and optimized loop
+        run: npm run test:media
+      - name: Install test browsers
+        run: npx playwright install --with-deps chromium webkit
+      - name: Desktop, Android, iPhone and tablet browser tests
+        run: npm run test:browser
+      - name: Save screenshots, traces and PDF
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: portfolio-browser-qa
+          path: test-results/
+          retention-days: 14

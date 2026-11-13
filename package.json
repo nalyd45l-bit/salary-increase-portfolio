@@ -1,0 +1,20 @@
+{
+  "name": "salary-increase-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static LIFE PAY professional portfolio; no production dependencies or build step.",
+  "scripts": {
+    "test": "node --test tests/portfolio.test.cjs",
+    "check": "node --check app.js && npm test",
+    "test:media": "python3 tests/check_media.py",
+    "test:browser": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.65.0",
+    "css-tree": "3.2.1",
+    "linkedom": "0.18.15"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
