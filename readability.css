@@ -37,7 +37,7 @@ button,input,select,textarea{font-family:inherit}
 .video-stage-enhanced .responsibility-grid p,.video-stage-enhanced .outcomes article div>p:not(.before){font-size:15px;line-height:1.8}
 .video-stage-enhanced .profile-facts>div,.video-stage-enhanced .market-card dl{font-size:14px;line-height:1.8}
 .video-stage-enhanced :is(.market-date,.salary-note,.project-visual figcaption,.availability){font-size:12px!important;line-height:1.75}
-.video-stage-enhanced :is(.profile-pillars span,.duty-tag){color:#fff;font-size:11px;font-weight:600}
+.video-stage-enhanced :is(.profile-pillars span,.duty-tag){font-size:11px;font-weight:600;text-shadow:none}
 .video-stage-enhanced .responsibility-grid .item-index{color:#ffffffb3}
 .video-stage-enhanced :is(.proposal-intro>p,.proposal-agreements p,.proposal-criteria ul,.proposal-letter>p){color:var(--reading-secondary)}
 .video-stage-enhanced .navlinks a{font-size:13px;font-weight:650;color:#fff}
