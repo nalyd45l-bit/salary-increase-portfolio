@@ -7,6 +7,4 @@ ffmpeg -y -v error -i assets/media/source-terminal.mp4 \
   -map '[v]' -an -c:v libx264 -preset medium -crf 25 -movflags +faststart assets/media/hero-loop.mp4
 ffmpeg -y -v error -i assets/media/hero-loop.mp4 -vf scale=854:480 -an -c:v libx264 -preset medium -crf 26 -movflags +faststart assets/media/hero-mobile.mp4
 ffmpeg -y -v error -i assets/media/hero-loop.mp4 -frames:v 1 -quality 85 assets/media/hero-poster.webp
-mkdir -p assets/media/fn36-frames
-ffmpeg -y -v error -i assets/media/source-fn.mp4 -t 4 -vf 'fps=16,scale=960:540' -c:v libwebp -f image2 -start_number 0 -quality 80 assets/media/fn36-frames/frame-%03d.webp
-ffmpeg -y -v error -i assets/media/source-fn.mp4 -frames:v 1 -vf scale=960:540 -quality 85 assets/media/fn36-poster.webp
+bash scripts/build-story-media.sh

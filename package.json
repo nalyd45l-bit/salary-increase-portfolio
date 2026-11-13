@@ -5,7 +5,7 @@
   "description": "Static LIFE PAY professional portfolio; no production dependencies or build step.",
   "scripts": {
     "test": "node --test tests/portfolio.test.cjs",
-    "check": "node --check app.js && node --check story.js && node --check proposal.js && npm test",
+    "check": "node --check app.js && node --check story.js && node --check proposal.js && node --check ambient.js && npm test",
     "test:media": "python3 tests/check_media.py",
     "test:browser": "playwright test"
   },

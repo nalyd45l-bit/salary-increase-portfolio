@@ -58,12 +58,14 @@ test('four cases expose detailed descriptions and original image links without J
 
 test('video is muted, inline, automatic and looped without player controls or remote runtime scripts', () => {
   const { document } = parsed();
-  const video = document.querySelector('video');
+  assert.equal(document.querySelectorAll('video').length, 4);
+  for (const video of document.querySelectorAll('video')) {
   for (const attr of ['autoplay', 'muted', 'loop', 'playsinline', 'poster']) assert.ok(video.hasAttribute(attr));
   assert.equal(video.hasAttribute('controls'), false);
   assert.equal(video.getAttribute('preload'), 'none');
   assert.equal(video.querySelectorAll('source[data-src]').length, 2);
   assert.equal(video.querySelector('source[media]').getAttribute('media'), '(max-width: 700px)');
+  }
   assert.equal(document.querySelectorAll('script[src^="http"]').length, 0);
   for (const link of document.querySelectorAll('a[target="_blank"]')) {
     assert.ok(link.rel.includes('noopener'));
@@ -112,6 +114,7 @@ function runtime({ reduced = false, saveData = false, autoplayBlocked = false, r
   }
   const video = document.querySelector('video');
   const state = { plays: 0, pauses: 0, loads: 0, printed: [] };
+  for (const video of document.querySelectorAll('video')) {
   video.load = () => { state.loads++; };
   video.play = async () => {
     state.plays++;
@@ -119,6 +122,7 @@ function runtime({ reduced = false, saveData = false, autoplayBlocked = false, r
     video.dispatchEvent(new window.Event('playing'));
   };
   video.pause = () => { state.pauses++; };
+  }
   const dialog = document.querySelector('dialog');
   dialog.open = false;
   if (!noDialog) dialog.showModal = () => { dialog.open = true; };
@@ -134,7 +138,9 @@ function runtime({ reduced = false, saveData = false, autoplayBlocked = false, r
     observe() {}
   }
   window.IntersectionObserver = IntersectionObserver;
-  vm.runInNewContext(app, { window, document, navigator: { connection: { saveData, addEventListener() {} } }, IntersectionObserver });
+  const context = { window, document, navigator: { connection: { saveData, addEventListener() {} } }, IntersectionObserver };
+  vm.runInNewContext(app, context);
+  vm.runInNewContext(fs.readFileSync(path.join(root, 'ambient.js'), 'utf8'), context);
   return { window, document, video, state, queries, observers, dialog };
 }
 const flush = () => new Promise(resolve => setImmediate(resolve));
@@ -197,41 +203,34 @@ test('video starts after page load, pauses offscreen and resumes on return', asy
   r.observers[0].callback([{ isIntersecting: true }]);
   await flush();
   assert.equal(r.state.plays, plays + 1);
-  r.document.querySelector('#motion-toggle').click();
-  await flush();
-  assert.match(r.document.querySelector('#motion-toggle').textContent, /Включить/);
+  assert.equal(r.document.querySelector('#motion-toggle'), null);
 });
 
-test('reduced motion and data saving show a poster until the visitor explicitly starts playback', async () => {
+test('reduced motion and data saving retain posters without player controls', async () => {
   for (const settings of [{ reduced: true }, { saveData: true }]) {
     const r = runtime(settings);
+    r.observers[0].callback([{ isIntersecting: true }]);
     await flush();
     assert.equal(r.state.loads, 0);
     assert.equal(r.state.plays, 0);
-    r.document.querySelector('#motion-toggle').click();
-    await flush();
-    assert.equal(r.state.loads, 1);
-    assert.equal(r.state.plays, 1);
+    assert.equal(r.document.querySelector('.cinematic-toggle, #motion-toggle, #fn-motion-toggle'), null);
   }
 });
 
-test('blocked autoplay and media errors keep a usable poster and retry action', async () => {
+test('blocked autoplay and media errors keep the poster without visible player UI', async () => {
   const r = runtime({ autoplayBlocked: true });
+  r.observers[0].callback([{ isIntersecting: true }]);
   await flush();
-  assert.match(r.document.querySelector('#motion-toggle').textContent, /Включить/);
   assert.match(r.document.querySelector('#media-status').textContent, /Автозапуск недоступен/);
   r.video.dispatchEvent(new r.window.Event('error'));
   assert.equal(r.document.querySelector('.hero-media').classList.contains('is-playing'), false);
   assert.match(r.document.querySelector('#media-status').textContent, /заставка/);
 });
 
-// The scroll sequence is a separate, finite set of local frames, independent of autoplay.
-test('FN36 scroll sequence and leadership preparation have complete local assets', () => {
+// FN uses its complete video loop; all background scenes start automatically.
+test('FN36 automatic video and leadership preparation have complete local assets', () => {
   const { document } = parsed();
-  assert.equal(document.querySelector('#fn36').dataset.frameCount, '64');
-  for (let index = 0; index < 64; index++) {
-    assert.ok(fs.statSync(path.join(root, 'assets/media/fn36-frames', `frame-${String(index).padStart(3, '0')}.webp`)).size > 1000);
-  }
+  assert.ok(document.querySelector('#fn36 video[autoplay][muted][loop][playsinline]'));
   assert.equal(document.querySelector('#profile-name').textContent, 'Дмитрий Козлов');
   assert.equal(document.querySelector('#profile-manager').textContent, 'Владислав Ерофеев');
   assert.equal(document.querySelector('#proposal-salary').getAttribute('value'), null);
@@ -245,4 +244,12 @@ test('FN36 scroll sequence and leadership preparation have complete local assets
 test('proposal pay formats are actual selectable HTML options', () => {
   const { document } = parseHTML(html);
   assert.deepEqual([...document.querySelectorAll('#proposal-pay-format option')].map(node => node.getAttribute('value')), ['', 'net', 'gross']);
+});
+
+test('account illustration is the last cinematic scene and payment links to results', () => {
+  const { document } = parsed();
+  assert.equal([...document.querySelectorAll('[data-cinematic]')].at(-1).id, 'account-scene');
+  assert.equal(document.querySelector('#account-scene').nextElementSibling.tagName, 'FOOTER');
+  assert.equal(document.querySelector('#payment-scene a').getAttribute('href'), '#results');
+  assert.ok(document.querySelector('#account-scene').closest('#fn-journey'));
 });

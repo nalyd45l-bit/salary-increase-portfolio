@@ -80,17 +80,15 @@ test('desktop and mobile portfolio: media, all cases, navigation and image enlar
   await testInfo.attach('javascript-errors.json', { body: JSON.stringify({ errors, failedResources }), contentType: 'application/json' });
 });
 
-test('reduced motion avoids video transfer and allows an explicit start', async ({ page }) => {
+test('reduced motion avoids automatic media transfers without player UI', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   const mediaRequests = [];
-  page.on('request', request => { if (/hero-(loop|mobile)\.mp4/.test(request.url())) mediaRequests.push(request.url()); });
+  page.on('request', request => { if (/(hero|fn36|payment|account)-(loop|mobile)\.mp4/.test(request.url())) mediaRequests.push(request.url()); });
   await page.goto('./');
-  await expect(page.locator('#motion-toggle')).toContainText('Включить');
-  await page.waitForTimeout(500);
+  for (const selector of ['#fn36', '#payment-scene', '#account-scene']) await page.locator(selector).scrollIntoViewIfNeeded();
+  await page.waitForTimeout(300);
   expect(mediaRequests).toEqual([]);
-  await page.locator('#motion-toggle').click();
-  await expect.poll(() => page.locator('#hero-video').evaluate(node => node.currentTime), { timeout: 30000 }).toBeGreaterThan(.1);
-  await expect(page.locator('#motion-toggle')).toContainText('Пауза');
+  await expect(page.locator('#motion-toggle, #fn-motion-toggle, .cinematic-toggle')).toHaveCount(0);
 });
 
 test('PDF contains all cases even when the reader collapsed them', async ({ page, browserName }, testInfo) => {
@@ -128,42 +126,27 @@ test('PDF contains all cases even when the reader collapsed them', async ({ page
   await testInfo.attach('portfolio.pdf', { path: file, contentType: 'application/pdf' });
 });
 
-test('FN36 disassembly follows forward and reverse scrolling and can be paused', async ({ page }, testInfo) => {
+test('FN36 animates without scrolling and its background extends to the footer', async ({ page }, testInfo) => {
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   await page.goto('./');
   await page.addStyleTag({ content: 'html{scroll-behavior:auto!important}' });
-  const measure = () => page.locator('#fn36').evaluate(node => ({
-    top: node.getBoundingClientRect().top + scrollY,
-    travel: node.offsetHeight - node.querySelector('.fn-sticky').offsetHeight,
-    header: document.querySelector('.sitebar').getBoundingClientRect().height
-  }));
-  const metrics = await measure();
-  const scroll = fraction => page.evaluate(({ top, travel, header, fraction }) => window.scrollTo(0, top - header + travel * fraction), { ...metrics, fraction });
-  await scroll(0);
-  await expect.poll(() => page.locator('#fn36').getAttribute('data-frame')).not.toBeNull();
-  await page.locator('.fn-sticky').screenshot({ path: testInfo.outputPath('fn36-intro.png') });
-  await scroll(.05);
-  await expect.poll(() => page.locator('#fn36').evaluate(node => Number(node.dataset.frame))).toBeLessThan(8);
-  await scroll(.9);
-  await expect.poll(() => page.locator('#fn36').evaluate(node => Number(node.dataset.frame))).toBeGreaterThan(50);
-  await expect(page.locator('body')).toHaveClass(/fn-journey-active/);
+  const top = await page.locator('#fn36').evaluate(node => node.getBoundingClientRect().top + scrollY);
+  const header = await page.locator('.sitebar').evaluate(node => node.getBoundingClientRect().height);
+  await page.evaluate(({ top, header }) => scrollTo(0, top - header + 5), { top, header });
+  const video = page.locator('#fn-video');
+  await expect.poll(() => video.evaluate(node => node.currentTime), { timeout: 30000 }).toBeGreaterThan(.1);
+  const before = await video.evaluate(node => node.currentTime);
+  await page.waitForTimeout(450);
+  await expect.poll(() => video.evaluate(node => node.currentTime)).toBeGreaterThan(before + .1);
+  await expect(video).toHaveJSProperty('muted', true);
+  await expect(video).toHaveJSProperty('controls', false);
+  await expect(page.locator('#fn36')).toHaveClass(/is-playing/);
+  await page.screenshot({ path: testInfo.outputPath('fn36-intro.png') });
+  await page.locator('#role-proposal').scrollIntoViewIfNeeded();
   await expect(page.locator('#fn-journey')).toHaveClass(/story-has-content/);
   await page.screenshot({ path: testInfo.outputPath('fn36-through-page.png') });
-  const stickyBounds = await page.locator('.fn-sticky').boundingBox();
-  expect(Math.abs(stickyBounds.y - metrics.header)).toBeLessThan(3);
-  await scroll(.05);
-  await expect.poll(() => page.locator('#fn36').evaluate(node => Number(node.dataset.frame))).toBeLessThan(8);
-  await page.locator('#fn-motion-toggle').click();
-  await expect(page.locator('#fn-motion-toggle')).toHaveAttribute('aria-pressed', 'false');
-  const frozen = await page.locator('#fn36').getAttribute('data-frame');
-  await scroll(.9);
-  await page.waitForTimeout(250);
-  await expect(page.locator('#fn36')).toHaveAttribute('data-frame', frozen);
-  await page.locator('#fn-motion-toggle').click();
-  await expect.poll(() => page.locator('#fn36').evaluate(node => Number(node.dataset.frame))).toBeGreaterThan(50);
   await page.locator('.footer').scrollIntoViewIfNeeded();
-  await expect(page.locator('#fn36')).toContainText('Целое складывается');
   const ending = await page.locator('#fn36').evaluate(node => ({ background: node.getBoundingClientRect().bottom, footer: document.querySelector('.footer').getBoundingClientRect().bottom }));
   expect(ending.background).toBeGreaterThanOrEqual(ending.footer);
   expect(errors).toEqual([]);
@@ -210,13 +193,38 @@ test('profile and leadership proposal use explicit user details and copy the sel
 test('reduced motion keeps FN static and the final official logo is visible', async ({ page }, testInfo) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   const frames = [];
-  page.on('request', request => { if (request.url().includes('/fn36-frames/')) frames.push(request.url()); });
+  page.on('request', request => { if (/fn36-(loop|mobile)\.mp4/.test(request.url())) frames.push(request.url()); });
   await page.goto('./');
   await page.locator('#fn36').scrollIntoViewIfNeeded();
   await page.waitForTimeout(300);
   expect(frames).toEqual([]);
-  await expect(page.locator('#fn-motion-toggle')).toHaveAttribute('aria-pressed', 'false');
+  await expect(page.locator('#fn-video')).toHaveJSProperty('paused', true);
   await page.locator('.brand-finale').scrollIntoViewIfNeeded();
   await expect(page.locator('.signature-base')).toHaveCSS('opacity', '1');
   await page.locator('.brand-finale').screenshot({ path: testInfo.outputPath('finale.png') });
+});
+
+test('payment and account scenes autoplay silently without any player buttons', async ({ page }, testInfo) => {
+  const errors = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('./');
+  await page.addStyleTag({ content: 'html{scroll-behavior:auto!important}' });
+  for (const name of ['payment', 'account']) {
+    const scene = page.locator(`#${name}-scene`);
+    const video = scene.locator('video');
+    await scene.scrollIntoViewIfNeeded();
+    await expect.poll(() => video.evaluate(node => node.currentTime), { timeout: 30000 }).toBeGreaterThan(.1);
+    await expect(video).toHaveJSProperty('muted', true);
+    await expect(video).toHaveJSProperty('controls', false);
+    await expect(video).toHaveJSProperty('loop', true);
+    await expect(scene).toHaveClass(/is-playing/);
+    const before = await video.evaluate(node => node.currentTime);
+    await page.waitForTimeout(400);
+    await expect.poll(() => video.evaluate(node => node.currentTime)).toBeGreaterThan(before + .1);
+    await page.screenshot({ path: testInfo.outputPath(`${name}-scene.png`) });
+    if (name === 'account') await expect(page.locator('#payment-scene video')).toHaveJSProperty('paused', true);
+  }
+  await expect(page.locator('video')).toHaveCount(4);
+  await expect(page.locator('#motion-toggle, #fn-motion-toggle, .cinematic-toggle')).toHaveCount(0);
+  expect(errors).toEqual([]);
 });
