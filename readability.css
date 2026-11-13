@@ -71,3 +71,4 @@ button,input,select,textarea{font-family:inherit}
 @media screen and (prefers-reduced-motion:reduce){
 .story-motion .assembly-item,.story-motion .assembly-item:not(.is-assembled){opacity:1!important;transform:none!important;transition:none!important}
 }
+@media screen{.profile-portrait{border:1px solid #ffffff40;box-shadow:0 15px 35px #020b1933,inset 0 1px 0 #ffffff26}.profile-photo{object-position:center 30%}}

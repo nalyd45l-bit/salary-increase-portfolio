@@ -297,3 +297,34 @@ test('typography stays opaque and readable over a white video frame', async ({ p
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect(page.locator('.profile-grid')).toHaveCSS('transform', 'none');
 });
+
+test('published portrait is visible to a fresh visitor and survives reload without browser storage', async ({ page, context, browserName }, testInfo) => {
+  await page.goto('./');
+  await page.evaluate(() => window.portfolioPortraitReady);
+  const source = 'assets/dmitry-kozlov-cf7163d559.jpg';
+  await expect(page.locator('#profile-photo')).toHaveAttribute('src', source);
+  await expect(page.locator('#profile-photo')).toBeVisible();
+  await expect.poll(() => page.locator('#profile-photo').evaluate(node => node.complete && node.naturalWidth === 753 && node.naturalHeight === 921)).toBe(true);
+  await page.reload();
+  await page.evaluate(() => window.portfolioPortraitReady);
+  await expect(page.locator('#profile-photo')).toHaveAttribute('src', source);
+  const visitor = await context.browser().newContext({ baseURL: testInfo.project.use.baseURL || 'http://127.0.0.1:4173/salary-increase-portfolio/' });
+  const fresh = await visitor.newPage();
+  await fresh.addInitScript(() => {
+    Object.defineProperty(window, 'indexedDB', { configurable: true, get() { throw new Error('Storage unavailable in QA'); } });
+    Object.defineProperty(window, 'localStorage', { configurable: true, get() { throw new Error('Storage unavailable in QA'); } });
+  });
+  await fresh.goto('http://127.0.0.1:4173/salary-increase-portfolio/');
+  await fresh.evaluate(() => window.portfolioPortraitReady);
+  await expect(fresh.locator('#profile-photo')).toHaveAttribute('src', source);
+  await expect(fresh.locator('#profile-photo')).toBeVisible();
+  await expect(fresh.locator('#portrait-fallback')).not.toBeVisible();
+  await visitor.close();
+  if (browserName === 'chromium' && testInfo.project.name === 'desktop-chrome') {
+    const file = testInfo.outputPath('published-portrait.pdf');
+    await page.emulateMedia({ media: 'print' });
+    await page.pdf({ path: file, format: 'A4', printBackground: true });
+    const images = require('node:child_process').execFileSync('pdfimages', ['-list', file], { encoding: 'utf8' });
+    expect(images).toMatch(/image\s+753\s+921\s/);
+  }
+});
