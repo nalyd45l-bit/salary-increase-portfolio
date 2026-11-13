@@ -49,6 +49,11 @@ test('desktop and mobile portfolio: media, all cases, navigation and image enlar
     for (const heading of ['Практический результат', 'Проблема', 'Моя роль', 'Реализованные функции', 'Использованные технологии']) {
       await expect(project.getByRole('heading', { name: heading, exact: true })).toBeVisible();
     }
+    const overflow = await project.evaluate(node => {
+      const bottom = node.getBoundingClientRect().bottom;
+      return Math.max(...[...node.querySelectorAll('p, li, h3, h4, a')].map(child => child.getBoundingClientRect().bottom - bottom));
+    });
+    expect(overflow).toBeLessThanOrEqual(1);
     await project.screenshot({ path: testInfo.outputPath(`project-${id}.png`) });
     await project.locator('[data-lightbox]').click();
     await expect(page.locator('#image-dialog')).toBeVisible();
