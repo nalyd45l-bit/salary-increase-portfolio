@@ -15,6 +15,8 @@ test('desktop and mobile portfolio: media, all cases, navigation and image enlar
   await expect(page.locator('header .logo img')).toHaveAttribute('src', 'assets/lifepay-logo-BlyhidjW.svg');
   const mediaBounds = await page.locator('.hero-media').boundingBox();
   expect(mediaBounds.height).toBeGreaterThanOrEqual(180);
+  expect(Math.abs(mediaBounds.y)).toBeLessThan(1);
+  await expect(page.locator('.sitebar')).toHaveCSS('position', 'fixed');
   const video = page.locator('#hero-video');
   await expect.poll(() => video.evaluate(node => node.currentTime), { timeout: 30000 }).toBeGreaterThan(0.1);
   await expect(video).toHaveJSProperty('muted', true);
