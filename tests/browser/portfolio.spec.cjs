@@ -40,8 +40,8 @@ test('desktop and mobile portfolio: media, all cases, navigation and image enlar
     await page.locator('#navlinks a[href="#projects"]').click();
   }
   await expect(page).toHaveURL(/#projects$/);
-  await page.locator('.responsibility').screenshot({ path: testInfo.outputPath('responsibility.png') });
-  await page.locator('#projects .section-heading').screenshot({ path: testInfo.outputPath('projects-heading.png') });
+  await page.locator('.responsibility').screenshot({ path: testInfo.outputPath('responsibility.png'), animations: 'disabled', style: '.sitebar{visibility:hidden}' });
+  await page.locator('#projects .section-heading').screenshot({ path: testInfo.outputPath('projects-heading.png'), animations: 'disabled', style: '.sitebar{visibility:hidden}' });
   const projects = page.locator('.project');
   await expect(projects).toHaveCount(4);
   for (const id of ['piot', 'bot', 'erp', 'workflow']) {
@@ -165,8 +165,10 @@ test('profile and leadership proposal use explicit user details and copy the sel
   await expect(page.locator('#profile a[href="mailto:d.kozlov@life-pay.ru"]')).toBeVisible();
   await expect(page.locator('.hero-bottom')).not.toContainText('20 августа');
   await expect(page.locator('#proposal-salary')).toHaveValue('');
-  await page.locator('#profile').screenshot({ path: testInfo.outputPath('profile.png') });
-  await page.locator('#role-proposal').screenshot({ path: testInfo.outputPath('leadership-proposal.png') });
+  await page.locator('.profile-grid').scrollIntoViewIfNeeded();
+  await expect(page.locator('.profile-grid')).toHaveClass(/is-assembled/);
+  await page.locator('#profile').screenshot({ path: testInfo.outputPath('profile.png'), animations: 'disabled', style: '.sitebar{visibility:hidden}' });
+  await page.locator('#role-proposal').screenshot({ path: testInfo.outputPath('leadership-proposal.png'), animations: 'disabled', style: '.sitebar{visibility:hidden}' });
   await page.locator('.brand-finale').scrollIntoViewIfNeeded();
   await expect(page.locator('.brand-finale')).toHaveClass(/is-assembled/);
   await expect(page.locator('.signature-pieces img').first()).toHaveCSS('opacity', '1');
