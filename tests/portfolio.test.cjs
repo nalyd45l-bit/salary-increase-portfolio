@@ -8,7 +8,7 @@ const { parseHTML } = require('linkedom');
 const csstree = require('css-tree');
 const root = path.resolve(__dirname, '..');
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
-const css = ['styles.css', 'story.css'].map(file => fs.readFileSync(path.join(root, file), 'utf8')).join('\n');
+const css = ['styles.css', 'story.css', 'readability.css'].map(file => fs.readFileSync(path.join(root, file), 'utf8')).join('\n');
 const app = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
 const parsed = () => parseHTML(html);
 
@@ -22,7 +22,7 @@ test('the static document has one doctype, unique IDs and no missing local resou
       const value = node.getAttribute(attr);
       if (!value || /^[a-z][a-z0-9+.-]*:/i.test(value)) continue;
       if (value.startsWith('#')) assert.ok(document.getElementById(value.slice(1)), value);
-      else assert.ok(fs.existsSync(path.join(root, value)), value);
+      else assert.ok(fs.existsSync(path.join(root, value.split(/[?#]/)[0])), value);
     }
   }
   for (const node of document.querySelectorAll('[srcset]')) {
@@ -252,4 +252,12 @@ test('account illustration is the last cinematic scene and payment links to resu
   assert.equal(document.querySelector('#account-scene').nextElementSibling.tagName, 'FOOTER');
   assert.equal(document.querySelector('#payment-scene a').getAttribute('href'), '#results');
   assert.ok(document.querySelector('#account-scene').closest('#fn-journey'));
+});
+
+test('the public profile uses the exact portrait provided in the user archive', () => {
+  const { document } = parsed();
+  const photo = document.querySelector('#profile-photo');
+  assert.equal(photo.getAttribute('src'), 'assets/dmitry-kozlov-cf7163d559.jpg');
+  assert.equal(photo.hasAttribute('hidden'), false);
+  assert.equal(require('node:crypto').createHash('sha256').update(fs.readFileSync(path.join(root, photo.getAttribute('src')))).digest('hex'), 'cf7163d55978da7d5ddf55003a555bb7fed83c213b1933e12e4e30fe2be585af');
 });

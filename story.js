@@ -19,7 +19,7 @@
   window.addEventListener('resize', setNavHeight);
   if ('ResizeObserver' in window) new ResizeObserver(setNavHeight).observe(document.querySelector('.sitebar'));
   setNavHeight();
-  const items = [...document.querySelectorAll('.section-heading, .responsibility-grid article, .project, .outcomes article, .market-section > .market-grid > article, .profile-grid, .proposal-agreements article, .brand-finale')];
+  const items = [...document.querySelectorAll('.section-heading, .responsibility-grid article, .project, .outcomes article, .market-section > .market-grid > article, .profile-grid, .project-index a, .project-summary, .case-pair>div, .development, .proposal-agreements article, .proposal-letter, .brand-finale')];
   let revealObserver;
   const configureReveals = () => {
     revealObserver?.disconnect();
@@ -38,6 +38,9 @@
     }, { threshold: 0.08 });
     items.forEach(item => {
       item.classList.add('assembly-item');
+      const group = item.parentElement;
+      const order = group.matches('.responsibility-grid,.market-grid,.project-index,.proposal-agreements,.outcomes') ? [...group.children].indexOf(item) : 0;
+      item.style.setProperty('--reveal-delay', `${Math.min(order, 3) * 55}ms`);
       if (!item.classList.contains('is-assembled')) revealObserver.observe(item);
     });
   };

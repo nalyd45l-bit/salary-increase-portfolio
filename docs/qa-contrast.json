@@ -1,0 +1,218 @@
+{
+  "checked_code": "bd6c8c1672bf73e5654ef5144b1ea686fbe27e80",
+  "run": "https://github.com/nalyd45l-bit/salary-increase-portfolio/actions/runs/43440515114",
+  "results": [
+    {
+      "project": "desktop-chrome",
+      "observation": [
+        {
+          "selector": ".hero-description",
+          "ratio": 7.782661841078599
+        },
+        {
+          "selector": "#profile-name",
+          "ratio": 9.59901689826169
+        },
+        {
+          "selector": ".profile-facts dd",
+          "ratio": 7.782661841078599
+        },
+        {
+          "selector": ".responsibility-grid p",
+          "ratio": 7.782661841078599
+        },
+        {
+          "selector": ".project-intro>p",
+          "ratio": 7.782661841078599
+        },
+        {
+          "selector": ".project-summary p",
+          "ratio": 7.129332767497504
+        },
+        {
+          "selector": ".case-body li",
+          "ratio": 7.782661841078599
+        },
+        {
+          "selector": ".market-date",
+          "ratio": 7.782661841078599
+        },
+        {
+          "selector": ".salary-note",
+          "ratio": 7.782661841078599
+        },
+        {
+          "selector": ".navlinks a",
+          "ratio": 7.423578134864899
+        },
+        {
+          "selector": "#proposal-text",
+          "ratio": 7.129332767497504
+        },
+        {
+          "selector": ".cinematic-copy>p",
+          "ratio": 7.782661841078599
+        }
+      ]
+    },
+    {
+      "project": "android-chrome",
+      "observation": [
+        {
+          "selector": ".hero-description",
+          "ratio": 7.782661841078599
+        },
+        {
+          "selector": "#profile-name",
+          "ratio": 9.59901689826169
+        },
+        {
+          "selector": ".profile-facts dd",
+          "ratio": 7.782661841078599
+        },
+        {
+          "selector": ".responsibility-grid p",
+          "ratio": 7.782661841078599
+        },
+        {
+          "selector": ".project-intro>p",
+          "ratio": 7.782661841078599
+        },
+        {
+          "selector": ".project-summary p",
+          "ratio": 7.129332767497504
+        },
+        {
+          "selector": ".case-body li",
+          "ratio": 7.782661841078599
+        },
+        {
+          "selector": ".market-date",
+          "ratio": 7.782661841078599
+        },
+        {
+          "selector": ".salary-note",
+          "ratio": 7.782661841078599
+        },
+        {
+          "selector": ".navlinks a",
+          "ratio": 7.423578134864899
+        },
+        {
+          "selector": "#proposal-text",
+          "ratio": 7.129332767497504
+        },
+        {
+          "selector": ".cinematic-copy>p",
+          "ratio": 7.782661841078599
+        }
+      ]
+    },
+    {
+      "project": "iphone-safari",
+      "observation": [
+        {
+          "selector": ".hero-description",
+          "ratio": 7.782661841078599
+        },
+        {
+          "selector": "#profile-name",
+          "ratio": 9.59901689826169
+        },
+        {
+          "selector": ".profile-facts dd",
+          "ratio": 7.782661841078599
+        },
+        {
+          "selector": ".responsibility-grid p",
+          "ratio": 7.782661841078599
+        },
+        {
+          "selector": ".project-intro>p",
+          "ratio": 7.782661841078599
+        },
+        {
+          "selector": ".project-summary p",
+          "ratio": 7.129332767497504
+        },
+        {
+          "selector": ".case-body li",
+          "ratio": 7.782661841078599
+        },
+        {
+          "selector": ".market-date",
+          "ratio": 7.782661841078599
+        },
+        {
+          "selector": ".salary-note",
+          "ratio": 7.782661841078599
+        },
+        {
+          "selector": ".navlinks a",
+          "ratio": 7.423578134864899
+        },
+        {
+          "selector": "#proposal-text",
+          "ratio": 7.129332767497504
+        },
+        {
+          "selector": ".cinematic-copy>p",
+          "ratio": 7.782661841078599
+        }
+      ]
+    },
+    {
+      "project": "ipad-safari",
+      "observation": [
+        {
+          "selector": ".hero-description",
+          "ratio": 7.782661841078599
+        },
+        {
+          "selector": "#profile-name",
+          "ratio": 9.59901689826169
+        },
+        {
+          "selector": ".profile-facts dd",
+          "ratio": 7.782661841078599
+        },
+        {
+          "selector": ".responsibility-grid p",
+          "ratio": 7.782661841078599
+        },
+        {
+          "selector": ".project-intro>p",
+          "ratio": 7.782661841078599
+        },
+        {
+          "selector": ".project-summary p",
+          "ratio": 7.129332767497504
+        },
+        {
+          "selector": ".case-body li",
+          "ratio": 7.782661841078599
+        },
+        {
+          "selector": ".market-date",
+          "ratio": 7.782661841078599
+        },
+        {
+          "selector": ".salary-note",
+          "ratio": 7.782661841078599
+        },
+        {
+          "selector": ".navlinks a",
+          "ratio": 7.423578134864899
+        },
+        {
+          "selector": "#proposal-text",
+          "ratio": 7.129332767497504
+        },
+        {
+          "selector": ".cinematic-copy>p",
+          "ratio": 7.782661841078599
+        }
+      ]
+    }
+  ]
+}
