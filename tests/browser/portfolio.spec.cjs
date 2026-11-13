@@ -110,7 +110,11 @@ test('PDF contains all cases even when the reader collapsed them', async ({ page
   expect(buffer.subarray(0, 4).toString()).toBe('%PDF');
   expect(buffer.length).toBeGreaterThan(150000);
   const { execFileSync } = require('node:child_process');
-  const text = execFileSync('pdftotext', [file, '-'], { encoding: 'utf8' }).replace(/\s+/g, ' ');
+  const rawText = execFileSync('pdftotext', [file, '-'], { encoding: 'utf8' });
+  const pages = rawText.split('\f');
+  if (!pages.at(-1).trim()) pages.pop();
+  expect(pages.every(text => text.trim().length > 40)).toBe(true);
+  const text = rawText.replace(/\s+/g, ' ');
   for (const title of ['Аналитика ТС ПИОТ', 'Бот ФН', 'LIFE PAY ERP', 'Передача заявок партнёрам']) expect(text).toContain(title);
   expect((text.match(/Моя роль/g) || []).length).toBe(4);
   const info = execFileSync('pdfinfo', [file], { encoding: 'utf8' });
