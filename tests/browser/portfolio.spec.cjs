@@ -22,7 +22,7 @@ test('desktop and mobile portfolio: media, all cases, navigation and image enlar
   await expect(video).toHaveJSProperty('controls', false);
   await expect(page.locator('.hero-media')).toHaveClass(/is-playing/);
   const mediaState = await video.evaluate(node => ({ currentSrc: node.currentSrc, width: node.videoWidth, height: node.videoHeight, duration: node.duration }));
-  expect(mediaState.duration).toBeCloseTo(23.4167, 1);
+  expect(mediaState.duration).toBeCloseTo(14.1667, 1);
   const timing = await page.evaluate(() => {
     const entry = performance.getEntriesByType('navigation')[0];
     return { domContentLoadedMs: entry.domContentLoadedEventEnd, loadMs: entry.loadEventEnd, transferBytes: entry.transferSize };
@@ -120,4 +120,80 @@ test('PDF contains all cases even when the reader collapsed them', async ({ page
   const info = execFileSync('pdfinfo', [file], { encoding: 'utf8' });
   await testInfo.attach('pdf-info.txt', { body: info, contentType: 'text/plain' });
   await testInfo.attach('portfolio.pdf', { path: file, contentType: 'application/pdf' });
+});
+
+test('FN36 disassembly follows forward and reverse scrolling and can be paused', async ({ page }, testInfo) => {
+  const errors = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('./');
+  await page.addStyleTag({ content: 'html{scroll-behavior:auto!important}' });
+  const measure = () => page.locator('#fn36').evaluate(node => ({
+    top: node.getBoundingClientRect().top + scrollY,
+    travel: node.offsetHeight - node.querySelector('.fn-sticky').offsetHeight,
+    header: document.querySelector('.sitebar').getBoundingClientRect().height
+  }));
+  const metrics = await measure();
+  const scroll = fraction => page.evaluate(({ top, travel, header, fraction }) => window.scrollTo(0, top - header + travel * fraction), { ...metrics, fraction });
+  await scroll(.05);
+  await expect.poll(() => page.locator('#fn36').getAttribute('data-frame')).not.toBeNull();
+  await expect.poll(() => page.locator('#fn36').evaluate(node => Number(node.dataset.frame))).toBeLessThan(8);
+  await scroll(.9);
+  await expect.poll(() => page.locator('#fn36').evaluate(node => Number(node.dataset.frame))).toBeGreaterThan(50);
+  await page.locator('.fn-sticky').screenshot({ path: testInfo.outputPath('fn36-exploded.png') });
+  await scroll(.05);
+  await expect.poll(() => page.locator('#fn36').evaluate(node => Number(node.dataset.frame))).toBeLessThan(8);
+  await page.locator('#fn-motion-toggle').click();
+  await expect(page.locator('#fn-motion-toggle')).toHaveAttribute('aria-pressed', 'false');
+  const frozen = await page.locator('#fn36').getAttribute('data-frame');
+  await scroll(.9);
+  await page.waitForTimeout(250);
+  await expect(page.locator('#fn36')).toHaveAttribute('data-frame', frozen);
+  await page.locator('#fn-motion-toggle').click();
+  await expect.poll(() => page.locator('#fn36').evaluate(node => Number(node.dataset.frame))).toBeGreaterThan(50);
+  expect(errors).toEqual([]);
+});
+
+test('profile and leadership proposal use explicit user details and copy the selected pay format', async ({ page }, testInfo) => {
+  await page.goto('./');
+  await expect(page.locator('#profile-name')).toHaveText('Дмитрий Козлов');
+  await expect(page.locator('#profile-manager')).toHaveText('Владислав Ерофеев');
+  await expect(page.locator('#profile')).toContainText('Ульяновск');
+  await expect(page.locator('#profile a[href="mailto:d.kozlov@life-pay.ru"]')).toBeVisible();
+  await expect(page.locator('.hero-bottom')).not.toContainText('20 августа');
+  await expect(page.locator('#proposal-salary')).toHaveValue('');
+  await page.locator('#profile').screenshot({ path: testInfo.outputPath('profile.png') });
+  await page.locator('#proposal-salary').fill('150000');
+  await page.locator('#proposal-pay-format').selectOption('net');
+  await page.locator('#proposal-date').fill('2026-12-01');
+  await expect(page.locator('#proposal-text')).toContainText('на руки');
+  await expect(page.locator('#proposal-text')).toContainText('01.12.2026');
+  const proposal = await page.locator('#proposal-text').innerText();
+  expect(proposal.replace(/\s/g, '')).toContain('150000₽');
+  await page.evaluate(() => Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText: async text => { window.__copiedProposal = text; } } }));
+  await page.locator('#copy-proposal').click();
+  await expect(page.locator('#proposal-status')).toContainText('Текст скопирован');
+  expect(await page.evaluate(() => window.__copiedProposal)).toBe(proposal);
+  await page.locator('#proposal-pay-format').selectOption('gross');
+  await expect(page.locator('#proposal-text')).toContainText('до вычета налогов');
+  await expect(page.locator('#proposal-text')).not.toContainText('на руки');
+  await page.locator('#portrait-file').setInputFiles({ name: 'qa-only.png', mimeType: 'image/png', buffer: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=', 'base64') });
+  await expect(page.locator('#profile-photo')).toBeVisible();
+  await expect(page.locator('#portrait-status')).toContainText('Фото добавлено');
+  await page.emulateMedia({ media: 'print' });
+  await expect(page.locator('.proposal-preparation')).not.toBeVisible();
+  await expect(page.locator('#proposal-text')).toContainText('до вычета налогов');
+});
+
+test('reduced motion keeps FN static and the final official logo is visible', async ({ page }, testInfo) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  const frames = [];
+  page.on('request', request => { if (request.url().includes('/fn36-frames/')) frames.push(request.url()); });
+  await page.goto('./');
+  await page.locator('#fn36').scrollIntoViewIfNeeded();
+  await page.waitForTimeout(300);
+  expect(frames).toEqual([]);
+  await expect(page.locator('#fn-motion-toggle')).toHaveAttribute('aria-pressed', 'false');
+  await page.locator('.brand-finale').scrollIntoViewIfNeeded();
+  await expect(page.locator('.signature-base')).toHaveCSS('opacity', '1');
+  await page.locator('.brand-finale').screenshot({ path: testInfo.outputPath('finale.png') });
 });

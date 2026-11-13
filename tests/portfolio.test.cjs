@@ -8,7 +8,7 @@ const { parseHTML } = require('linkedom');
 const csstree = require('css-tree');
 const root = path.resolve(__dirname, '..');
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
-const css = fs.readFileSync(path.join(root, 'styles.css'), 'utf8');
+const css = ['styles.css', 'story.css'].map(file => fs.readFileSync(path.join(root, file), 'utf8')).join('\n');
 const app = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
 const parsed = () => parseHTML(html);
 
@@ -20,7 +20,7 @@ test('the static document has one doctype, unique IDs and no missing local resou
   for (const node of document.querySelectorAll('[src],[href],[data-src],[poster]')) {
     for (const attr of ['src', 'href', 'data-src', 'poster']) {
       const value = node.getAttribute(attr);
-      if (!value || /^(https?:|data:)/.test(value)) continue;
+      if (!value || /^[a-z][a-z0-9+.-]*:/i.test(value)) continue;
       if (value.startsWith('#')) assert.ok(document.getElementById(value.slice(1)), value);
       else assert.ok(fs.existsSync(path.join(root, value)), value);
     }
@@ -223,4 +223,19 @@ test('blocked autoplay and media errors keep a usable poster and retry action', 
   r.video.dispatchEvent(new r.window.Event('error'));
   assert.equal(r.document.querySelector('.hero-media').classList.contains('is-playing'), false);
   assert.match(r.document.querySelector('#media-status').textContent, /заставка/);
+});
+
+// The scroll sequence is a separate, finite set of local frames, independent of autoplay.
+test('FN36 scroll sequence and leadership preparation have complete local assets', () => {
+  const { document } = parsed();
+  assert.equal(document.querySelector('#fn36').dataset.frameCount, '64');
+  for (let index = 0; index < 64; index++) {
+    assert.ok(fs.statSync(path.join(root, 'assets/media/fn36-frames', `frame-${String(index).padStart(3, '0')}.webp`)).size > 1000);
+  }
+  assert.equal(document.querySelector('#profile-name').textContent, 'Дмитрий Козлов');
+  assert.equal(document.querySelector('#profile-manager').textContent, 'Владислав Ерофеев');
+  assert.equal(document.querySelector('#proposal-salary').getAttribute('value'), null);
+  assert.ok(document.querySelector('#copy-proposal'));
+  assert.ok(document.querySelector('.brand-finale img'));
+  assert.equal(document.querySelector('.hero-bottom time'), null);
 });

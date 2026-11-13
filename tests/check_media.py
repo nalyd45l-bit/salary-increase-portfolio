@@ -30,7 +30,7 @@ for name, dimensions in [('hero-loop.mp4', (1280, 720)), ('hero-mobile.mp4', (85
     check(len(streams) == 1 and streams[0]['codec_type'] == 'video', f'{name}: no audio track')
     check(streams[0]['codec_name'] == 'h264' and streams[0]['pix_fmt'] == 'yuv420p', f'{name}: H.264 / yuv420p')
     check((streams[0]['width'], streams[0]['height']) == dimensions, f'{name}: dimensions {dimensions}')
-    check(abs(float(info['format']['duration']) - 23.416667) < .05, f'{name}: complete two-video sequence')
+    check(abs(float(info['format']['duration']) - 14.166667) < .05, f'{name}: terminal-only hero sequence')
     # Read MP4 atom boundaries, not arbitrary occurrences in compressed data.
     atoms = []
     with file.open('rb') as f:
