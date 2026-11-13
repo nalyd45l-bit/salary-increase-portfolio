@@ -239,3 +239,8 @@ test('FN36 scroll sequence and leadership preparation have complete local assets
   assert.ok(document.querySelector('.brand-finale img'));
   assert.equal(document.querySelector('.hero-bottom time'), null);
 });
+
+test('proposal pay formats are actual selectable HTML options', () => {
+  const { document } = parseHTML(html);
+  assert.deepEqual([...document.querySelectorAll('#proposal-pay-format option')].map(node => node.getAttribute('value')), ['', 'net', 'gross']);
+});
