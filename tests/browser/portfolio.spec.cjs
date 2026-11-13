@@ -12,6 +12,8 @@ test('desktop and mobile portfolio: media, all cases, navigation and image enlar
   await page.goto('./');
   await expect(page.locator('h1')).toContainText('Мой вклад');
   await expect(page.locator('header .logo img')).toHaveJSProperty('naturalWidth', 235);
+  const mediaBounds = await page.locator('.hero-media').boundingBox();
+  expect(mediaBounds.height).toBeGreaterThanOrEqual(180);
   const video = page.locator('#hero-video');
   await expect.poll(() => video.evaluate(node => node.currentTime), { timeout: 30000 }).toBeGreaterThan(0.1);
   await expect(video).toHaveJSProperty('muted', true);
