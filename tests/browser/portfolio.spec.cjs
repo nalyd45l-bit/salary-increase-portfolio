@@ -145,6 +145,7 @@ test('FN36 animates without scrolling and video backgrounds cover every section'
   await expect(video).toHaveJSProperty('muted', true);
   await expect(video).toHaveJSProperty('controls', false);
   await expect(page.locator('#fn36')).toHaveClass(/is-playing/);
+  await expect.poll(() => page.locator('.fn-sticky').evaluate(node => getComputedStyle(node, '::before').display)).toBe('none');
   await page.screenshot({ path: testInfo.outputPath('fn36-intro.png') });
   await page.locator('#role-proposal').scrollIntoViewIfNeeded();
   await expect(page.locator('#fn-journey')).toHaveClass(/story-has-content/);

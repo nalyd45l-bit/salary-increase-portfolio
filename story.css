@@ -267,7 +267,8 @@ body:has(.cinematic-story.is-on-screen) .fn-control-dock{visibility:hidden}
 .video-stage-enhanced main{position:relative;z-index:1;color:#fff;--ink:#fff;--muted:#edf2f8;--blue:#b2d3ff;--line:#ffffff3d}
 .video-stage-enhanced :is(.hero,.fn-story,.cinematic-story){background:transparent}
 .video-stage-enhanced :is(.hero-media,.cinematic-media,.fn-story-poster){opacity:0;pointer-events:none}
-.video-stage-enhanced :is(.fn-sticky:before,.fn-shade,.profile-section:before,.responsibility:before,.projects-section:before){display:none}
+.video-stage-enhanced .fn-shade{display:none}
+.video-stage-enhanced .fn-sticky:before,.video-stage-enhanced .profile-section:before,.video-stage-enhanced .responsibility:before,.video-stage-enhanced .projects-section:before{display:none}
 .video-stage-enhanced .hero-actions .button-primary{background:#0868f9}
 .video-stage-enhanced main .section-heading{padding:30px;border:1px solid #ffffff3d;border-radius:28px;background:rgba(57,64,74,.34);box-shadow:0 22px 60px #00000024;backdrop-filter:blur(18px) saturate(110%);-webkit-backdrop-filter:blur(18px) saturate(110%)}
 .video-stage-enhanced main :is(.section-heading h2 span,.section-heading>p,.profile-content h3,.profile-focus,.profile-facts dt,.profile-facts dd,.profile-contacts span,.profile-editor summary,.profile-editor-fields p,.responsibility-grid p){color:#edf2f8}
