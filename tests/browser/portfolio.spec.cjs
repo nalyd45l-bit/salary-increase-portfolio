@@ -11,7 +11,8 @@ test('desktop and mobile portfolio: media, all cases, navigation and image enlar
   const start = Date.now();
   await page.goto('./');
   await expect(page.locator('h1')).toContainText('Мой вклад');
-  await expect(page.locator('header .logo img')).toHaveJSProperty('naturalWidth', 235);
+  await expect.poll(() => page.locator('header .logo img').evaluate(node => node.complete && node.naturalWidth > 0)).toBe(true);
+  await expect(page.locator('header .logo img')).toHaveAttribute('src', 'assets/lifepay-logo-BlyhidjW.svg');
   const mediaBounds = await page.locator('.hero-media').boundingBox();
   expect(mediaBounds.height).toBeGreaterThanOrEqual(180);
   const video = page.locator('#hero-video');
@@ -69,7 +70,7 @@ test('desktop and mobile portfolio: media, all cases, navigation and image enlar
   await page.locator('#results').scrollIntoViewIfNeeded();
   await expect(page.locator('.outcomes article')).toHaveCount(4);
   await page.locator('#market').scrollIntoViewIfNeeded();
-  await expect(page.locator('.market-card')).toHaveCount(3);
+  await expect(page.locator('.market-section > .market-grid > .market-card')).toHaveCount(3);
   expect(errors).toEqual([]);
   expect(failedResources).toEqual([]);
   await testInfo.attach('javascript-errors.json', { body: JSON.stringify({ errors, failedResources }), contentType: 'application/json' });
