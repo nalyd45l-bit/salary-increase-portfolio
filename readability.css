@@ -81,3 +81,21 @@ button,input,select,textarea{font-family:inherit}
 .video-stage-enhanced .fn-story-bottom>span,.video-stage-enhanced .cinematic-caption{padding:7px 12px;border-radius:100px;background:#0f1724e6;color:#fff;font-size:11px;font-weight:600;line-height:1.6;text-shadow:none}
 }
 @media screen and (max-width:700px){.video-stage-enhanced :is(.hero-eyebrow,.cinematic-copy .eyebrow,.fn-story-copy .eyebrow){font-size:10px}.video-stage-enhanced .fn-story-copy p{font-size:13px}.video-stage-enhanced .proposal-agreements p,.video-stage-enhanced .proposal-criteria ul{font-size:14px}.video-stage-enhanced .cinematic-caption{max-width:calc(100% - 36px);font-size:10px}}
+
+/* Contact links stay recognisable in both the glass profile and the printed copy. */
+.profile-contacts a{display:flex;align-items:center;gap:10px}
+.profile-contacts .contact-icon{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;padding:0}
+.profile-contacts .contact-copy{display:block;min-width:0;padding:0}
+.contact-copy small,.contact-copy b{display:block}
+.contact-copy b{overflow-wrap:anywhere}
+@media screen{
+.video-stage-enhanced .profile-contacts{gap:10px}
+.video-stage-enhanced .profile-contacts a{flex:1 1 210px;min-width:0;min-height:66px;padding:12px 14px;border:1px solid #ffffff30;border-radius:16px;background:#ffffff09;color:#fff;transition:background .2s,border-color .2s}
+.video-stage-enhanced .profile-contacts .contact-icon{width:36px;height:36px;border-radius:12px;background:#c5deff14;color:#c5deff;border:1px solid #c5deff26}
+.video-stage-enhanced .profile-contacts .contact-copy{color:#fff}
+.video-stage-enhanced .contact-copy small{font-size:10px;font-weight:600;line-height:1.6;color:#e1e8f2}
+.video-stage-enhanced .contact-copy b{font-size:12px;line-height:1.7;font-weight:650}
+.video-stage-enhanced .profile-contacts a:focus-visible{outline:2px solid #c5deff;outline-offset:3px}
+}
+@media screen and (hover:hover){.video-stage-enhanced .profile-contacts a:hover{background:#ffffff14;border-color:#ffffff73}}
+@media print{.profile-contacts a{gap:5px;break-inside:avoid}.profile-contacts .contact-icon svg{width:12px;height:12px}.contact-copy small{font-size:6pt}.contact-copy b{font-size:7pt;font-weight:600}}
