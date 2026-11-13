@@ -185,6 +185,18 @@ test('profile and leadership proposal use explicit user details and copy the sel
   await page.locator('#proposal-pay-format').selectOption('gross');
   await expect(page.locator('#proposal-text')).toContainText('до вычета налогов');
   await expect(page.locator('#proposal-text')).not.toContainText('на руки');
+  await page.locator('#profile .profile-editor summary').click();
+  await page.locator('#profile-name-input').fill('Дмитрий Козлов · QA');
+  await expect(page.locator('#profile-name')).toHaveText('Дмитрий Козлов · QA');
+  await page.locator('#profile-name-input').fill('Дмитрий Козлов');
+  await page.locator('#profile-manager-input').fill('');
+  await expect(page.locator('#profile-manager-row')).not.toBeVisible();
+  await page.locator('#profile-manager-input').fill('Владислав Ерофеев');
+  await expect(page.locator('#profile-manager-row')).toBeVisible();
+  await page.evaluate(() => Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText: async () => { throw new Error('Clipboard denied by test'); } } }));
+  await page.locator('#copy-proposal').click();
+  await expect(page.locator('#proposal-copy-fallback')).toBeVisible();
+  await expect(page.locator('#proposal-copy-fallback')).toHaveValue(await page.locator('#proposal-text').innerText());
   await page.locator('#portrait-file').setInputFiles({ name: 'qa-only.png', mimeType: 'image/png', buffer: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=', 'base64') });
   await expect(page.locator('#profile-photo')).toBeVisible();
   await expect(page.locator('#portrait-status')).toContainText('Фото добавлено');
@@ -230,4 +242,26 @@ test('payment and account scenes autoplay silently without any player buttons', 
   await expect(page.locator('video')).toHaveCount(4);
   await expect(page.locator('#motion-toggle, #fn-motion-toggle, .cinematic-toggle')).toHaveCount(0);
   expect(errors).toEqual([]);
+});
+
+test('all navigation buttons, project shortcuts and return to top reach their sections', async ({ page }) => {
+  await page.goto('./');
+  await page.addStyleTag({ content: 'html{scroll-behavior:auto!important}' });
+  const navigate = async id => {
+    const menu = page.locator('.menu-toggle');
+    if (await menu.isVisible() && await menu.getAttribute('aria-expanded') !== 'true') await menu.click();
+    await page.locator(`#navlinks a[href="#${id}"]`).click();
+    await expect(page).toHaveURL(new RegExp(`#${id}$`));
+    await expect(page.locator(`#${id}`)).toBeVisible();
+  };
+  for (const id of ['profile', 'responsibility', 'projects', 'results', 'market']) await navigate(id);
+  for (const id of ['piot', 'bot', 'erp', 'workflow']) {
+    await navigate('projects');
+    await page.locator(`.project-index a[href="#project-${id}"]`).click();
+    await expect(page).toHaveURL(new RegExp(`#project-${id}$`));
+    await expect(page.locator(`#title-${id}`)).toBeVisible();
+  }
+  await page.locator('.footer a[href="#about"]').last().click();
+  await expect(page).toHaveURL(/#about$/);
+  await expect(page.locator('h1')).toBeVisible();
 });
