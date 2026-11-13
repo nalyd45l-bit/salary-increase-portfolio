@@ -138,12 +138,18 @@ test('FN36 disassembly follows forward and reverse scrolling and can be paused',
   }));
   const metrics = await measure();
   const scroll = fraction => page.evaluate(({ top, travel, header, fraction }) => window.scrollTo(0, top - header + travel * fraction), { ...metrics, fraction });
-  await scroll(.05);
+  await scroll(0);
   await expect.poll(() => page.locator('#fn36').getAttribute('data-frame')).not.toBeNull();
+  await page.locator('.fn-sticky').screenshot({ path: testInfo.outputPath('fn36-intro.png') });
+  await scroll(.05);
   await expect.poll(() => page.locator('#fn36').evaluate(node => Number(node.dataset.frame))).toBeLessThan(8);
   await scroll(.9);
   await expect.poll(() => page.locator('#fn36').evaluate(node => Number(node.dataset.frame))).toBeGreaterThan(50);
-  await page.locator('.fn-sticky').screenshot({ path: testInfo.outputPath('fn36-exploded.png') });
+  await expect(page.locator('body')).toHaveClass(/fn-journey-active/);
+  await expect(page.locator('#fn-journey')).toHaveClass(/story-has-content/);
+  await page.screenshot({ path: testInfo.outputPath('fn36-through-page.png') });
+  const stickyBounds = await page.locator('.fn-sticky').boundingBox();
+  expect(Math.abs(stickyBounds.y - metrics.header)).toBeLessThan(3);
   await scroll(.05);
   await expect.poll(() => page.locator('#fn36').evaluate(node => Number(node.dataset.frame))).toBeLessThan(8);
   await page.locator('#fn-motion-toggle').click();
@@ -154,6 +160,10 @@ test('FN36 disassembly follows forward and reverse scrolling and can be paused',
   await expect(page.locator('#fn36')).toHaveAttribute('data-frame', frozen);
   await page.locator('#fn-motion-toggle').click();
   await expect.poll(() => page.locator('#fn36').evaluate(node => Number(node.dataset.frame))).toBeGreaterThan(50);
+  await page.locator('.footer').scrollIntoViewIfNeeded();
+  await expect(page.locator('#fn36')).toContainText('Целое складывается');
+  const ending = await page.locator('#fn36').evaluate(node => ({ background: node.getBoundingClientRect().bottom, footer: document.querySelector('.footer').getBoundingClientRect().bottom }));
+  expect(ending.background).toBeGreaterThanOrEqual(ending.footer);
   expect(errors).toEqual([]);
 });
 

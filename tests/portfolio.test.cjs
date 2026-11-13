@@ -236,6 +236,8 @@ test('FN36 scroll sequence and leadership preparation have complete local assets
   assert.equal(document.querySelector('#profile-manager').textContent, 'Владислав Ерофеев');
   assert.equal(document.querySelector('#proposal-salary').getAttribute('value'), null);
   assert.ok(document.querySelector('#copy-proposal'));
+  for (const selector of ['.projects-grid', '#results', '#market', '#role-proposal', '.brand-finale', '.footer']) assert.ok(document.querySelector(selector).closest('#fn-journey'));
+  assert.equal(document.querySelector('#proposal-salary').getAttribute('step'), '1');
   assert.ok(document.querySelector('.brand-finale img'));
   assert.equal(document.querySelector('.hero-bottom time'), null);
 });

@@ -19,7 +19,7 @@
       menuButton.focus();
     }
   });
-  const mobileMenu = window.matchMedia('(max-width: 700px)');
+  const mobileMenu = window.matchMedia('(max-width: 950px)');
   mobileMenu.addEventListener('change', () => setMenu(false));
 
   // Preserve the reader's collapsed sections while making every case available in PDF.

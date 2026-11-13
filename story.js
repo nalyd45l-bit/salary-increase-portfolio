@@ -2,6 +2,7 @@
   'use strict';
   const story = document.querySelector('#fn36');
   const sticky = story.querySelector('.fn-sticky');
+  const journey = document.querySelector('#fn-journey');
   const canvas = document.querySelector('#fn-canvas');
   const context = canvas.getContext('2d');
   const toggle = document.querySelector('#fn-motion-toggle');
@@ -45,8 +46,11 @@
   };
   const update = () => {
     scheduled = false;
-    if (!enabled || !near || !context || document.hidden) return;
     const navHeight = document.querySelector('.sitebar').getBoundingClientRect().height;
+    const bounds = journey.getBoundingClientRect();
+    document.body.classList.toggle('fn-journey-active', bounds.top <= navHeight && bounds.bottom > navHeight);
+    journey.classList.toggle('story-has-content', bounds.top < navHeight - sticky.offsetHeight * .65);
+    if (!enabled || !near || !context || document.hidden) return;
     const travel = Math.max(1, story.offsetHeight - sticky.offsetHeight);
     const progress = clamp((navHeight - story.getBoundingClientRect().top) / travel);
     target = Math.round(progress * (frameCount - 1));
