@@ -163,3 +163,22 @@ body:not(.fn-journey-active) .fn-control-dock{display:none}
 .fn-control-dock #fn-motion-toggle[aria-pressed="false"]:after{content:"↻";font-size:22px}
 body:has(.proposal-inputs :focus) .fn-control-dock{visibility:hidden}
 @media(max-width:700px){.fn-control-dock{left:auto;right:14px;bottom:14px}.fn-control-dock #fn-motion-toggle{padding:0;font-size:0}}
+/* Match the hero's transparent grey glass throughout the presentation. */
+@media screen{
+.profile-grid,.responsibility-grid article,.project-index{background:rgba(221,229,240,.3);border-color:rgba(255,255,255,.8);backdrop-filter:blur(18px) saturate(110%);-webkit-backdrop-filter:blur(18px) saturate(110%)}
+.project-index a{background:rgba(255,255,255,.25)}
+.journey-content{color:#fff;--ink:#fff;--muted:#eef2f7;--blue:#b2d3ff;--line:rgba(255,255,255,.24)}
+.fn-journey.story-has-content .fn-shade{background:rgba(10,20,34,.22)}
+.journey-content :is(.project,.section-heading,.outcomes,.market-card,.development,.market-disclaimer,.role-proposal,.payment-flow,.brand-finale,.footer){background:rgba(57,64,74,.34);border:1px solid rgba(255,255,255,.24);box-shadow:0 22px 60px rgba(0,0,0,.14),inset 0 1px 0 rgba(255,255,255,.13);backdrop-filter:blur(18px) saturate(110%);-webkit-backdrop-filter:blur(18px) saturate(110%)}
+.journey-content h2 span{color:#e0e6ef}
+.journey-content :is(.section-heading>p,.project-intro>p,.project-summary p,.case-body p,.case-body li,.before,.market-date,.salary-note,.market-card dd,.source-status,.development>p,.development-status,.footer p,.footer-wordmark,.footer>a:last-child,.payment-flow summary,.payment-flow li p,.payment-flow>p,.brand-finale>p,.project-kind,.project-note p,.quiet-link,.market-history summary,figcaption){color:#edf2f8}
+.journey-content :is(.project-summary,.case-pair>div,.tech-list li,.project-note,.project-kind,.proposal-agreements article,.proposal-letter){background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.24);box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
+.journey-content .project-featured .project-kind{background:rgba(255,255,255,.1);color:#edf2f8;border-color:rgba(255,255,255,.24)}
+.journey-content .case-body h4,.journey-content .project-summary h4{color:#c4deff}
+.journey-content .project-note b{color:#fff}
+.journey-content .progress-note b,.journey-content .source-caution{color:#ffe1a6}
+.journey-content .availability{color:#e2eaf5!important}
+.journey-content .image-link{background:rgba(255,255,255,.72)}
+.journey-content .image-link .zoom-label{color:#0868f9}
+.journey-content .market-history{padding:0 20px;border:1px solid #ffffff38;border-radius:20px;background:#39404a57;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+}
