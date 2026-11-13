@@ -40,6 +40,8 @@ test('desktop and mobile portfolio: media, all cases, navigation and image enlar
     await page.locator('#navlinks a[href="#projects"]').click();
   }
   await expect(page).toHaveURL(/#projects$/);
+  await page.locator('.responsibility').screenshot({ path: testInfo.outputPath('responsibility.png') });
+  await page.locator('#projects .section-heading').screenshot({ path: testInfo.outputPath('projects-heading.png') });
   const projects = page.locator('.project');
   await expect(projects).toHaveCount(4);
   for (const id of ['piot', 'bot', 'erp', 'workflow']) {
@@ -117,6 +119,8 @@ test('PDF contains all cases even when the reader collapsed them', async ({ page
   const text = rawText.replace(/\s+/g, ' ');
   for (const title of ['Аналитика ТС ПИОТ', 'Бот ФН', 'LIFE PAY ERP', 'Передача заявок партнёрам']) expect(text).toContain(title);
   expect((text.match(/Моя роль/g) || []).length).toBe(4);
+  for (const detail of ['Дмитрий Козлов', 'Владислав Ерофеев', 'Размер фиксированного оклада предлагаю согласовать на встрече']) expect(text).toContain(detail);
+  expect(text).not.toContain('150 000');
   const info = execFileSync('pdfinfo', [file], { encoding: 'utf8' });
   await testInfo.attach('pdf-info.txt', { body: info, contentType: 'text/plain' });
   await testInfo.attach('portfolio.pdf', { path: file, contentType: 'application/pdf' });
@@ -162,6 +166,11 @@ test('profile and leadership proposal use explicit user details and copy the sel
   await expect(page.locator('.hero-bottom')).not.toContainText('20 августа');
   await expect(page.locator('#proposal-salary')).toHaveValue('');
   await page.locator('#profile').screenshot({ path: testInfo.outputPath('profile.png') });
+  await page.locator('#role-proposal').screenshot({ path: testInfo.outputPath('leadership-proposal.png') });
+  await page.locator('.brand-finale').scrollIntoViewIfNeeded();
+  await expect(page.locator('.brand-finale')).toHaveClass(/is-assembled/);
+  await expect(page.locator('.signature-pieces img').first()).toHaveCSS('opacity', '1');
+  await page.locator('.brand-finale').screenshot({ path: testInfo.outputPath('finale-assembled.png') });
   await page.locator('#proposal-salary').fill('150000');
   await page.locator('#proposal-pay-format').selectOption('net');
   await page.locator('#proposal-date').fill('2026-12-01');
