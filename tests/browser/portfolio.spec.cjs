@@ -167,6 +167,8 @@ test('profile and leadership proposal use explicit user details and copy the sel
   await expect(page.locator('#profile a[href="mailto:d.kozlov@life-pay.ru"]')).toBeVisible();
   await expect(page.locator('.hero-bottom')).not.toContainText('20 августа');
   await expect(page.locator('#proposal-salary')).toHaveValue('');
+  await page.evaluate(() => window.portfolioPortraitReady);
+  await expect(page.locator('#profile-photo')).toBeVisible();
   await page.locator('.profile-grid').scrollIntoViewIfNeeded();
   await expect(page.locator('.profile-grid')).toHaveClass(/is-assembled/);
   await page.locator('#profile').screenshot({ path: testInfo.outputPath('profile.png'), animations: 'disabled', style: '.sitebar{visibility:hidden}' });

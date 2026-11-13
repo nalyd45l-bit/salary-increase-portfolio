@@ -253,3 +253,11 @@ test('account illustration is the last cinematic scene and payment links to resu
   assert.equal(document.querySelector('#payment-scene a').getAttribute('href'), '#results');
   assert.ok(document.querySelector('#account-scene').closest('#fn-journey'));
 });
+
+test('the public profile uses the exact portrait provided in the user archive', () => {
+  const { document } = parsed();
+  const photo = document.querySelector('#profile-photo');
+  assert.equal(photo.getAttribute('src'), 'assets/dmitry-kozlov-cf7163d559.jpg');
+  assert.equal(photo.hasAttribute('hidden'), false);
+  assert.equal(require('node:crypto').createHash('sha256').update(fs.readFileSync(path.join(root, photo.getAttribute('src')))).digest('hex'), 'cf7163d55978da7d5ddf55003a555bb7fed83c213b1933e12e4e30fe2be585af');
+});

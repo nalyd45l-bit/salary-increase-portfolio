@@ -72,3 +72,12 @@ button,input,select,textarea{font-family:inherit}
 .story-motion .assembly-item,.story-motion .assembly-item:not(.is-assembled){opacity:1!important;transform:none!important;transition:none!important}
 }
 @media screen{.profile-portrait{border:1px solid #ffffff40;box-shadow:0 15px 35px #020b1933,inset 0 1px 0 #ffffff26}.profile-photo{object-position:center 30%}}
+@media screen{
+.video-stage-enhanced :is(.hero-eyebrow,.cinematic-copy .eyebrow,.fn-story-copy .eyebrow){font-size:11px;line-height:1.6;font-weight:700;letter-spacing:.1em}
+.video-stage-enhanced .fn-story-copy p,.video-stage-enhanced .proposal-preparation p{font-size:14px;line-height:1.8;color:var(--reading-secondary)}
+.video-stage-enhanced .fn-layer-labels li{font-size:11px;color:#f5f8ff}
+.video-stage-enhanced .proposal-agreements p,.video-stage-enhanced .proposal-criteria ul{font-size:15px;line-height:1.8}
+.video-stage-enhanced .proposal-inputs label{font-size:12px;color:var(--reading-secondary)}
+.video-stage-enhanced .fn-story-bottom>span,.video-stage-enhanced .cinematic-caption{padding:7px 12px;border-radius:100px;background:#0f1724e6;color:#fff;font-size:11px;font-weight:600;line-height:1.6;text-shadow:none}
+}
+@media screen and (max-width:700px){.video-stage-enhanced :is(.hero-eyebrow,.cinematic-copy .eyebrow,.fn-story-copy .eyebrow){font-size:10px}.video-stage-enhanced .fn-story-copy p{font-size:13px}.video-stage-enhanced .proposal-agreements p,.video-stage-enhanced .proposal-criteria ul{font-size:14px}.video-stage-enhanced .cinematic-caption{max-width:calc(100% - 36px);font-size:10px}}
