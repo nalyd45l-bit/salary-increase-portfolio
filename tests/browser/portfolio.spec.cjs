@@ -2,6 +2,9 @@ const { test, expect } = require('@playwright/test');
 const fs = require('node:fs');
 
 test('desktop and mobile portfolio: media, all cases, navigation and image enlargement', async ({ page }, testInfo) => {
+  // Four full-case screenshots plus live video decoding need extra time on CI WebKit.
+  test.setTimeout(150000);
+  await page.addInitScript(() => { document.addEventListener('DOMContentLoaded', () => { document.documentElement.style.scrollBehavior = 'auto'; }); });
   const errors = [];
   const failedResources = [];
   page.on('pageerror', error => errors.push(error.message));
