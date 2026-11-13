@@ -182,3 +182,9 @@ body:has(.proposal-inputs :focus) .fn-control-dock{visibility:hidden}
 .journey-content .image-link .zoom-label{color:#0868f9}
 .journey-content .market-history{padding:0 20px;border:1px solid #ffffff38;border-radius:20px;background:#39404a57;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
 }
+@media screen{
+.profile-grid,.responsibility-grid article,.project-index{background:rgba(57,64,74,.34);border:1px solid rgba(255,255,255,.24);box-shadow:0 22px 60px rgba(0,0,0,.14);backdrop-filter:blur(18px) saturate(110%);-webkit-backdrop-filter:blur(18px) saturate(110%)}
+.profile-grid{--muted:#384456}
+.profile-content h3,.profile-focus,.profile-facts dt,.profile-facts dd,.profile-contacts span,.profile-editor summary,.profile-editor-fields p,.responsibility-grid p{color:#344154}
+.profile-contacts a{color:#064da9}
+}
