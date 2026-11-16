@@ -8,7 +8,7 @@ const { parseHTML } = require('linkedom');
 const csstree = require('css-tree');
 const root = path.resolve(__dirname, '..');
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
-const css = ['styles.css', 'story.css', 'readability.css', 'profile.css', 'responsibilities.css', 'projects.css'].map(file => fs.readFileSync(path.join(root, file), 'utf8')).join('\n');
+const css = ['styles.css', 'story.css', 'readability.css', 'profile.css', 'responsibilities.css', 'projects.css', 'contribution.css'].map(file => fs.readFileSync(path.join(root, file), 'utf8')).join('\n');
 const app = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
 const parsed = () => parseHTML(html);
 
@@ -235,7 +235,7 @@ test('FN36 automatic video and leadership preparation have complete local assets
   assert.equal(document.querySelector('#profile-manager').textContent, 'Владислав Ерофеев');
   assert.equal(document.querySelector('#proposal-salary').getAttribute('value'), null);
   assert.ok(document.querySelector('#copy-proposal'));
-  for (const selector of ['.projects-grid', '#results', '#market', '#role-proposal', '.brand-finale', '.footer']) assert.ok(document.querySelector(selector).closest('#fn-journey'));
+  for (const selector of ['.projects-grid', '#results', '#market', '#role-proposal', '.brand-finale']) assert.ok(document.querySelector(selector).closest('#fn-journey'));
   assert.equal(document.querySelector('#proposal-salary').getAttribute('step'), '1');
   assert.ok(document.querySelector('.brand-finale img'));
   assert.equal(document.querySelector('.hero-bottom time'), null);
@@ -255,7 +255,8 @@ test('removed interludes stay absent while four background videos and the final 
   assert.equal(document.querySelector('#payment-scene, #account-scene, .payment-flow, .fn-story-copy'), null);
   assert.equal(document.querySelector('#navlinks a[href="#responsibility"]'), null);
   assert.equal(document.querySelector('.brand-finale').previousElementSibling.id, 'role-proposal');
-  assert.equal(document.querySelector('.brand-finale').nextElementSibling.tagName, 'FOOTER');
+  assert.equal(document.querySelector('.brand-finale').nextElementSibling, null);
+  assert.equal(document.querySelector('.footer,.market-history,.market-disclaimer,.progress-note'), null);
   assert.equal(document.querySelector('.projects-overview .project-index').children.length, 4);
 });
 

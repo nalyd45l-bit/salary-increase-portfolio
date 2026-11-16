@@ -1,0 +1,87 @@
+/* User-approved contribution copy: clear labels, generous reading measure. */
+@media screen{
+#results>.section-heading{display:block}
+#results>.section-heading h2{max-width:25ch;font-size:clamp(34px,3.8vw,52px);line-height:1.15}
+#results>.section-heading>p{max-width:80ch;margin-top:22px;font-size:16px;line-height:1.8}
+#results .outcomes{gap:0 38px;padding:8px 32px}
+#results .outcomes article{grid-template-columns:30px minmax(0,1fr);gap:15px;padding:30px 0;align-items:start}
+#results .outcome-index{font-size:12px;font-weight:700;padding-top:2px;color:#c4deff}
+#results .outcomes .outcome-project{font-size:14px;font-weight:750;line-height:1.5;color:#c4deff;margin:0 0 16px}
+#results .outcomes .before{font-size:14px;line-height:1.8;margin:0 0 20px;color:#edf2f8}
+#results .outcomes h3{font-size:25px;line-height:1.3;letter-spacing:-.025em;margin-bottom:16px}
+#results .outcome-label{display:block;font-size:11px;font-weight:650;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px;color:#c4deff}
+#results .outcomes article div>p:not(.before):not(.outcome-project):not(.outcome-benefit){font-size:15px;line-height:1.85}
+#results .outcomes .outcome-benefit{font-size:14px;line-height:1.8;border-left:2px solid #87bdfc;padding-left:14px;margin-top:20px;color:#edf2f8}
+#results .outcomes a{display:inline-flex;align-items:center;min-height:44px;margin-top:13px;font-size:12px}
+#role-proposal .proposal-intro h2{max-width:24ch;font-size:clamp(34px,3.8vw,52px);line-height:1.15}
+#role-proposal .proposal-intro>p{font-size:16px;line-height:1.85;margin-top:18px;max-width:88ch}
+#role-proposal .proposal-agreements h3{font-size:22px;line-height:1.35}
+#role-proposal .proposal-agreements p{font-size:15px;line-height:1.85}
+#role-proposal .proposal-criteria ul{gap:12px 32px;font-size:15px;line-height:1.8}
+#role-proposal .proposal-preparation h3{font-size:26px;line-height:1.3}
+#role-proposal .proposal-preparation p{font-size:15px;line-height:1.85}
+#role-proposal .proposal-privacy{font-size:12px;line-height:1.75;max-width:90ch;color:#d9e8f9;margin:0 0 24px}
+#proposal-text p{font-size:16px;line-height:1.9;color:#edf2f8;margin:0 0 18px}
+#proposal-text p:last-child{margin-bottom:0}
+}
+@media screen and (max-width:850px){#results .outcomes{grid-template-columns:1fr}}
+@media screen and (max-width:700px){
+#results>.section-heading>p{font-size:15px;margin-top:18px}
+#results .outcomes{padding:0 21px}
+#results .outcomes article{grid-template-columns:24px minmax(0,1fr);gap:12px;padding:25px 0}
+#results .outcomes h3{font-size:23px}
+#role-proposal .proposal-intro>p,#proposal-text p{font-size:15px}
+#role-proposal .proposal-agreements h3{font-size:21px}
+#role-proposal .proposal-preparation h3{font-size:24px}
+}
+@media print{
+#results>.section-heading>p{font-size:9pt;max-width:none}
+#results .outcomes{padding:0;gap:0;grid-template-columns:1fr}
+#results .outcomes article{break-inside:avoid}
+#results .outcome-project{font-size:9pt;font-weight:750;color:#222;margin:0 0 8px}
+#results .outcome-label{font-size:8pt;display:block;margin-bottom:4px}
+#results .outcomes h3{font-size:13pt}
+#results .outcomes .before,#results .outcomes article div>p:not(.before),#results .outcomes .outcome-benefit{font-size:8.5pt;line-height:1.65}
+#results .outcome-benefit{margin-top:10px}
+#proposal-text p{font-size:9pt;line-height:1.7;margin:0 0 12px;color:#e2ebf7}
+#proposal-text p:last-child{margin-bottom:0}
+#role-proposal .proposal-intro>p{font-size:9pt;line-height:1.65;margin-top:12px}
+}
+@media screen{
+.vacancies-heading{margin-bottom:28px;padding:0 2px}
+.vacancies-heading h2{font-size:clamp(32px,3.5vw,46px);line-height:1.2}
+.vacancies-heading>p{max-width:75ch;margin-top:16px;color:#edf2f8;font-size:15px;line-height:1.8}
+#market>.market-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+#market .vacancy-card{display:flex;flex-direction:column;padding:30px;gap:0;min-width:0}
+#market .market-top{align-items:flex-start;gap:14px;margin-bottom:20px}
+#market .market-top .eyebrow{max-width:70%;font-size:11px;line-height:1.6}
+#market .source-status{flex:none;font-size:11px;padding:5px 9px;border:1px solid #ffffff38;border-radius:100px}
+#market .vacancy-card h3{font-size:25px;min-height:0;line-height:1.3;margin-bottom:0}
+#market .salary{font-size:34px;line-height:1.2;margin:24px 0 12px;letter-spacing:-.04em}
+#market .vacancy-format{font-size:13px;line-height:1.7;color:#c4deff;margin:0 0 12px}
+#market .salary-note{font-size:13px!important;line-height:1.8;min-height:0;margin:0 0 20px}
+#market .vacancy-card dl{font-size:14px;line-height:1.8;padding-top:20px;margin:0 0 15px;border-top:1px solid #ffffff2e}
+#market .vacancy-card dt{font-size:11px;color:#c4deff;margin-bottom:6px}
+#market .vacancy-card dd{margin:0 0 16px}
+#market .vacancy-card .market-date{font-size:11px!important;line-height:1.8;margin:auto 0 12px}
+#market .vacancy-card .text-link{align-self:flex-start;min-height:44px;font-size:13px}
+}
+@media screen and (max-width:850px){#market>.market-grid{grid-template-columns:1fr}}
+@media screen and (max-width:700px){#market .vacancy-card{padding:24px}#market .vacancy-card h3{font-size:23px}#market .salary{font-size:31px}.vacancies-heading>p{font-size:14px}}
+@media print{
+.vacancies-heading{margin-bottom:20px;break-after:avoid}
+.vacancies-heading h2{font-size:22pt;line-height:1.2}
+.vacancies-heading>p{font-size:8pt;margin-top:8px}
+#market>.market-grid{display:grid;grid-template-columns:1fr;gap:16px}
+#market .vacancy-card{display:block;padding:16px;break-inside:avoid}
+#market .vacancy-card h3{font-size:14pt;min-height:0}
+#market .vacancy-card .market-top{margin-bottom:10px}
+#market .salary{font-size:20pt;margin:10px 0 6px}
+#market .vacancy-format,#market .salary-note,#market .vacancy-card dl{font-size:8pt;line-height:1.6}
+#market .vacancy-card dl{margin:8px 0}
+#market .vacancy-card dd{margin-bottom:7px}
+#market .vacancy-card .market-date{font-size:7pt;margin:8px 0}
+#market .vacancy-card .text-link{font-size:8pt;overflow-wrap:anywhere}
+}
+
+#proposal-copy-fallback[hidden]{display:none!important}
