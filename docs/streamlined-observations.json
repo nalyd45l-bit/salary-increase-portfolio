@@ -1,0 +1,46 @@
+[
+  {
+    "name": "desktop",
+    "errors": [],
+    "overflow": false,
+    "videos": 4,
+    "removed": false,
+    "roleButton": false,
+    "gap": 32,
+    "finalSection": "brand-finale is-assembled",
+    "background": "account"
+  },
+  {
+    "name": "tablet",
+    "errors": [],
+    "overflow": false,
+    "videos": 4,
+    "removed": false,
+    "roleButton": false,
+    "gap": 32,
+    "finalSection": "brand-finale is-assembled",
+    "background": "account"
+  },
+  {
+    "name": "phone",
+    "errors": [],
+    "overflow": false,
+    "videos": 4,
+    "removed": false,
+    "roleButton": false,
+    "gap": 24,
+    "finalSection": "brand-finale is-assembled",
+    "background": "account"
+  },
+  {
+    "name": "small-phone",
+    "errors": [],
+    "overflow": false,
+    "videos": 4,
+    "removed": false,
+    "roleButton": false,
+    "gap": 24,
+    "finalSection": "brand-finale is-assembled",
+    "background": "account"
+  }
+]
