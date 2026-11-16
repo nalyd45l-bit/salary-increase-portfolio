@@ -16,12 +16,16 @@ test('vacancy cards preserve verified pay, location, requirements and direct sou
   const { document } = parsed();
   const source = JSON.parse(fs.readFileSync(path.join(root, 'data/vacancies-2026-11-16.json'), 'utf8'));
   const ids = source.vacancies.map(job => job.id);
+  for (const id of ['138969666', '139507781', '139548053', '139295875']) assert.equal(ids.includes(id), false);
+  assert.equal(source.search_scope.exclude_accounting_roles, true);
+  assert.equal(source.search_scope.exclude_mandatory_higher_education, true);
   assert.equal(new Set(ids).size, ids.length);
   assert.equal(document.querySelectorAll('#market .vacancy-card').length, ids.length);
   assert.equal(document.querySelector('.vacancies-heading'), null);
   assert.equal(document.querySelector('#market-title').classList.contains('sr-only'), true);
   assert.equal(html.includes('Вакансии от 120 000 ₽'), false);
   for (const job of source.vacancies) {
+    assert.doesNotMatch(job.title, /бухгалтер/i);
     const card = document.querySelector(`[data-vacancy-id="${job.id}"]`);
     assert.ok(job.salary_from >= 120000, job.id);
     assert.notEqual(job.archived, true, job.id);
