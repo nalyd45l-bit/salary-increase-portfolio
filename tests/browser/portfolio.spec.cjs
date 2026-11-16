@@ -134,6 +134,12 @@ test('PDF contains all cases even when the reader collapsed them', async ({ page
   expect(text).not.toContain('В развитии: логистика и перемещения');
   expect(text).not.toContain('Прежний адрес демонстрации возвращает 404');
   const compactPdf = rawText.replace(/\s/g, '');
+  for (const vacancy of marketVacancies) {
+    for (const detail of [vacancy.title, vacancy.format, vacancy.pay_note, vacancy.requirements]) {
+      expect(compactPdf).toContain(detail.replace(/\s/g, ''));
+    }
+  }
+  expect(text).not.toContain('Вакансии от 120 000 ₽');
   for (const direction of suppliedResponsibilities) {
     expect(compactPdf).toContain(direction.title.replace(/\s/g, ''));
     for (const task of direction.items) expect(compactPdf).toContain(task.replace(/\s/g, ''));
@@ -393,6 +399,7 @@ test('home opens at the hero, removed controls stay absent and all projects show
   expect(new URL(page.url()).hash).toBe('');
   await expect(page.locator('.hero-actions a')).toHaveCount(1);
   await expect(page.locator('.hero-actions a')).toHaveAttribute('href', '#projects');
+  await expect(page.locator('.vacancies-heading')).toHaveCount(0);
   await expect(page.locator('.development, .proposal-preparation, #proposal-text, #copy-proposal, script[src*="proposal.js"]')).toHaveCount(0);
   await expect(page.locator('.responsibility-item[open]')).toHaveCount(0);
   for (const project of ['piot', 'bot', 'erp', 'workflow']) {

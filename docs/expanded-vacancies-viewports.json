@@ -1,0 +1,42 @@
+[
+  {
+    "width": 1440,
+    "overflow": false,
+    "cards": 20,
+    "visibleIntroduction": false,
+    "backgrounds": 4,
+    "AI": 4,
+    "openResponsibilities": 0,
+    "errors": []
+  },
+  {
+    "width": 1024,
+    "overflow": false,
+    "cards": 20,
+    "visibleIntroduction": false,
+    "backgrounds": 4,
+    "AI": 4,
+    "openResponsibilities": 0,
+    "errors": []
+  },
+  {
+    "width": 390,
+    "overflow": false,
+    "cards": 20,
+    "visibleIntroduction": false,
+    "backgrounds": 4,
+    "AI": 4,
+    "openResponsibilities": 0,
+    "errors": []
+  },
+  {
+    "width": 320,
+    "overflow": false,
+    "cards": 20,
+    "visibleIntroduction": false,
+    "backgrounds": 4,
+    "AI": 4,
+    "openResponsibilities": 0,
+    "errors": []
+  }
+]

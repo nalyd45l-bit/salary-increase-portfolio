@@ -12,6 +12,30 @@ const css = ['styles.css', 'story.css', 'readability.css', 'profile.css', 'respo
 const app = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
 const parsed = () => parseHTML(html);
 
+test('vacancy cards preserve verified pay, location, requirements and direct sources without the removed introduction', () => {
+  const { document } = parsed();
+  const source = JSON.parse(fs.readFileSync(path.join(root, 'data/vacancies-2026-11-16.json'), 'utf8'));
+  const ids = source.vacancies.map(job => job.id);
+  assert.equal(new Set(ids).size, ids.length);
+  assert.equal(document.querySelectorAll('#market .vacancy-card').length, ids.length);
+  assert.equal(document.querySelector('.vacancies-heading'), null);
+  assert.equal(document.querySelector('#market-title').classList.contains('sr-only'), true);
+  assert.equal(html.includes('Вакансии от 120 000 ₽'), false);
+  for (const job of source.vacancies) {
+    const card = document.querySelector(`[data-vacancy-id="${job.id}"]`);
+    assert.ok(job.salary_from >= 120000, job.id);
+    assert.notEqual(job.archived, true, job.id);
+    assert.ok(job.url.startsWith('https://'), job.id);
+    assert.equal(card.querySelector('h3').textContent, job.title);
+    assert.equal(card.querySelector('.vacancy-format').textContent, job.format);
+    assert.equal(card.querySelector('.salary').textContent, job.salary_label);
+    assert.equal(card.querySelector('.salary-note').textContent, job.pay_note);
+    assert.deepEqual([...card.querySelectorAll('dd')].map(node => node.textContent), [job.match, job.requirements]);
+    assert.equal(card.querySelector('.text-link').getAttribute('href'), job.url);
+    if (job.valid_through) assert.ok(job.valid_through >= source.checked_on, job.id);
+  }
+});
+
 test('the static document has one doctype, unique IDs and no missing local resources', () => {
   const { document } = parsed();
   assert.equal((html.match(/<!doctype html>/gi) || []).length, 1);
