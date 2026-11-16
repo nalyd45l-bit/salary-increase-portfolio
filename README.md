@@ -30,6 +30,7 @@
 - [Отчёт об исходном аудите и первом этапе QA](docs/QA-REPORT.md).
 - [Источники материалов и рыночных данных](docs/SOURCES.md).
 - [Подборка вакансий и условия соответствия](docs/VACANCIES-2026-11-16.md).
+- [Куда уходят данные формы](docs/FORM-DATA-FLOW.md).
 - [Проверенный PDF](docs/portfolio-preview.pdf).
 - Скриншоты: [компьютер](docs/preview-desktop.png), [iPhone](docs/preview-iphone.png), [проект](docs/preview-project.png).
 
