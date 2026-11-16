@@ -36,8 +36,6 @@
   };
   document.querySelectorAll('.print-button').forEach(button => {
     button.addEventListener('click', async () => {
-      const invalid = [...document.querySelectorAll('.proposal-inputs input')].find(input => input.validity && !input.validity.valid);
-      if (invalid) { invalid.reportValidity(); return; }
       if (window.portfolioPortraitReady) await window.portfolioPortraitReady;
       expandForPrint();
       window.print();
