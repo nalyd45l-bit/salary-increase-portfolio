@@ -1,0 +1,52 @@
+[
+  {
+    "name": "reference",
+    "overflow": false,
+    "portraitHeight": 573.671875,
+    "directions": 8,
+    "bullets": 36,
+    "tenure": "1 год 2 месяца 27 дней",
+    "quotePresent": false,
+    "errors": []
+  },
+  {
+    "name": "desktop",
+    "overflow": false,
+    "portraitHeight": 593.828125,
+    "directions": 8,
+    "bullets": 36,
+    "tenure": "1 год 2 месяца 27 дней",
+    "quotePresent": false,
+    "errors": []
+  },
+  {
+    "name": "tablet",
+    "overflow": false,
+    "portraitHeight": 600.625,
+    "directions": 8,
+    "bullets": 36,
+    "tenure": "1 год 2 месяца 27 дней",
+    "quotePresent": false,
+    "errors": []
+  },
+  {
+    "name": "phone",
+    "overflow": false,
+    "portraitHeight": 361.5,
+    "directions": 8,
+    "bullets": 36,
+    "tenure": "1 год 2 месяца 27 дней",
+    "quotePresent": false,
+    "errors": []
+  },
+  {
+    "name": "small-phone",
+    "overflow": false,
+    "portraitHeight": 281,
+    "directions": 8,
+    "bullets": 36,
+    "tenure": "1 год 2 месяца 27 дней",
+    "quotePresent": false,
+    "errors": []
+  }
+]

@@ -34,6 +34,27 @@
   document.addEventListener('visibilitychange', updateTenure);
   window.addEventListener('beforeprint', updateTenure);
 
+  // Native details remain usable without JavaScript; this control opens the whole list.
+  const directions = [...document.querySelectorAll('.responsibility-item')];
+  const toggle = document.querySelector('#toggle-responsibilities');
+  if (toggle && directions.length) {
+    const sync = () => {
+      const allOpen = directions.every(item => item.open);
+      toggle.textContent = allOpen ? 'Свернуть всё' : 'Раскрыть всё';
+      toggle.setAttribute('aria-expanded', String(allOpen));
+    };
+    toggle.hidden = false;
+    toggle.addEventListener('click', () => {
+      const open = !directions.every(item => item.open);
+      directions.forEach(item => { item.open = open; });
+      sync();
+    });
+    directions.forEach(item => item.addEventListener('toggle', sync));
+    window.addEventListener('beforeprint', sync);
+    window.addEventListener('afterprint', sync);
+    sync();
+  }
+
   const photo = document.querySelector('#profile-photo');
   const fallback = document.querySelector('#portrait-fallback');
   const status = document.querySelector('#portrait-status');
