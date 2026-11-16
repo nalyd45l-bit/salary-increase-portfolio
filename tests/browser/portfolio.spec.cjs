@@ -134,6 +134,9 @@ test('PDF contains all cases even when the reader collapsed them', async ({ page
   expect(text).not.toContain('В развитии: логистика и перемещения');
   expect(text).not.toContain('Прежний адрес демонстрации возвращает 404');
   const compactPdf = rawText.replace(/\s/g, '');
+  for (const removed of ['Бухгалтер-кладовщик', 'Бухгалтер-ревизор', 'СтаршийспециалистотделауправлениядвиженияТМЦ', 'Ведущийспециалистпоработев1СУправлениеторговлейискладскомуучету']) {
+    expect(compactPdf).not.toContain(removed);
+  }
   for (const vacancy of marketVacancies) {
     for (const detail of [vacancy.title, vacancy.format, vacancy.pay_note, vacancy.requirements]) {
       expect(compactPdf).toContain(detail.replace(/\s/g, ''));
@@ -411,5 +414,7 @@ test('home opens at the hero, removed controls stay absent and all projects show
   for (const vacancy of marketVacancies) {
     await expect(page.locator(`[data-vacancy-id="${vacancy.id}"] .text-link`)).toHaveAttribute('href', vacancy.url);
   }
-  await expect(page.locator('[data-vacancy-id="139530115"], [data-vacancy-id="139460587"]')).toHaveCount(0);
+  for (const id of ['139530115', '139460587', '138969666', '139507781', '139548053', '139295875']) {
+    await expect(page.locator(`[data-vacancy-id="${id}"]`)).toHaveCount(0);
+  }
 });
