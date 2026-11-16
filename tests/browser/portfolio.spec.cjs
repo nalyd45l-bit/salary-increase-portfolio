@@ -120,6 +120,7 @@ test('PDF contains all cases even when the reader collapsed them', async ({ page
   const pages = rawText.split('\f');
   if (!pages.at(-1).trim()) pages.pop();
   expect(pages.every(text => text.trim().length > 40)).toBe(true);
+  expect(pages.at(-1).replace(/\s+/g, ' ')).toContain('Готов обсудить');
   const text = rawText.replace(/\s+/g, ' ');
   for (const title of ['Аналитика ТС ПИОТ', 'Бот ФН', 'LIFE PAY ERP', 'Передача заявок партнёрам']) expect(text).toContain(title);
   expect((text.match(/Моя роль/g) || []).length).toBe(4);
