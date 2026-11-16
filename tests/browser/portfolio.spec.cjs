@@ -1,5 +1,6 @@
 const { test, expect } = require('@playwright/test');
 const fs = require('node:fs');
+const suppliedResponsibilities = require('../fixtures/responsibilities.json');
 
 test('desktop and mobile portfolio: media, all cases, navigation and image enlargement', async ({ page }, testInfo) => {
   // Four full-case screenshots plus live video decoding need extra time on CI WebKit.
@@ -124,6 +125,12 @@ test('PDF contains all cases even when the reader collapsed them', async ({ page
   expect((text.match(/Моя роль/g) || []).length).toBe(4);
   for (const detail of ['Дмитрий Козлов', 'Владислав Ерофеев', 'Размер фиксированного оклада предлагаю согласовать на встрече']) expect(text).toContain(detail);
   expect(text).not.toContain('150 000');
+  const compactPdf = rawText.replace(/\s/g, '');
+  for (const direction of suppliedResponsibilities) {
+    expect(compactPdf).toContain(direction.title.replace(/\s/g, ''));
+    for (const task of direction.items) expect(compactPdf).toContain(task.replace(/\s/g, ''));
+  }
+  expect(text).not.toContain('Все представленные проекты');
   const info = execFileSync('pdfinfo', [file], { encoding: 'utf8' });
   await testInfo.attach('pdf-info.txt', { body: info, contentType: 'text/plain' });
   await testInfo.attach('portfolio.pdf', { path: file, contentType: 'application/pdf' });
@@ -172,7 +179,7 @@ test('profile and leadership proposal use explicit user details and copy the sel
   await expect(page.locator('#profile-photo')).toBeVisible();
   await page.locator('.profile-grid').scrollIntoViewIfNeeded();
   await expect(page.locator('.profile-grid')).toHaveClass(/is-assembled/);
-  await page.locator('#profile').screenshot({ path: testInfo.outputPath('profile.png'), animations: 'disabled', style: '.sitebar{visibility:hidden}' });
+  await page.locator('#profile .profile-overview').screenshot({ path: testInfo.outputPath('profile.png'), animations: 'disabled', style: '.sitebar{visibility:hidden}' });
   await page.locator('#role-proposal').screenshot({ path: testInfo.outputPath('leadership-proposal.png'), animations: 'disabled', style: '.sitebar{visibility:hidden}' });
   await page.locator('.brand-finale').scrollIntoViewIfNeeded();
   await expect(page.locator('.brand-finale')).toHaveClass(/is-assembled/);
@@ -193,7 +200,7 @@ test('profile and leadership proposal use explicit user details and copy the sel
   await expect(page.locator('#proposal-text')).toContainText('до вычета налогов');
   await expect(page.locator('#proposal-text')).not.toContainText('на руки');
   await expect(page.locator('#profile-title')).toHaveText('Обо мне');
-  await expect(page.locator('#profile #responsibility article')).toHaveCount(3);
+  await expect(page.locator('#profile #responsibility .responsibility-item')).toHaveCount(8);
   await expect(page.locator('#profile-tenure')).toHaveText('1 год 2 месяца 27 дней');
   await expect(page.locator('#employment-start')).toHaveAttribute('datetime', '2025-08-20');
   await expect(page.locator('.intro-strip,.profile-editor,.profile-pillars,#portrait-file,#profile-name-input,#profile-manager-input')).toHaveCount(0);
@@ -283,7 +290,7 @@ test('improved typography preserves the original glass and keeps text opaque', a
   // A font change must not recolour the user's video panels or navigation.
   const surfaces = await page.evaluate(() => {
     const sheet = [...document.styleSheets].find(item => item.href?.includes('readability.css'));
-    const selectors = ['.hero-copy', '.nav', '.profile-grid', '.responsibility-grid article', '.project-index', '.project', '.section-heading', '.outcomes', '.market-card', '.development', '.role-proposal', '.cinematic-copy', '.fn-story-copy'];
+    const selectors = ['.hero-copy', '.nav', '.profile-grid', '.responsibility-item', '.project-index', '.project', '.section-heading', '.outcomes', '.market-card', '.development', '.role-proposal', '.cinematic-copy', '.fn-story-copy'];
     const read = () => selectors.map(selector => {
       const css = getComputedStyle(document.querySelector(selector));
       return { selector, background: css.backgroundColor, image: css.backgroundImage, border: css.borderColor, blur: css.backdropFilter };
@@ -332,4 +339,48 @@ test('published portrait is visible to a fresh visitor and survives reload witho
     const images = require('node:child_process').execFileSync('pdfimages', ['-list', file], { encoding: 'utf8' });
     expect(images).toMatch(/image\s+753\s+921\s/);
   }
+});
+
+
+test('all responsibility directions expand by keyboard and bulk controls, then restore their state after print', async ({ page }, testInfo) => {
+  const errors = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('./');
+  await page.addStyleTag({ content: 'html{scroll-behavior:auto!important}' });
+  const directions = page.locator('#profile .responsibility-item');
+  const toggle = page.locator('#toggle-responsibilities');
+  await expect(directions).toHaveCount(8);
+  await expect(page.locator('.responsibility-body li')).toHaveCount(36);
+  await expect(page.locator('#responsibility-piot')).toHaveAttribute('open', '');
+  await expect(page.locator('#profile')).not.toContainText('Все представленные проекты');
+  for (let index = 0; index < suppliedResponsibilities.length; index++) {
+    await expect(directions.nth(index).locator('.direction-title')).toHaveText(suppliedResponsibilities[index].title);
+    expect(await directions.nth(index).locator('li').allTextContents()).toEqual(suppliedResponsibilities[index].items);
+  }
+  const first = directions.first();
+  await first.locator('summary').focus();
+  await page.keyboard.press('Enter');
+  await expect(first).toHaveAttribute('open', '');
+  await page.keyboard.press('Space');
+  await expect(first).not.toHaveAttribute('open', '');
+  await toggle.click();
+  await expect(page.locator('.responsibility-item[open]')).toHaveCount(8);
+  await expect(toggle).toHaveText('Свернуть всё');
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+  await toggle.click();
+  await expect(page.locator('.responsibility-item[open]')).toHaveCount(0);
+  await expect(toggle).toHaveText('Раскрыть всё');
+  await directions.nth(3).locator('summary').click();
+  await directions.nth(7).locator('summary').click();
+  const before = await directions.evaluateAll(nodes => nodes.map(node => node.open));
+  await page.evaluate(() => { window.print = () => { window.__responsibilityPrintCalled = true; }; });
+  await page.locator('#print-pdf').click();
+  await expect.poll(() => page.evaluate(() => window.__responsibilityPrintCalled)).toBe(true);
+  await expect(page.locator('.responsibility-item[open]')).toHaveCount(8);
+  await page.evaluate(() => window.dispatchEvent(new Event('afterprint')));
+  expect(await directions.evaluateAll(nodes => nodes.map(node => node.open))).toEqual(before);
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
+  expect(errors).toEqual([]);
+  await testInfo.attach('responsibility-print-state.json', { body: JSON.stringify({ before, restored: await directions.evaluateAll(nodes => nodes.map(node => node.open)), errors }), contentType: 'application/json' });
 });

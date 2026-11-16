@@ -8,7 +8,7 @@ const { parseHTML } = require('linkedom');
 const csstree = require('css-tree');
 const root = path.resolve(__dirname, '..');
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
-const css = ['styles.css', 'story.css', 'readability.css', 'profile.css'].map(file => fs.readFileSync(path.join(root, file), 'utf8')).join('\n');
+const css = ['styles.css', 'story.css', 'readability.css', 'profile.css', 'responsibilities.css'].map(file => fs.readFileSync(path.join(root, file), 'utf8')).join('\n');
 const app = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
 const parsed = () => parseHTML(html);
 
@@ -271,9 +271,9 @@ function profileAt(instant) {
     constructor(...args) { super(...(args.length ? args : [now])); }
     static now() { return new Date(now).getTime(); }
   }
-  const window = { addEventListener: (name, fn) => { events[name] = fn; }, setInterval: fn => { tick = fn; } };
+  const window = { addEventListener: (name, fn) => { (events[name] ||= []).push(fn); }, setInterval: fn => { tick = fn; } };
   vm.runInNewContext(fs.readFileSync(path.join(root, 'profile.js'), 'utf8'), { document, window, Date: ClockDate, Intl, Promise });
-  return { document, advance: instant => { now = instant; tick(); }, print: () => events.beforeprint() };
+  return { document, advance: instant => { now = instant; tick(); }, setTime: instant => { now = instant; }, print: () => events.beforeprint.forEach(fn => fn()) };
 }
 
 test('employment tenure counts real calendar years, months and days with Russian plurals', () => {
@@ -299,9 +299,27 @@ test('employment tenure counts real calendar years, months and days with Russian
 test('tenure refreshes across Moscow midnight and avoids negative service before the start date', () => {
   const profile = profileAt('2026-11-19T20:59:59Z');
   assert.equal(profile.document.querySelector('#profile-tenure').textContent, '1 год 2 месяца 30 дней');
-  profile.advance('2026-11-19T21:00:00Z');
+  profile.setTime('2026-11-19T21:00:00Z');
   profile.print();
   assert.equal(profile.document.querySelector('#profile-tenure').textContent, '1 год 3 месяца');
   const before = profileAt('2025-08-19T12:00:00Z');
   assert.equal(before.document.querySelector('#profile-tenure').hidden, true);
+});
+
+
+test('all eight responsibility directions preserve the 36 user-supplied bullets without the removed closing statement', () => {
+  const { document } = parsed();
+  const supplied = JSON.parse(fs.readFileSync(path.join(root, 'tests/fixtures/responsibilities.json'), 'utf8'));
+  const directions = [...document.querySelectorAll('#profile .responsibility-item')];
+  assert.equal(directions.length, 8);
+  assert.equal(document.querySelectorAll('.responsibility-body li').length, 36);
+  directions.forEach((node, index) => {
+    assert.equal(node.querySelector('.direction-title').textContent, supplied[index].title);
+    assert.deepEqual([...node.querySelectorAll('li')].map(item => item.textContent), supplied[index].items);
+  });
+  assert.equal(document.querySelector('#role-title').textContent, 'Мои задачи и зоны ответственности');
+  assert.equal(document.querySelector('#responsibility-piot').hasAttribute('open'), true);
+  assert.equal(document.querySelectorAll('.responsibility-item[open]').length, 1);
+  assert.equal(document.querySelector('#profile').textContent.includes('Все представленные проекты'), false);
+  assert.equal(document.querySelector('#employment-start').getAttribute('datetime'), '2025-08-20');
 });

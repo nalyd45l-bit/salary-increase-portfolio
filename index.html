@@ -10,15 +10,16 @@
 <link rel="preload" as="font" href="assets/fonts/manrope-cyrillic.woff2" type="font/woff2" crossorigin/>
 <link rel="preload" as="font" href="assets/fonts/manrope-latin.woff2" type="font/woff2" crossorigin/>
 <link rel="preload" as="image" href="assets/media/hero-poster.webp" fetchpriority="high"/>
-<link rel="stylesheet" href="styles.css?v=20261116-profile"/>
-<link rel="stylesheet" href="story.css?v=20261116-profile"/>
-<link rel="stylesheet" href="readability.css?v=20261116-profile"/>
-<link rel="stylesheet" href="profile.css?v=20261116-profile"/>
-<script src="app.js?v=20261116-profile" defer></script>
-<script src="story.js?v=20261116-profile" defer></script>
-<script src="proposal.js?v=20261116-profile" defer></script>
-<script src="profile.js?v=20261116-profile" defer></script>
-<script src="ambient.js?v=20261116-profile" defer></script>
+<link rel="stylesheet" href="styles.css?v=20261116-responsibilities"/>
+<link rel="stylesheet" href="story.css?v=20261116-responsibilities"/>
+<link rel="stylesheet" href="readability.css?v=20261116-responsibilities"/>
+<link rel="stylesheet" href="profile.css?v=20261116-responsibilities"/>
+<link rel="stylesheet" href="responsibilities.css?v=20261116-responsibilities"/>
+<script src="app.js?v=20261116-responsibilities" defer></script>
+<script src="story.js?v=20261116-responsibilities" defer></script>
+<script src="proposal.js?v=20261116-responsibilities" defer></script>
+<script src="profile.js?v=20261116-responsibilities" defer></script>
+<script src="ambient.js?v=20261116-responsibilities" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Перейти к содержимому</a>
@@ -68,15 +69,19 @@
 <a href="mailto:d.kozlov@life-pay.ru"><img class="ui-icon" src="assets/icons/mail.svg" alt="" width="22" height="22"/><span><span class="sr-only">Почта: </span>d.kozlov@life-pay.ru</span></a>
 </div>
 </div>
-<div class="responsibility profile-tasks" id="responsibility" role="region" aria-labelledby="role-title">
-<h3 id="role-title">Мои задачи</h3>
-<ol class="responsibility-grid">
-<li><article><span class="task-icon" aria-hidden="true"><img src="assets/icons/table.svg" alt="" width="30" height="30"/></span><div><h4>Сбор и обработка данных</h4><p>Получение и структурирование сведений об оборудовании от сервисных партнёров.</p></div></article></li>
-<li><article><span class="task-icon" aria-hidden="true"><img src="assets/icons/square-check.svg" alt="" width="30" height="30"/></span><div><h4>Сверка и актуальность реестров</h4><p>Сопоставление рабочих данных, выявление расхождений и поддержание реестра оборудования.</p></div></article></li>
-<li><article><span class="task-icon" aria-hidden="true"><img src="assets/icons/file-analytics.svg" alt="" width="30" height="30"/></span><div><h4>Инвентаризация и отчётность</h4><p>Подготовка сведений для контроля оборудования и взаимодействие с партнёрами.</p></div></article></li>
-</ol>
 </div>
-<p class="profile-scope"><b>Дополнительные направления:</b> аналитика ТС ПИОТ, автоматизация ФН, сопровождение ESP-пилота и развитие цифровых инструментов. Логистические сценарии находятся в доработке.</p>
+<div class="responsibility responsibility-section" id="responsibility" role="region" aria-labelledby="role-title">
+<div class="responsibility-heading"><h3 id="role-title">Мои задачи и зоны ответственности</h3><button class="responsibility-toggle" id="toggle-responsibilities" type="button" aria-controls="responsibility-list" aria-expanded="false" hidden>Раскрыть всё</button></div>
+<div class="responsibility-accordion" id="responsibility-list">
+<details class="responsibility-item" id="responsibility-partners"><summary><span class="direction-number" aria-hidden="true">01</span><img class="direction-icon" src="assets/icons/users.svg" alt="" width="30" height="30"/><span class="direction-title">Работа с сервисными партнёрами</span><img class="direction-chevron" src="assets/icons/chevron-down.svg" alt="" width="22" height="22"/></summary><div class="responsibility-body"><ul><li>Сопровождение сервисных партнёров.</li><li>Координация взаимодействия и решение текущих операционных вопросов.</li></ul></div></details>
+<details class="responsibility-item" id="responsibility-inventory"><summary><span class="direction-number" aria-hidden="true">02</span><img class="direction-icon" src="assets/icons/clipboard-check.svg" alt="" width="30" height="30"/><span class="direction-title">Инвентаризация и сверка оборудования</span><img class="direction-chevron" src="assets/icons/chevron-down.svg" alt="" width="22" height="22"/></summary><div class="responsibility-body"><ul><li>Организация и совместное проведение инвентаризаций с сервисными партнёрами.</li><li>Сбор, обработка и сверка данных об оборудовании.</li><li>Выявление и устранение расхождений.</li><li>Контроль достоверности результатов инвентаризации.</li></ul></div></details>
+<details class="responsibility-item" id="responsibility-stock"><summary><span class="direction-number" aria-hidden="true">03</span><img class="direction-icon" src="assets/icons/packages.svg" alt="" width="30" height="30"/><span class="direction-title">Учёт и контроль складских остатков</span><img class="direction-chevron" src="assets/icons/chevron-down.svg" alt="" width="22" height="22"/></summary><div class="responsibility-body"><ul><li>Контроль наличия и остатков оборудования на складах.</li><li>Ведение и актуализация единого реестра оборудования.</li><li>Списание оборудования на складах LIFE PAY и сервисных партнёров.</li></ul></div></details>
+<details class="responsibility-item" id="responsibility-logistics"><summary><span class="direction-number" aria-hidden="true">04</span><img class="direction-icon" src="assets/icons/truck.svg" alt="" width="30" height="30"/><span class="direction-title">Логистика оборудования</span><img class="direction-chevron" src="assets/icons/chevron-down.svg" alt="" width="22" height="22"/></summary><div class="responsibility-body"><ul><li>Организация отгрузок, отправки, забора и приёма оборудования.</li><li>Организация перемещений оборудования между складами LIFE PAY и сервисных партнёров.</li><li>Подготовка к забору оборудования у сервисных партнёров: формирование файлов «Рассылка_разные_заказы_с_треками» и передача их логистам для оформления транспортных накладных.</li><li>Подготовка файлов ТОРГ-13 для отправки оборудования сервисным партнёрам.</li><li>Проверка и сверка серийных номеров оборудования при заборе у сервисных партнёров и при поступлении на склад.</li><li>Контроль соответствия фактически полученного оборудования данным в накладных.</li><li>Обработка поступлений и перемещений оборудования в учётных системах.</li></ul></div></details>
+<details class="responsibility-item" id="responsibility-piot" open><summary><span class="direction-number" aria-hidden="true">05</span><img class="direction-icon" src="assets/icons/device-desktop.svg" alt="" width="30" height="30"/><span class="direction-title">Сопровождение ТС ПИоТ</span><img class="direction-chevron" src="assets/icons/chevron-down.svg" alt="" width="22" height="22"/></summary><div class="responsibility-body"><ul><li>Контроль всех заявок и сроков их выполнения.</li><li>Контроль соблюдения SLA реакции и SLA закрытия задач, мониторинг рейтинга и своевременное принятие мер для предотвращения его снижения.</li><li>Назначение и передача задач в ОРДК.</li><li>Ежедневная проверка оплат клиентов и сверка сумм.</li><li>Передача заявок сервисным партнёрам после подтверждения оплаты клиентом.</li><li>Отслеживание выполнения задач сервисными партнёрами и сотрудниками LIFE PAY.</li><li>Контроль выполнения настроек ТС ПИоТ у клиентов.</li><li>Проверка статусов и актуальности данных по всем задачам в Excel.</li><li>Проверка и закрытие выполненных задач.</li></ul></div></details>
+<details class="responsibility-item" id="responsibility-edi"><summary><span class="direction-number" aria-hidden="true">06</span><img class="direction-icon" src="assets/icons/file-invoice.svg" alt="" width="30" height="30"/><span class="direction-title">Электронный документооборот (Контур.Диадок)</span><img class="direction-chevron" src="assets/icons/chevron-down.svg" alt="" width="22" height="22"/></summary><div class="responsibility-body"><ul><li>Загрузка и отправка накладных.</li><li>Контроль статусов документов.</li><li>Контроль своевременного подписания накладных сервисными партнёрами.</li></ul></div></details>
+<details class="responsibility-item" id="responsibility-reporting"><summary><span class="direction-number" aria-hidden="true">07</span><img class="direction-icon" src="assets/icons/chart-bar.svg" alt="" width="30" height="30"/><span class="direction-title">Отчётность и работа с данными</span><img class="direction-chevron" src="assets/icons/chevron-down.svg" alt="" width="22" height="22"/></summary><div class="responsibility-body"><ul><li>Формирование отчётности по результатам инвентаризаций.</li><li>Проверка достоверности и актуальности данных.</li></ul></div></details>
+<details class="responsibility-item" id="responsibility-initiatives"><summary><span class="direction-number" aria-hidden="true">08</span><img class="direction-icon" src="assets/icons/code.svg" alt="" width="30" height="30"/><span class="direction-title">Разработка и реализация собственных инициатив</span><img class="direction-chevron" src="assets/icons/chevron-down.svg" alt="" width="22" height="22"/></summary><div class="responsibility-body"><ul><li>Анализ текущих рабочих процессов и выявление возможностей для улучшения.</li><li>Самостоятельная разработка цифровых инструментов для решения рабочих задач.</li><li>Создание новых таблиц и совершенствование существующих в соответствии с потребностями рабочих процессов.</li><li>Разработка скриптов в Google Apps Script для автоматизации операций, обработки данных и упрощения работы с таблицами.</li><li>Самостоятельное инициирование, разработка и реализация новых проектов — от идеи до внедрения.</li><li>Создание и внедрение решений, направленных на сокращение трудозатрат, повышение точности данных и эффективности работы команды.</li></ul></div></details>
+</div>
 </div>
 </section>
 <section class="section projects-section" id="projects" aria-labelledby="projects-title">
