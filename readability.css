@@ -97,11 +97,6 @@ button,input,select,textarea{font-family:inherit}
 @media screen and (hover:hover){.video-stage-enhanced .profile-contacts a:hover{background:#ffffff14;border-color:#ffffff73}}
 @media print{.profile-contacts a{gap:5px;break-inside:avoid}.profile-contacts .contact-icon svg{width:12px;height:12px}.contact-copy small{font-size:6pt}.contact-copy b{font-size:7pt;font-weight:600}}
 
-/* Local SVGs keep diagonal arrows legible on systems without a symbol font. */
-.external-arrow{display:inline-block;width:14px;height:14px;flex:none;vertical-align:middle;margin-left:5px}
-@media screen{
-.video-stage-enhanced main .external-arrow{filter:brightness(0) invert(1)}
-.video-stage-enhanced main .button-light .external-arrow{filter:brightness(0)}
-.video-stage-enhanced main .zoom-label .external-arrow{filter:invert(29%) sepia(96%) saturate(3667%) hue-rotate(211deg) brightness(98%) contrast(99%)}
-}
+/* Official SVG masks avoid dependence on a system symbol font. */
+.external-arrow{display:inline-block;width:14px;height:14px;flex:none;vertical-align:middle;margin-left:5px;background:currentColor;-webkit-mask:url(assets/icons/arrow-up-right.svg) center/contain no-repeat;mask:url(assets/icons/arrow-up-right.svg) center/contain no-repeat}
 @media print{.external-arrow{display:none}}
