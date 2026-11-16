@@ -1,5 +1,7 @@
 const { test, expect } = require('@playwright/test');
 const fs = require('node:fs');
+const contributionCopy = require('../fixtures/contribution-copy.json');
+const marketVacancies = require('../../data/vacancies-2026-11-16.json').vacancies;
 const suppliedResponsibilities = require('../fixtures/responsibilities.json');
 
 test('desktop and mobile portfolio: media, all cases, navigation and image enlargement', async ({ page }, testInfo) => {
@@ -78,7 +80,7 @@ test('desktop and mobile portfolio: media, all cases, navigation and image enlar
   await page.locator('#results').scrollIntoViewIfNeeded();
   await expect(page.locator('.outcomes article')).toHaveCount(4);
   await page.locator('#market').scrollIntoViewIfNeeded();
-  await expect(page.locator('.market-section > .market-grid > .market-card')).toHaveCount(3);
+  await expect(page.locator('.market-section > .market-grid > .market-card')).toHaveCount(marketVacancies.length);
   expect(errors).toEqual([]);
   expect(failedResources).toEqual([]);
   await testInfo.attach('javascript-errors.json', { body: JSON.stringify({ errors, failedResources }), contentType: 'application/json' });
@@ -124,8 +126,13 @@ test('PDF contains all cases even when the reader collapsed them', async ({ page
   const text = rawText.replace(/\s+/g, ' ');
   for (const title of ['Аналитика ТС ПИОТ', 'Бот ФН', 'LIFE PAY ERP', 'Передача заявок партнёрам']) expect(text).toContain(title);
   expect((text.match(/Моя роль/g) || []).length).toBe(4);
-  for (const detail of ['Дмитрий Козлов', 'Владислав Ерофеев', 'Размер фиксированного оклада предлагаю согласовать на встрече']) expect(text).toContain(detail);
-  expect(text).not.toContain('150 000');
+  for (const detail of ['Дмитрий Козлов', 'Владислав Ерофеев', 'Предлагаю согласовать размер оклада, который будет отражать мой фактический вклад']) expect(text).toContain(detail);
+  expect(await page.locator('#proposal-salary').inputValue()).toBe('');
+  expect(text).not.toContain('Предлагаю обсудить фиксированный оклад');
+  for (const paragraph of contributionCopy.letter) expect(rawText.replace(/\s/g, '')).toContain(paragraph.replace(/\s/g, ''));
+  for (const result of contributionCopy.results) expect(rawText.replace(/\s/g, '')).toContain(result.description.replace(/\s/g, ''));
+  expect(text).not.toContain('В развитии: логистика и перемещения');
+  expect(text).not.toContain('Прежний адрес демонстрации возвращает 404');
   const compactPdf = rawText.replace(/\s/g, '');
   for (const direction of suppliedResponsibilities) {
     expect(compactPdf).toContain(direction.title.replace(/\s/g, ''));
@@ -158,7 +165,7 @@ test('FN36 animates without scrolling and video backgrounds cover every section'
   await page.locator('#role-proposal').scrollIntoViewIfNeeded();
   await page.screenshot({ path: testInfo.outputPath('fn36-through-page.png') });
   await expect(page.locator('.site-backdrop')).toHaveAttribute('data-active-scene', 'account');
-  await page.locator('.footer').scrollIntoViewIfNeeded();
+  await page.locator('.brand-finale').scrollIntoViewIfNeeded();
   await expect(page.locator('.site-backdrop')).toHaveAttribute('data-active-scene', 'account');
   const ending = await page.locator('.site-backdrop').boundingBox();
   expect(ending.y).toBe(0);
@@ -279,11 +286,14 @@ test('all navigation buttons, project shortcuts and return to top reach their se
   }
   await expect(page.locator('#navlinks a[href="#responsibility"]')).toHaveCount(0);
   await expect(page.locator('#payment-scene, #account-scene, .payment-flow, .fn-story-copy')).toHaveCount(0);
-  expect(await page.locator('.brand-finale').evaluate(node => node.previousElementSibling.id === 'role-proposal' && node.nextElementSibling.tagName === 'FOOTER')).toBe(true);
+  expect(await page.locator('.brand-finale').evaluate(node => node.previousElementSibling.id === 'role-proposal' && node.nextElementSibling === null)).toBe(true);
   const projectGap = await page.evaluate(() => document.querySelector('.project').getBoundingClientRect().top - document.querySelector('.projects-overview').getBoundingClientRect().bottom);
   expect(projectGap).toBeGreaterThanOrEqual(16);
   expect(projectGap).toBeLessThan(70);
-  await page.locator('.footer a[href="#about"]').last().click();
+  await page.locator('.brand-finale a[href="#role-proposal"]').click();
+  await expect(page).toHaveURL(/#role-proposal$/);
+  await expect(page.locator('#review-title')).toBeInViewport();
+  await page.locator('header .logo[href="#about"]').click();
   await expect(page).toHaveURL(/#about$/);
   await expect(page.locator('h1')).toBeVisible();
   await expect(page.locator('.site-backdrop')).toHaveAttribute('data-active-scene', 'hero');
@@ -390,4 +400,53 @@ test('all responsibility directions expand by keyboard and bulk controls, then r
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
   expect(errors).toEqual([]);
   await testInfo.attach('responsibility-print-state.json', { body: JSON.stringify({ before, restored: await directions.evaluateAll(nodes => nodes.map(node => node.open)), errors }), contentType: 'application/json' });
+});
+
+
+test('proposal stays local, preserves approved paragraphs and rejects invalid pay before copy or PDF', async ({ page }, testInfo) => {
+  const requests = [];
+  page.on('request', request => requests.push({ method: request.method(), url: request.url(), body: request.postData() }));
+  await page.goto('./');
+  await expect(page.locator('h1')).toBeInViewport();
+  expect(new URL(page.url()).hash).toBe('');
+  await expect(page.locator('.footer,.market-history,.market-disclaimer,.progress-note')).toHaveCount(0);
+  await expect(page.locator('#projects .eyebrow').first()).toHaveText('ПОРТФЕЛЬ ПРОЕКТОВ');
+  await expect(page.locator('#project-bot .project-actions .text-link')).toHaveAttribute('href', 'https://docs.google.com/spreadsheets/d/1nfVOSaSV66tHJWLnN40SuC10uC9NQmrgubNDRVYX1L8/edit?gid=572312672#gid=572312672');
+  expect(await page.locator('#proposal-text p').allTextContents()).toEqual(contributionCopy.letter);
+  await page.evaluate(() => {
+    window.__draftCopies = [];
+    window.__draftPrints = 0;
+    window.print = () => { window.__draftPrints++; };
+    Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText: async text => { window.__draftCopies.push(text); } } });
+  });
+  await page.locator('#proposal-salary').fill('137321');
+  await page.locator('#proposal-pay-format').selectOption('gross');
+  await page.locator('#proposal-date').fill('2027-01-15');
+  for (const paragraph of contributionCopy.letter) await expect(page.locator('#proposal-text')).toContainText(paragraph);
+  await page.locator('#copy-proposal').click();
+  const copied = await page.evaluate(() => window.__draftCopies.at(-1));
+  expect(copied).toContain('15.01.2027');
+  expect(copied.replace(/\s/g, '')).toContain('137321₽');
+  expect(copied.split('\n\n')).toHaveLength(6);
+  await page.evaluate(() => Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText: async () => { throw new Error('Denied for QA'); } } }));
+  await page.locator('#copy-proposal').click();
+  await expect(page.locator('#proposal-copy-fallback')).toBeVisible();
+  await page.locator('#proposal-salary').fill('137322');
+  await expect(page.locator('#proposal-copy-fallback')).not.toBeVisible();
+  await expect(page.locator('#proposal-copy-fallback')).toHaveValue('');
+  await page.locator('#proposal-salary').fill('0');
+  await expect(page.locator('#proposal-status')).toContainText('Введите целый оклад');
+  await page.locator('#copy-proposal').click();
+  await page.locator('#print-pdf').click();
+  expect(await page.evaluate(() => window.__draftPrints)).toBe(0);
+  expect(await page.evaluate(() => window.__draftCopies.length)).toBe(1);
+  await page.locator('#proposal-salary').fill('');
+  await page.locator('#proposal-pay-format').selectOption('');
+  await page.locator('#proposal-date').fill('');
+  expect(await page.locator('#proposal-text p').allTextContents()).toEqual(contributionCopy.letter);
+  const storage = await page.evaluate(() => ({ local: localStorage.length, session: sessionStorage.length }));
+  expect(storage).toEqual({ local: 0, session: 0 });
+  expect(requests.every(request => ['GET', 'HEAD'].includes(request.method))).toBe(true);
+  expect(requests.some(request => /137321|137322|2027-01-15/.test(request.url + (request.body || '')))).toBe(false);
+  await testInfo.attach('proposal-data-flow.json', { body: JSON.stringify({ requestsWithDraft: false, writeRequests: 0, storage, destinations: ['preview text', 'clipboard on click', 'native print on click'] }), contentType: 'application/json' });
 });

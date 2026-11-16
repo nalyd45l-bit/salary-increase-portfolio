@@ -1,0 +1,50 @@
+[
+  {
+    "name": "desktop",
+    "errors": [],
+    "overflow": false,
+    "videos": 4,
+    "results": 4,
+    "vacancies": 6,
+    "letterParagraphs": 5,
+    "footer": false,
+    "oldMarket": false,
+    "salary": ""
+  },
+  {
+    "name": "tablet",
+    "errors": [],
+    "overflow": false,
+    "videos": 4,
+    "results": 4,
+    "vacancies": 6,
+    "letterParagraphs": 5,
+    "footer": false,
+    "oldMarket": false,
+    "salary": ""
+  },
+  {
+    "name": "phone",
+    "errors": [],
+    "overflow": false,
+    "videos": 4,
+    "results": 4,
+    "vacancies": 6,
+    "letterParagraphs": 5,
+    "footer": false,
+    "oldMarket": false,
+    "salary": ""
+  },
+  {
+    "name": "small-phone",
+    "errors": [],
+    "overflow": false,
+    "videos": 4,
+    "results": 4,
+    "vacancies": 6,
+    "letterParagraphs": 5,
+    "footer": false,
+    "oldMarket": false,
+    "salary": ""
+  }
+]
