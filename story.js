@@ -38,8 +38,8 @@
     }, { threshold: 0.08 });
     items.forEach(item => {
       item.classList.add('assembly-item');
-      const group = item.parentElement;
-      const order = group.matches('.responsibility-grid,.market-grid,.project-index,.proposal-agreements,.outcomes') ? [...group.children].indexOf(item) : 0;
+      const group = item.closest('.responsibility-grid') || item.parentElement;
+      const order = group.matches('.responsibility-grid,.market-grid,.project-index,.proposal-agreements,.outcomes') ? [...group.children].indexOf(item.closest('.responsibility-grid>li') || item) : 0;
       item.style.setProperty('--reveal-delay', `${Math.min(order, 3) * 55}ms`);
       if (!item.classList.contains('is-assembled')) revealObserver.observe(item);
     });

@@ -10,14 +10,15 @@
 <link rel="preload" as="font" href="assets/fonts/manrope-cyrillic.woff2" type="font/woff2" crossorigin/>
 <link rel="preload" as="font" href="assets/fonts/manrope-latin.woff2" type="font/woff2" crossorigin/>
 <link rel="preload" as="image" href="assets/media/hero-poster.webp" fetchpriority="high"/>
-<link rel="stylesheet" href="styles.css?v=20261113-original-glass"/>
-<link rel="stylesheet" href="story.css?v=20261113-original-glass"/>
-<link rel="stylesheet" href="readability.css?v=20261113-original-glass"/>
-<script src="app.js?v=20261113-original-glass" defer></script>
-<script src="story.js?v=20261113-original-glass" defer></script>
-<script src="proposal.js?v=20261113-original-glass" defer></script>
-<script src="portrait.js?v=20261113-original-glass" defer></script>
-<script src="ambient.js?v=20261113-original-glass" defer></script>
+<link rel="stylesheet" href="styles.css?v=20261116-profile"/>
+<link rel="stylesheet" href="story.css?v=20261116-profile"/>
+<link rel="stylesheet" href="readability.css?v=20261116-profile"/>
+<link rel="stylesheet" href="profile.css?v=20261116-profile"/>
+<script src="app.js?v=20261116-profile" defer></script>
+<script src="story.js?v=20261116-profile" defer></script>
+<script src="proposal.js?v=20261116-profile" defer></script>
+<script src="profile.js?v=20261116-profile" defer></script>
+<script src="ambient.js?v=20261116-profile" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Перейти к содержимому</a>
@@ -26,7 +27,7 @@
 <nav class="nav wrap" aria-label="Основная навигация">
 <a href="#about" class="logo" aria-label="LIFE PAY — к началу"><img class="brand-logo" src="assets/lifepay-logo-BlyhidjW.svg" alt="LIFE PAY" width="142" height="24"/></a>
 <div class="navlinks" id="navlinks"><a href="#profile">Обо мне</a><a href="#responsibility">Моя роль</a><a href="#projects">Проекты <span>04</span></a><a href="#results">Результаты</a><a href="#market">Рынок</a></div>
-<button class="print-button" type="button" id="print-pdf">Сохранить PDF <span aria-hidden="true">↗</span></button>
+<button class="print-button" type="button" id="print-pdf">Сохранить PDF <span aria-hidden="true"><img src="assets/icons/arrow-up-right.svg" alt="" width="14" height="14"/></span></button>
 <button class="menu-toggle" aria-controls="navlinks" aria-expanded="false" aria-label="Открыть меню" type="button">☰</button>
 </nav>
 </header>
@@ -43,31 +44,40 @@
 <h1 id="hero-title">Мой вклад<span class="hero-brand"><span class="sr-only">в </span><img src="assets/lifepay-logo-BlyhidjW.svg" alt="LIFE PAY" width="142" height="24"/></span></h1>
 <p class="hero-subtitle">От ежедневных задач к собственным решениям.</p>
 <p class="hero-description">Обеспечиваю операционные процессы в работе с сервисными партнёрами, логистикой, учётом оборудования и ТС ПИоТ. Самостоятельно инициирую и реализую проекты по улучшению качества и эффективности работы.</p>
-<div class="hero-actions"><a class="button button-primary" href="#projects">Смотреть проекты <span aria-hidden="true">↘</span></a><a class="hero-text-link" href="#results">Практические результаты <span aria-hidden="true">↓</span></a></div>
+<div class="hero-actions"><a class="button button-primary" href="#projects"><span>Смотреть проекты</span><span class="action-icon" aria-hidden="true"><img src="assets/icons/arrow-right.svg" alt="" width="20" height="20"/></span></a><a class="button button-secondary hero-text-link" href="#results"><span class="action-icon" aria-hidden="true"><img src="assets/icons/arrow-down.svg" alt="" width="20" height="20"/></span><span>Практические результаты</span></a></div>
 </div>
 <div class="hero-bottom"></div>
 <p id="media-status" class="sr-only" role="status"></p>
 </section>
-<div class="intro-strip"><p>Сервисные процессы.<br/><b>Конкретный вклад через реальные инструменты.</b></p><a href="#project-piot"><span>01—04</span> Перейти к портфелю проектов ↗</a></div>
 <section class="section profile-section" id="profile" aria-labelledby="profile-title">
-<div class="section-heading"><div><span class="eyebrow">ПРОФЕССИОНАЛЬНЫЙ ПРОФИЛЬ</span><h2 id="profile-title">Обо мне.<br/><span>Человек за проектами.</span></h2></div><p>Соединяю ежедневную работу с сервисными партнёрами и развитие инструментов, которые помогают команде работать с данными и оборудованием.</p></div>
-<div class="profile-grid"><div class="profile-portrait"><div class="profile-portrait-fallback" id="portrait-fallback" hidden><span>ПРОФЕССИОНАЛЬНЫЙ ПРОФИЛЬ</span><img src="assets/lifepay-logo-BlyhidjW.svg" alt="LIFE PAY" width="142" height="24"/><span>Сервис · Данные · Автоматизация</span></div><img class="profile-photo" id="profile-photo" src="assets/dmitry-kozlov-cf7163d559.jpg" alt="Дмитрий Козлов — автор портфолио" width="753" height="921" decoding="async"/><p class="profile-upload-status no-print" id="portrait-status" role="status"></p></div>
-<div class="profile-content"><p class="profile-name" id="profile-name">Дмитрий Козлов</p><h3>Менеджер по работе<br/>с сервисными партнёрами</h3><dl class="profile-facts"><div><dt>Подразделение</dt><dd>Отдел регистрации и сопровождения сервисных партнёров</dd></div><div><dt>Город</dt><dd>Ульяновск</dd></div><div><dt>В LIFE PAY</dt><dd>С <time datetime="2025-08-20">20 августа 2025 года</time></dd></div><div id="profile-manager-row"><dt>Руководитель</dt><dd id="profile-manager">Владислав Ерофеев</dd></div></dl><p class="profile-focus">Мой фокус — достоверный учёт оборудования, понятные сервисные процессы и автоматизация повторяющихся операций.</p><div class="profile-contacts" aria-label="Контакты Дмитрия">
-<a href="tel:+79962200501"><span class="contact-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2A19.8 19.8 0 0 1 3.1 5.2 2 2 0 0 1 5.1 3h3a1 1 0 0 1 1 .9l.5 3a1 1 0 0 1-.3.9L7.6 9.5a16 16 0 0 0 6.9 6.9l1.7-1.7a1 1 0 0 1 .9-.3l3 .5a1 1 0 0 1 .9 1z"/></svg></span><span class="contact-copy"><small>Телефон</small><b>+7 996 220‑05‑01</b></span></a>
-<a href="https://t.me/Kozlovcki" target="_blank" rel="noopener"><span class="contact-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.7 3.4 3.5 10c-1.2.5-1.2 1.2-.2 1.5l4.4 1.4 1.7 5.2c.2.6.4.8.8.8.3 0 .5-.2.8-.4l2.5-2.4 5.1 3.8c.9.5 1.5.2 1.7-.9l2.9-13.9c.3-1.3-.5-2-1.5-1.7h-1zM9.2 12.6l9.7-6.1c.5-.3.9-.1.6.2l-8 7.2-.3 3.2-2-4.5z"/></svg></span><span class="contact-copy"><small>Telegram</small><b>@Kozlovcki</b></span></a>
-<a href="mailto:d.kozlov@life-pay.ru"><span class="contact-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m3 7 9 6 9-6"/></svg></span><span class="contact-copy"><small>Почта</small><b>d.kozlov@life-pay.ru</b></span></a>
-</div><div class="profile-pillars"><span>Сопровождение партнёров</span><span>Качество данных</span><span>Цифровые инструменты</span></div>
-<details class="profile-editor no-print"><summary>Подготовить профиль к встрече <span aria-hidden="true">+</span></summary><div class="profile-editor-fields"><label class="portrait-preview-label" for="portrait-file">Временное фото для PDF<input id="portrait-file" type="file" accept="image/jpeg,image/png,image/webp"/></label><button class="portrait-reset" id="portrait-remove" type="button" hidden>Вернуть фото сайта</button><label for="profile-name-input">Моё имя<input id="profile-name-input" value="Дмитрий Козлов" type="text" maxlength="100" autocomplete="name" placeholder="Имя и фамилия"/></label><label for="profile-manager-input">Руководитель<input id="profile-manager-input" value="Владислав Ерофеев" type="text" maxlength="160" placeholder="ФИО и должность"/></label><p>Портрет сайта публикуется вместе с файлами проекта и виден всем. Здесь можно временно изменить фото, имя и руководителя только для подготовки PDF.</p></div></details></div></div>
-</section>
-
-<section class="section responsibility" id="responsibility" aria-labelledby="role-title">
-<div class="section-heading"><div><span class="eyebrow">01 / ЗОНА ОТВЕТСТВЕННОСТИ</span><h2 id="role-title">Мои задачи.<br/><span>Данные в порядке. Процессы понятны.</span></h2></div><p>Отдел регистрации и сопровождения сервисных партнёров. Достоверные данные об оборудовании и понятные рабочие процессы.</p></div>
-<div class="responsibility-grid">
-<article><span class="duty-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M4 10h16M10 4v16"/></svg></span><span class="item-index">01</span><h3>Сбор и обработка данных</h3><p>Получение и структурирование сведений об оборудовании от сервисных партнёров.</p><span class="duty-tag">Данные партнёров</span></article>
-<article><span class="duty-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12 4 4L19 6M5 21h14M8 3h8"/></svg></span><span class="item-index">02</span><h3>Сверка и актуальность реестров</h3><p>Сопоставление рабочих данных, выявление расхождений и поддержание реестра оборудования.</p><span class="duty-tag">Контроль качества</span></article>
-<article><span class="duty-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2h6v2M9 10h6M9 14h6M9 18h3"/></svg></span><span class="item-index">03</span><h3>Инвентаризация и отчётность</h3><p>Подготовка сведений для контроля оборудования и взаимодействие с партнёрами.</p><span class="duty-tag">Учёт оборудования</span></article>
+<h2 class="profile-heading" id="profile-title">Обо мне</h2>
+<div class="profile-grid profile-overview">
+<div class="profile-portrait"><div class="profile-portrait-fallback" id="portrait-fallback" hidden><span>Дмитрий Козлов</span><img src="assets/lifepay-logo-BlyhidjW.svg" alt="LIFE PAY" width="142" height="24"/></div><img class="profile-photo" id="profile-photo" src="assets/dmitry-kozlov-cf7163d559.jpg" alt="Дмитрий Козлов — автор портфолио" width="753" height="921" decoding="async"/><p class="sr-only" id="portrait-status" role="status"></p></div>
+<div class="profile-content">
+<p class="profile-name" id="profile-name">Дмитрий <span>Козлов</span></p>
+<h3 class="profile-job">Менеджер по работе с сервисными партнёрами</h3>
+<div class="profile-tenure"><img class="ui-icon" src="assets/icons/calendar-event.svg" alt="" width="26" height="26"/><div><p>В LIFE PAY с <time id="employment-start" datetime="2025-08-20">20 августа 2025 года</time></p><strong id="profile-tenure" hidden></strong></div></div>
+<dl class="profile-facts">
+<div><dt><img class="ui-icon" src="assets/icons/map-pin.svg" alt="" width="22" height="22"/><span class="sr-only">Город</span></dt><dd>Ульяновск</dd></div>
+<div id="profile-manager-row"><dt><img class="ui-icon" src="assets/icons/user.svg" alt="" width="22" height="22"/><span class="sr-only">Руководитель</span></dt><dd>Руководитель: <span id="profile-manager">Владислав Ерофеев</span></dd></div>
+<div><dt><img class="ui-icon" src="assets/icons/stack-2.svg" alt="" width="22" height="22"/><span class="sr-only">Подразделение</span></dt><dd>Отдел регистрации и сопровождения сервисных партнёров</dd></div>
+</dl>
+<div class="profile-contacts" aria-label="Контакты Дмитрия">
+<a href="tel:+79962200501"><img class="ui-icon" src="assets/icons/phone.svg" alt="" width="22" height="22"/><span><span class="sr-only">Телефон: </span>+7 996 220‑05‑01</span></a>
+<a href="https://t.me/Kozlovcki" target="_blank" rel="noopener"><img class="ui-icon" src="assets/icons/brand-telegram.svg" alt="" width="22" height="22"/><span><span class="sr-only">Telegram: </span>@Kozlovcki</span></a>
+<a href="mailto:d.kozlov@life-pay.ru"><img class="ui-icon" src="assets/icons/mail.svg" alt="" width="22" height="22"/><span><span class="sr-only">Почта: </span>d.kozlov@life-pay.ru</span></a>
 </div>
-<div class="scope-note"><span class="status-dot" aria-hidden="true"></span><p><b>Дополнительные направления:</b> аналитика ТС ПИОТ, автоматизация ФН, сопровождение ESP-пилота и развитие цифровых инструментов. Логистические сценарии находятся в доработке.</p></div>
+</div>
+<div class="responsibility profile-tasks" id="responsibility" role="region" aria-labelledby="role-title">
+<h3 id="role-title">Мои задачи</h3>
+<ol class="responsibility-grid">
+<li><article><span class="task-icon" aria-hidden="true"><img src="assets/icons/table.svg" alt="" width="30" height="30"/></span><div><h4>Сбор и обработка данных</h4><p>Получение и структурирование сведений об оборудовании от сервисных партнёров.</p></div></article></li>
+<li><article><span class="task-icon" aria-hidden="true"><img src="assets/icons/square-check.svg" alt="" width="30" height="30"/></span><div><h4>Сверка и актуальность реестров</h4><p>Сопоставление рабочих данных, выявление расхождений и поддержание реестра оборудования.</p></div></article></li>
+<li><article><span class="task-icon" aria-hidden="true"><img src="assets/icons/file-analytics.svg" alt="" width="30" height="30"/></span><div><h4>Инвентаризация и отчётность</h4><p>Подготовка сведений для контроля оборудования и взаимодействие с партнёрами.</p></div></article></li>
+</ol>
+</div>
+<p class="profile-scope"><b>Дополнительные направления:</b> аналитика ТС ПИОТ, автоматизация ФН, сопровождение ESP-пилота и развитие цифровых инструментов. Логистические сценарии находятся в доработке.</p>
+</div>
 </section>
 <section class="section projects-section" id="projects" aria-labelledby="projects-title">
 <div class="section-heading"><div><span class="eyebrow">02 / ПОРТФЕЛЬ ПРОЕКТОВ</span><h2 id="projects-title">Четыре проекта.<br/><span>Общая цель — проще работать.</span></h2></div><p>Для каждого проекта — задача, мой вклад, реализованные функции и практический результат.</p></div>
