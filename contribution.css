@@ -69,7 +69,8 @@
 }
 
 /* The conclusion replaces the former salary preparation form. */
-.project-ai{display:flex;gap:12px 24px;align-items:baseline;margin-top:26px;padding:18px 0;border-top:1px solid #ffffff38;font-size:14px;line-height:1.8;color:#edf2f8;break-inside:avoid}
+.project-ai{grid-column:1/-1;grid-row:6;display:flex;gap:12px 24px;align-items:baseline;margin-top:26px;padding:18px 0;border-top:1px solid #ffffff38;font-size:14px;line-height:1.8;color:#edf2f8;break-inside:avoid}
+.project>.project-actions{grid-row:7}
 .project-ai strong{flex:none;color:#c4deff;font-size:11px;letter-spacing:.04em;text-transform:uppercase}
 .contribution-conclusion .conclusion-intro h2{max-width:25ch;font-size:clamp(30px,3.8vw,52px);line-height:1.15;overflow-wrap:anywhere}
 .contribution-conclusion .conclusion-intro>p,.contribution-conclusion .conclusion-approach p{max-width:90ch;font-size:16px;line-height:1.9;margin-top:22px;color:#edf2f8}
