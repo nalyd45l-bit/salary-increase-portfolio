@@ -1,6 +1,8 @@
 /* Approved profile-and-tasks layout. Original video and glass colours stay intact. */
 .ui-icon{display:block;flex:none;object-fit:contain}
 @media screen{
+  .print-button>span{display:inline-flex;align-items:center;vertical-align:middle}
+  .print-button>span img{display:block;filter:brightness(0) invert(1)}
   .hero-actions{gap:12px;flex-wrap:wrap}
   .hero-actions .button{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:56px;padding:10px 14px;border-radius:16px;font-size:14px;font-weight:700;line-height:1.4;text-decoration:none;transition:transform .2s,background .2s,box-shadow .2s}
   .hero-actions .button-primary{box-shadow:inset 0 1px 0 #ffffff35,0 8px 22px #0868f91f}
@@ -64,7 +66,7 @@
   .hero-actions .button-secondary{flex-direction:row-reverse}
   .profile-heading{font-size:36px;margin-bottom:22px}
   .profile-section .profile-overview{grid-template-columns:minmax(0,1fr);padding:20px;gap:28px;border-radius:24px}
-  .profile-overview .profile-portrait{aspect-ratio:4/4.6;min-height:0;max-height:520px;border-radius:18px}
+  .profile-overview .profile-portrait{height:clamp(280px,calc(115vw - 87px),520px);min-height:280px;max-height:none;aspect-ratio:auto;align-self:start;border-radius:18px}
   .profile-overview .profile-name{font-size:34px}
   .profile-overview .profile-facts>div{font-size:15px}
   .profile-tenure strong{font-size:19px}
