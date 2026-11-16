@@ -126,10 +126,10 @@ test('PDF contains all cases even when the reader collapsed them', async ({ page
   const text = rawText.replace(/\s+/g, ' ');
   for (const title of ['Аналитика ТС ПИОТ', 'Бот ФН', 'LIFE PAY ERP', 'Передача заявок партнёрам']) expect(text).toContain(title);
   expect((text.match(/Моя роль/g) || []).length).toBe(4);
-  for (const detail of ['Дмитрий Козлов', 'Владислав Ерофеев', 'Предлагаю согласовать размер оклада, который будет отражать мой фактический вклад']) expect(text).toContain(detail);
-  expect(await page.locator('#proposal-salary').inputValue()).toBe('');
-  expect(text).not.toContain('Предлагаю обсудить фиксированный оклад');
-  for (const paragraph of contributionCopy.letter) expect(rawText.replace(/\s/g, '')).toContain(paragraph.replace(/\s/g, ''));
+  for (const detail of ['Дмитрий Козлов', 'Владислав Ерофеев', 'Итоги и профессиональный вклад']) expect(text).toContain(detail);
+  expect((text.match(/При разработке использовал ИИ-агентов Claude и ChatGPT/g) || []).length).toBe(4);
+  expect(text).not.toContain('Предложение по пересмотру оплаты труда');
+  for (const paragraph of [contributionCopy.conclusion.intro, ...contributionCopy.conclusion.directions.map(([title, text]) => `${title} — ${text}`), ...contributionCopy.conclusion.approach, contributionCopy.conclusion.goal]) expect(rawText.replace(/\s/g, '')).toContain(paragraph.replace(/\s/g, ''));
   for (const result of contributionCopy.results) expect(rawText.replace(/\s/g, '')).toContain(result.description.replace(/\s/g, ''));
   expect(text).not.toContain('В развитии: логистика и перемещения');
   expect(text).not.toContain('Прежний адрес демонстрации возвращает 404');
@@ -173,7 +173,7 @@ test('FN36 animates without scrolling and video backgrounds cover every section'
   expect(errors).toEqual([]);
 });
 
-test('profile and leadership proposal use explicit user details and copy the selected pay format', async ({ page }, testInfo) => {
+test('profile and professional conclusion preserve user details and all approved paragraphs', async ({ page }, testInfo) => {
   await page.clock.setFixedTime(new Date('2026-11-16T12:00:00Z'));
   await page.goto('./');
   await expect(page.locator('#profile-name')).toHaveText('Дмитрий Козлов');
@@ -181,7 +181,6 @@ test('profile and leadership proposal use explicit user details and copy the sel
   await expect(page.locator('#profile')).toContainText('Ульяновск');
   await expect(page.locator('#profile a[href="mailto:d.kozlov@life-pay.ru"]')).toBeVisible();
   await expect(page.locator('.hero-bottom')).not.toContainText('20 августа');
-  await expect(page.locator('#proposal-salary')).toHaveValue('');
   await page.evaluate(() => window.portfolioPortraitReady);
   await expect(page.locator('#profile-photo')).toBeVisible();
   await page.locator('.profile-grid').scrollIntoViewIfNeeded();
@@ -192,20 +191,11 @@ test('profile and leadership proposal use explicit user details and copy the sel
   await expect(page.locator('.brand-finale')).toHaveClass(/is-assembled/);
   await expect(page.locator('.signature-pieces img').first()).toHaveCSS('opacity', '1');
   await page.locator('.brand-finale').screenshot({ path: testInfo.outputPath('finale-assembled.png') });
-  await page.locator('#proposal-salary').fill('150000');
-  await page.locator('#proposal-pay-format').selectOption('net');
-  await page.locator('#proposal-date').fill('2026-12-01');
-  await expect(page.locator('#proposal-text')).toContainText('на руки');
-  await expect(page.locator('#proposal-text')).toContainText('01.12.2026');
-  const proposal = await page.locator('#proposal-text').innerText();
-  expect(proposal.replace(/\s/g, '')).toContain('150000₽');
-  await page.evaluate(() => Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText: async text => { window.__copiedProposal = text; } } }));
-  await page.locator('#copy-proposal').click();
-  await expect(page.locator('#proposal-status')).toContainText('Текст скопирован');
-  expect(await page.evaluate(() => window.__copiedProposal)).toBe(proposal);
-  await page.locator('#proposal-pay-format').selectOption('gross');
-  await expect(page.locator('#proposal-text')).toContainText('до вычета налогов');
-  await expect(page.locator('#proposal-text')).not.toContainText('на руки');
+  await expect(page.locator('#review-title')).toHaveText(contributionCopy.conclusion.title);
+  await expect(page.locator('.conclusion-intro p')).toHaveText(contributionCopy.conclusion.intro);
+  expect(await page.locator('.conclusion-approach p').allTextContents()).toEqual(contributionCopy.conclusion.approach);
+  await expect(page.locator('.conclusion-goal')).toHaveText(contributionCopy.conclusion.goal);
+  await expect(page.locator('.development, .proposal-preparation, .proposal-letter, #copy-proposal, #proposal-salary')).toHaveCount(0);
   await expect(page.locator('#profile-title')).toHaveText('Обо мне');
   await expect(page.locator('#profile #responsibility .responsibility-item')).toHaveCount(8);
   await expect(page.locator('#profile-tenure')).toHaveText('1 год 2 месяца 27 дней');
@@ -218,13 +208,7 @@ test('profile and leadership proposal use explicit user details and copy the sel
   await page.evaluate(() => window.dispatchEvent(new Event('beforeprint')));
   await expect(page.locator('#profile-tenure')).toHaveText('1 год 3 месяца');
   await page.evaluate(() => window.dispatchEvent(new Event('afterprint')));
-  await page.evaluate(() => Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText: async () => { throw new Error('Clipboard denied by test'); } } }));
-  await page.locator('#copy-proposal').click();
-  await expect(page.locator('#proposal-copy-fallback')).toBeVisible();
-  await expect(page.locator('#proposal-copy-fallback')).toHaveValue(await page.locator('#proposal-text').innerText());
-  await page.emulateMedia({ media: 'print' });
-  await expect(page.locator('.proposal-preparation')).not.toBeVisible();
-  await expect(page.locator('#proposal-text')).toContainText('до вычета налогов');
+
 });
 
 test('reduced motion keeps FN static and the final official logo is visible', async ({ page }, testInfo) => {
@@ -307,7 +291,7 @@ test('improved typography preserves the original glass and keeps text opaque', a
   // A font change must not recolour the user's video panels or navigation.
   const surfaces = await page.evaluate(() => {
     const sheet = [...document.styleSheets].find(item => item.href?.includes('readability.css'));
-    const selectors = ['.hero-copy', '.nav', '.profile-grid', '.responsibility-item', '.project-index', '.project', '.section-heading', '.outcomes', '.market-card', '.development', '.role-proposal', '.projects-overview'];
+    const selectors = ['.hero-copy', '.nav', '.profile-grid', '.responsibility-item', '.project-index', '.project', '.section-heading', '.outcomes', '.market-card', '.role-proposal', '.projects-overview'];
     const read = () => selectors.map(selector => {
       const css = getComputedStyle(document.querySelector(selector));
       return { selector, background: css.backgroundColor, image: css.backgroundImage, border: css.borderColor, blur: css.backdropFilter };
@@ -368,7 +352,7 @@ test('all responsibility directions expand by keyboard and bulk controls, then r
   const toggle = page.locator('#toggle-responsibilities');
   await expect(directions).toHaveCount(8);
   await expect(page.locator('.responsibility-body li')).toHaveCount(36);
-  await expect(page.locator('#responsibility-piot')).toHaveAttribute('open', '');
+  await expect(page.locator('.responsibility-item[open]')).toHaveCount(0);
   await expect(page.locator('#profile')).not.toContainText('Все представленные проекты');
   for (let index = 0; index < suppliedResponsibilities.length; index++) {
     await expect(directions.nth(index).locator('.direction-title')).toHaveText(suppliedResponsibilities[index].title);
@@ -403,50 +387,22 @@ test('all responsibility directions expand by keyboard and bulk controls, then r
 });
 
 
-test('proposal stays local, preserves approved paragraphs and rejects invalid pay before copy or PDF', async ({ page }, testInfo) => {
-  const requests = [];
-  page.on('request', request => requests.push({ method: request.method(), url: request.url(), body: request.postData() }));
+test('home opens at the hero, removed controls stay absent and all projects show AI credits', async ({ page }) => {
   await page.goto('./');
   await expect(page.locator('h1')).toBeInViewport();
   expect(new URL(page.url()).hash).toBe('');
-  await expect(page.locator('.footer,.market-history,.market-disclaimer,.progress-note')).toHaveCount(0);
+  await expect(page.locator('.hero-actions a')).toHaveCount(1);
+  await expect(page.locator('.hero-actions a')).toHaveAttribute('href', '#projects');
+  await expect(page.locator('.development, .proposal-preparation, #proposal-text, #copy-proposal, script[src*="proposal.js"]')).toHaveCount(0);
+  await expect(page.locator('.responsibility-item[open]')).toHaveCount(0);
+  for (const project of ['piot', 'bot', 'erp', 'workflow']) {
+    await expect(page.locator(`#project-${project} .project-ai`)).toBeVisible();
+    await expect(page.locator(`#project-${project} .project-ai`)).toContainText('При разработке использовал ИИ-агентов Claude и ChatGPT.');
+  }
   await expect(page.locator('#projects .eyebrow').first()).toHaveText('ПОРТФЕЛЬ ПРОЕКТОВ');
   await expect(page.locator('#project-bot .project-actions .text-link')).toHaveAttribute('href', 'https://docs.google.com/spreadsheets/d/1nfVOSaSV66tHJWLnN40SuC10uC9NQmrgubNDRVYX1L8/edit?gid=572312672#gid=572312672');
-  expect(await page.locator('#proposal-text p').allTextContents()).toEqual(contributionCopy.letter);
-  await page.evaluate(() => {
-    window.__draftCopies = [];
-    window.__draftPrints = 0;
-    window.print = () => { window.__draftPrints++; };
-    Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText: async text => { window.__draftCopies.push(text); } } });
-  });
-  await page.locator('#proposal-salary').fill('137321');
-  await page.locator('#proposal-pay-format').selectOption('gross');
-  await page.locator('#proposal-date').fill('2027-01-15');
-  for (const paragraph of contributionCopy.letter) await expect(page.locator('#proposal-text')).toContainText(paragraph);
-  await page.locator('#copy-proposal').click();
-  const copied = await page.evaluate(() => window.__draftCopies.at(-1));
-  expect(copied).toContain('15.01.2027');
-  expect(copied.replace(/\s/g, '')).toContain('137321₽');
-  expect(copied.split('\n\n')).toHaveLength(6);
-  await page.evaluate(() => Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText: async () => { throw new Error('Denied for QA'); } } }));
-  await page.locator('#copy-proposal').click();
-  await expect(page.locator('#proposal-copy-fallback')).toBeVisible();
-  await page.locator('#proposal-salary').fill('137322');
-  await expect(page.locator('#proposal-copy-fallback')).not.toBeVisible();
-  await expect(page.locator('#proposal-copy-fallback')).toHaveValue('');
-  await page.locator('#proposal-salary').fill('0');
-  await expect(page.locator('#proposal-status')).toContainText('Введите целый оклад');
-  await page.locator('#copy-proposal').click();
-  await page.locator('#print-pdf').click();
-  expect(await page.evaluate(() => window.__draftPrints)).toBe(0);
-  expect(await page.evaluate(() => window.__draftCopies.length)).toBe(1);
-  await page.locator('#proposal-salary').fill('');
-  await page.locator('#proposal-pay-format').selectOption('');
-  await page.locator('#proposal-date').fill('');
-  expect(await page.locator('#proposal-text p').allTextContents()).toEqual(contributionCopy.letter);
-  const storage = await page.evaluate(() => ({ local: localStorage.length, session: sessionStorage.length }));
-  expect(storage).toEqual({ local: 0, session: 0 });
-  expect(requests.every(request => ['GET', 'HEAD'].includes(request.method))).toBe(true);
-  expect(requests.some(request => /137321|137322|2027-01-15/.test(request.url + (request.body || '')))).toBe(false);
-  await testInfo.attach('proposal-data-flow.json', { body: JSON.stringify({ requestsWithDraft: false, writeRequests: 0, storage, destinations: ['preview text', 'clipboard on click', 'native print on click'] }), contentType: 'application/json' });
+  for (const vacancy of marketVacancies) {
+    await expect(page.locator(`[data-vacancy-id="${vacancy.id}"] .text-link`)).toHaveAttribute('href', vacancy.url);
+  }
+  await expect(page.locator('[data-vacancy-id="139530115"], [data-vacancy-id="139460587"]')).toHaveCount(0);
 });

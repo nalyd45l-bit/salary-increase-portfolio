@@ -1,0 +1,50 @@
+[
+  {
+    "width": 1440,
+    "initial": {
+      "scrollY": 0,
+      "overflow": false,
+      "open": 0,
+      "credits": 4,
+      "videos": 4,
+      "heroActions": 1
+    },
+    "errors": []
+  },
+  {
+    "width": 1024,
+    "initial": {
+      "scrollY": 0,
+      "overflow": false,
+      "open": 0,
+      "credits": 4,
+      "videos": 4,
+      "heroActions": 1
+    },
+    "errors": []
+  },
+  {
+    "width": 390,
+    "initial": {
+      "scrollY": 0,
+      "overflow": false,
+      "open": 0,
+      "credits": 4,
+      "videos": 4,
+      "heroActions": 1
+    },
+    "errors": []
+  },
+  {
+    "width": 320,
+    "initial": {
+      "scrollY": 0,
+      "overflow": false,
+      "open": 0,
+      "credits": 4,
+      "videos": 4,
+      "heroActions": 1
+    },
+    "errors": []
+  }
+]

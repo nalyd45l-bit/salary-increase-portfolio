@@ -228,22 +228,30 @@ test('blocked autoplay and media errors keep the poster without visible player U
 });
 
 // FN uses its complete video loop; all background scenes start automatically.
-test('FN36 automatic video and leadership preparation have complete local assets', () => {
+test('FN36 automatic video and professional conclusion have complete local assets', () => {
   const { document } = parsed();
   assert.ok(document.querySelector('[data-ambient="fn"] video[autoplay][muted][loop][playsinline]'));
   assert.equal(document.querySelector('#profile-name').textContent, 'Дмитрий Козлов');
   assert.equal(document.querySelector('#profile-manager').textContent, 'Владислав Ерофеев');
-  assert.equal(document.querySelector('#proposal-salary').getAttribute('value'), null);
-  assert.ok(document.querySelector('#copy-proposal'));
+  assert.equal(document.querySelector('#proposal-salary, #copy-proposal, .development'), null);
+  assert.ok(document.querySelector('.contribution-conclusion'));
   for (const selector of ['.projects-grid', '#results', '#market', '#role-proposal', '.brand-finale']) assert.ok(document.querySelector(selector).closest('#fn-journey'));
-  assert.equal(document.querySelector('#proposal-salary').getAttribute('step'), '1');
   assert.ok(document.querySelector('.brand-finale img'));
   assert.equal(document.querySelector('.hero-bottom time'), null);
 });
 
-test('proposal pay formats are actual selectable HTML options', () => {
-  const { document } = parseHTML(html);
-  assert.deepEqual([...document.querySelectorAll('#proposal-pay-format option')].map(node => node.getAttribute('value')), ['', 'net', 'gross']);
+test('every project credits both AI agents and the conclusion preserves the supplied copy', () => {
+  const { document } = parsed();
+  const copy = require('./fixtures/contribution-copy.json').conclusion;
+  for (const project of document.querySelectorAll('.project')) {
+    assert.equal(project.querySelector('.project-ai span').textContent, 'При разработке использовал ИИ-агентов Claude и ChatGPT.');
+  }
+  assert.equal(document.querySelector('#review-title').textContent, copy.title);
+  assert.equal(document.querySelector('.conclusion-intro p').textContent, copy.intro);
+  assert.deepEqual([...document.querySelectorAll('.conclusion-directions li')].map(node => node.textContent), copy.directions.map(([title, text]) => `${title} — ${text}`));
+  assert.deepEqual([...document.querySelectorAll('.conclusion-approach p')].map(node => node.textContent), copy.approach);
+  assert.equal(document.querySelector('.conclusion-goal').textContent, copy.goal);
+  assert.equal(document.querySelector('.hero-actions a[href="#results"], .proposal-preparation, #proposal-text'), null);
 });
 
 test('removed interludes stay absent while four background videos and the final logo retain real section targets', () => {
@@ -324,8 +332,8 @@ test('all eight responsibility directions preserve the 36 user-supplied bullets 
     assert.deepEqual([...node.querySelectorAll('li')].map(item => item.textContent), supplied[index].items);
   });
   assert.equal(document.querySelector('#role-title').textContent, 'Мои задачи и зоны ответственности');
-  assert.equal(document.querySelector('#responsibility-piot').hasAttribute('open'), true);
-  assert.equal(document.querySelectorAll('.responsibility-item[open]').length, 1);
+  assert.equal(document.querySelector('#responsibility-piot').hasAttribute('open'), false);
+  assert.equal(document.querySelectorAll('.responsibility-item[open]').length, 0);
   assert.equal(document.querySelector('#profile').textContent.includes('Все представленные проекты'), false);
   assert.equal(document.querySelector('#employment-start').getAttribute('datetime'), '2025-08-20');
 });

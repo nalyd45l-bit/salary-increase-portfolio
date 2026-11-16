@@ -1,0 +1,30 @@
+{
+  "pages": 14,
+  "bytes": 3996271,
+  "sha256": "59c9266380fe4b0101516942ff82c9d6d9524d36b59c9d20399804dd124e9977",
+  "characters_per_page": [
+    301,
+    1328,
+    1811,
+    1457,
+    1071,
+    1040,
+    1059,
+    1593,
+    388,
+    1248,
+    1115,
+    1022,
+    1525,
+    95
+  ],
+  "AI_credits": 4,
+  "responsibility_bullets": 36,
+  "conclusion_complete": true,
+  "original_portrait_embedded": true,
+  "salary_form_present": false,
+  "new_vacancies": [
+    "136371351",
+    "138594488"
+  ]
+}
