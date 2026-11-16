@@ -5,19 +5,19 @@
   const backdrop = document.createElement('div');
   backdrop.className = 'site-backdrop';
   backdrop.setAttribute('aria-hidden', 'true');
-  const starts = ['#about', '#projects', '#payment-scene', '#role-proposal'];
-  const names = ['hero', 'fn', 'payment', 'account'];
   let ready = document.readyState === 'complete';
   let printing = false;
   let scheduled = false;
-  const players = [...document.querySelectorAll('[data-ambient]')].map((scene, index) => {
+  const players = [...document.querySelectorAll('[data-ambient]')].map(scene => {
+    const name = scene.dataset.ambient;
+    const start = document.querySelector(scene.dataset.ambientStart);
     const video = scene.querySelector('video');
-    if (!video.id) video.id = `${names[index]}-video`;
+    if (!video.id) video.id = `${name}-video`;
     const frame = scene.querySelector('.hero-media') || scene;
     const status = scene.querySelector('[role="status"]');
     const layer = document.createElement('div');
     layer.className = 'site-video-layer';
-    layer.dataset.scene = names[index];
+    layer.dataset.scene = name;
     const poster = document.createElement('img');
     poster.src = video.getAttribute('poster');
     poster.alt = '';
@@ -59,7 +59,7 @@
       if (status) status.textContent = 'Видео недоступно. Показана заставка.';
     });
     return {
-      sync,
+      name, start, sync,
       activate(value) { if (active !== value) { active = value; layer.classList.toggle('is-active', value); sync(); } },
       retry() { failed = false; sync(); }
     };
@@ -69,10 +69,10 @@
   const update = () => {
     scheduled = false;
     let active = 0;
-    starts.forEach((selector, index) => {
-      if (document.querySelector(selector).getBoundingClientRect().top <= window.innerHeight * .4) active = index;
+    players.forEach((player, index) => {
+      if (player.start && player.start.getBoundingClientRect().top <= window.innerHeight * .4) active = index;
     });
-    backdrop.dataset.activeScene = names[active];
+    backdrop.dataset.activeScene = players[active].name;
     players.forEach((player, index) => player.activate(index === active));
   };
   const schedule = () => { if (!scheduled) { scheduled = true; window.requestAnimationFrame(update); } };

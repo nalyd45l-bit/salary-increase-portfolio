@@ -8,7 +8,7 @@ const { parseHTML } = require('linkedom');
 const csstree = require('css-tree');
 const root = path.resolve(__dirname, '..');
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
-const css = ['styles.css', 'story.css', 'readability.css', 'profile.css', 'responsibilities.css'].map(file => fs.readFileSync(path.join(root, file), 'utf8')).join('\n');
+const css = ['styles.css', 'story.css', 'readability.css', 'profile.css', 'responsibilities.css', 'projects.css'].map(file => fs.readFileSync(path.join(root, file), 'utf8')).join('\n');
 const app = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
 const parsed = () => parseHTML(html);
 
@@ -230,7 +230,7 @@ test('blocked autoplay and media errors keep the poster without visible player U
 // FN uses its complete video loop; all background scenes start automatically.
 test('FN36 automatic video and leadership preparation have complete local assets', () => {
   const { document } = parsed();
-  assert.ok(document.querySelector('#fn36 video[autoplay][muted][loop][playsinline]'));
+  assert.ok(document.querySelector('[data-ambient="fn"] video[autoplay][muted][loop][playsinline]'));
   assert.equal(document.querySelector('#profile-name').textContent, 'Дмитрий Козлов');
   assert.equal(document.querySelector('#profile-manager').textContent, 'Владислав Ерофеев');
   assert.equal(document.querySelector('#proposal-salary').getAttribute('value'), null);
@@ -246,12 +246,17 @@ test('proposal pay formats are actual selectable HTML options', () => {
   assert.deepEqual([...document.querySelectorAll('#proposal-pay-format option')].map(node => node.getAttribute('value')), ['', 'net', 'gross']);
 });
 
-test('account illustration is the last cinematic scene and payment links to results', () => {
+test('removed interludes stay absent while four background videos and the final logo retain real section targets', () => {
   const { document } = parsed();
-  assert.equal([...document.querySelectorAll('[data-cinematic]')].at(-1).id, 'account-scene');
-  assert.equal(document.querySelector('#account-scene').nextElementSibling.tagName, 'FOOTER');
-  assert.equal(document.querySelector('#payment-scene a').getAttribute('href'), '#results');
-  assert.ok(document.querySelector('#account-scene').closest('#fn-journey'));
+  assert.deepEqual([...document.querySelectorAll('[data-ambient]')].map(scene => [scene.dataset.ambient, scene.dataset.ambientStart]), [
+    ['hero', '#about'], ['fn', '#projects'], ['payment', '#results'], ['account', '#role-proposal']
+  ]);
+  for (const scene of document.querySelectorAll('[data-ambient]')) assert.ok(document.querySelector(scene.dataset.ambientStart));
+  assert.equal(document.querySelector('#payment-scene, #account-scene, .payment-flow, .fn-story-copy'), null);
+  assert.equal(document.querySelector('#navlinks a[href="#responsibility"]'), null);
+  assert.equal(document.querySelector('.brand-finale').previousElementSibling.id, 'role-proposal');
+  assert.equal(document.querySelector('.brand-finale').nextElementSibling.tagName, 'FOOTER');
+  assert.equal(document.querySelector('.projects-overview .project-index').children.length, 4);
 });
 
 test('the public profile uses the exact portrait provided in the user archive', () => {

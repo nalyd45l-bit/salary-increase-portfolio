@@ -89,7 +89,7 @@ test('reduced motion avoids automatic media transfers without player UI', async 
   const mediaRequests = [];
   page.on('request', request => { if (/(hero|fn36|payment|account)-(loop|mobile)\.mp4/.test(request.url())) mediaRequests.push(request.url()); });
   await page.goto('./');
-  for (const selector of ['#fn36', '#payment-scene', '#account-scene']) await page.locator(selector).scrollIntoViewIfNeeded();
+  for (const selector of ['#projects', '#results', '#role-proposal']) await page.locator(selector).scrollIntoViewIfNeeded();
   await page.waitForTimeout(300);
   expect(mediaRequests).toEqual([]);
   await expect(page.locator('#motion-toggle, #fn-motion-toggle, .cinematic-toggle')).toHaveCount(0);
@@ -141,7 +141,7 @@ test('FN36 animates without scrolling and video backgrounds cover every section'
   page.on('pageerror', error => errors.push(error.message));
   await page.goto('./');
   await page.addStyleTag({ content: 'html{scroll-behavior:auto!important}' });
-  const top = await page.locator('#fn36').evaluate(node => node.getBoundingClientRect().top + scrollY);
+  const top = await page.locator('#projects').evaluate(node => node.getBoundingClientRect().top + scrollY);
   const header = await page.locator('.sitebar').evaluate(node => node.getBoundingClientRect().height);
   await page.evaluate(({ top, header }) => scrollTo(0, top - header + 5), { top, header });
   const video = page.locator('#fn-video');
@@ -151,11 +151,10 @@ test('FN36 animates without scrolling and video backgrounds cover every section'
   await expect.poll(() => video.evaluate(node => node.currentTime)).toBeGreaterThan(before + .1);
   await expect(video).toHaveJSProperty('muted', true);
   await expect(video).toHaveJSProperty('controls', false);
-  await expect(page.locator('#fn36')).toHaveClass(/is-playing/);
-  await expect.poll(() => page.locator('.fn-sticky').evaluate(node => getComputedStyle(node, '::before').display)).toBe('none');
+  await expect(page.locator('.site-video-layer[data-scene="fn"]')).toHaveClass(/is-playing/);
+  await expect(page.locator('.fn-story-copy, .fn-sticky')).toHaveCount(0);
   await page.screenshot({ path: testInfo.outputPath('fn36-intro.png') });
   await page.locator('#role-proposal').scrollIntoViewIfNeeded();
-  await expect(page.locator('#fn-journey')).toHaveClass(/story-has-content/);
   await page.screenshot({ path: testInfo.outputPath('fn36-through-page.png') });
   await expect(page.locator('.site-backdrop')).toHaveAttribute('data-active-scene', 'account');
   await page.locator('.footer').scrollIntoViewIfNeeded();
@@ -225,7 +224,7 @@ test('reduced motion keeps FN static and the final official logo is visible', as
   const frames = [];
   page.on('request', request => { if (/fn36-(loop|mobile)\.mp4/.test(request.url())) frames.push(request.url()); });
   await page.goto('./');
-  await page.locator('#fn36').scrollIntoViewIfNeeded();
+  await page.locator('#projects').scrollIntoViewIfNeeded();
   await page.waitForTimeout(300);
   expect(frames).toEqual([]);
   await expect(page.locator('#fn-video')).toHaveJSProperty('paused', true);
@@ -234,15 +233,16 @@ test('reduced motion keeps FN static and the final official logo is visible', as
   await page.locator('.brand-finale').screenshot({ path: testInfo.outputPath('finale.png') });
 });
 
-test('payment and account scenes autoplay silently without any player buttons', async ({ page }, testInfo) => {
+test('payment and account remain automatic section backgrounds after standalone scenes are removed', async ({ page }, testInfo) => {
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   await page.goto('./');
   await page.addStyleTag({ content: 'html{scroll-behavior:auto!important}' });
   for (const name of ['payment', 'account']) {
-    const scene = page.locator(`#${name}-scene`);
+    const scene = page.locator(`.site-video-layer[data-scene="${name}"]`);
+    const section = page.locator(name === 'payment' ? '#results' : '#role-proposal');
     const video = page.locator(`#${name}-video`);
-    await scene.scrollIntoViewIfNeeded();
+    await section.scrollIntoViewIfNeeded();
     await expect.poll(() => video.evaluate(node => node.currentTime), { timeout: 30000 }).toBeGreaterThan(.1);
     await expect(video).toHaveJSProperty('muted', true);
     await expect(video).toHaveJSProperty('controls', false);
@@ -269,13 +269,19 @@ test('all navigation buttons, project shortcuts and return to top reach their se
     await expect(page).toHaveURL(new RegExp(`#${id}$`));
     await expect(page.locator(`#${id}`)).toBeVisible();
   };
-  for (const id of ['profile', 'responsibility', 'projects', 'results', 'market']) await navigate(id);
+  for (const id of ['profile', 'projects', 'results', 'market']) await navigate(id);
   for (const id of ['piot', 'bot', 'erp', 'workflow']) {
     await navigate('projects');
     await page.locator(`.project-index a[href="#project-${id}"]`).click();
     await expect(page).toHaveURL(new RegExp(`#project-${id}$`));
     await expect(page.locator(`#title-${id}`)).toBeVisible();
   }
+  await expect(page.locator('#navlinks a[href="#responsibility"]')).toHaveCount(0);
+  await expect(page.locator('#payment-scene, #account-scene, .payment-flow, .fn-story-copy')).toHaveCount(0);
+  expect(await page.locator('.brand-finale').evaluate(node => node.previousElementSibling.id === 'role-proposal' && node.nextElementSibling.tagName === 'FOOTER')).toBe(true);
+  const projectGap = await page.evaluate(() => document.querySelector('.project').getBoundingClientRect().top - document.querySelector('.projects-overview').getBoundingClientRect().bottom);
+  expect(projectGap).toBeGreaterThanOrEqual(16);
+  expect(projectGap).toBeLessThan(70);
   await page.locator('.footer a[href="#about"]').last().click();
   await expect(page).toHaveURL(/#about$/);
   await expect(page.locator('h1')).toBeVisible();
@@ -290,7 +296,7 @@ test('improved typography preserves the original glass and keeps text opaque', a
   // A font change must not recolour the user's video panels or navigation.
   const surfaces = await page.evaluate(() => {
     const sheet = [...document.styleSheets].find(item => item.href?.includes('readability.css'));
-    const selectors = ['.hero-copy', '.nav', '.profile-grid', '.responsibility-item', '.project-index', '.project', '.section-heading', '.outcomes', '.market-card', '.development', '.role-proposal', '.cinematic-copy', '.fn-story-copy'];
+    const selectors = ['.hero-copy', '.nav', '.profile-grid', '.responsibility-item', '.project-index', '.project', '.section-heading', '.outcomes', '.market-card', '.development', '.role-proposal', '.projects-overview'];
     const read = () => selectors.map(selector => {
       const css = getComputedStyle(document.querySelector(selector));
       return { selector, background: css.backgroundColor, image: css.backgroundImage, border: css.borderColor, blur: css.backdropFilter };
