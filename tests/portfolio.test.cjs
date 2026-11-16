@@ -8,7 +8,7 @@ const { parseHTML } = require('linkedom');
 const csstree = require('css-tree');
 const root = path.resolve(__dirname, '..');
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
-const css = ['styles.css', 'story.css', 'readability.css'].map(file => fs.readFileSync(path.join(root, file), 'utf8')).join('\n');
+const css = ['styles.css', 'story.css', 'readability.css', 'profile.css'].map(file => fs.readFileSync(path.join(root, file), 'utf8')).join('\n');
 const app = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
 const parsed = () => parseHTML(html);
 
@@ -260,4 +260,48 @@ test('the public profile uses the exact portrait provided in the user archive', 
   assert.equal(photo.getAttribute('src'), 'assets/dmitry-kozlov-cf7163d559.jpg');
   assert.equal(photo.hasAttribute('hidden'), false);
   assert.equal(require('node:crypto').createHash('sha256').update(fs.readFileSync(path.join(root, photo.getAttribute('src')))).digest('hex'), 'cf7163d55978da7d5ddf55003a555bb7fed83c213b1933e12e4e30fe2be585af');
+});
+
+function profileAt(instant) {
+  const { document } = parsed();
+  let now = instant;
+  const events = {};
+  let tick;
+  class ClockDate extends Date {
+    constructor(...args) { super(...(args.length ? args : [now])); }
+    static now() { return new Date(now).getTime(); }
+  }
+  const window = { addEventListener: (name, fn) => { events[name] = fn; }, setInterval: fn => { tick = fn; } };
+  vm.runInNewContext(fs.readFileSync(path.join(root, 'profile.js'), 'utf8'), { document, window, Date: ClockDate, Intl, Promise });
+  return { document, advance: instant => { now = instant; tick(); }, print: () => events.beforeprint() };
+}
+
+test('employment tenure counts real calendar years, months and days with Russian plurals', () => {
+  for (const [instant, expected] of [
+    ['2025-08-19T21:00:00Z', 'Первый день в LIFE PAY'],
+    ['2025-08-20T21:00:00Z', '1 день'],
+    ['2025-08-23T12:00:00Z', '3 дня'],
+    ['2025-08-31T12:00:00Z', '11 дней'],
+    ['2025-09-10T12:00:00Z', '21 день'],
+    ['2025-09-20T12:00:00Z', '1 месяц'],
+    ['2026-08-19T12:00:00Z', '11 месяцев 30 дней'],
+    ['2026-08-20T12:00:00Z', '1 год'],
+    ['2026-11-16T12:00:00Z', '1 год 2 месяца 27 дней'],
+    ['2027-01-01T12:00:00Z', '1 год 4 месяца 12 дней'],
+    ['2028-02-29T12:00:00Z', '2 года 6 месяцев 9 дней']
+  ]) {
+    const { document } = profileAt(instant);
+    assert.equal(document.querySelector('#profile-tenure').textContent, expected, instant);
+    assert.equal(document.querySelector('#employment-start').getAttribute('datetime'), '2025-08-20');
+  }
+});
+
+test('tenure refreshes across Moscow midnight and avoids negative service before the start date', () => {
+  const profile = profileAt('2026-11-19T20:59:59Z');
+  assert.equal(profile.document.querySelector('#profile-tenure').textContent, '1 год 2 месяца 30 дней');
+  profile.advance('2026-11-19T21:00:00Z');
+  profile.print();
+  assert.equal(profile.document.querySelector('#profile-tenure').textContent, '1 год 3 месяца');
+  const before = profileAt('2025-08-19T12:00:00Z');
+  assert.equal(before.document.querySelector('#profile-tenure').hidden, true);
 });

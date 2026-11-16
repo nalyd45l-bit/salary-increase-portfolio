@@ -31,17 +31,5 @@
     }
   });
 
-  const nameInput = document.querySelector('#profile-name-input');
-  const managerInput = document.querySelector('#profile-manager-input');
-  nameInput.addEventListener('input', () => {
-    const name = document.querySelector('#profile-name');
-    name.textContent = nameInput.value.trim();
-    name.hidden = !name.textContent;
-  });
-  managerInput.addEventListener('input', () => {
-    const manager = document.querySelector('#profile-manager');
-    manager.textContent = managerInput.value.trim();
-    document.querySelector('#profile-manager-row').hidden = !manager.textContent;
-  });
   update();
 })();

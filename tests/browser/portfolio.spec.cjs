@@ -160,6 +160,7 @@ test('FN36 animates without scrolling and video backgrounds cover every section'
 });
 
 test('profile and leadership proposal use explicit user details and copy the selected pay format', async ({ page }, testInfo) => {
+  await page.clock.setFixedTime(new Date('2026-11-16T12:00:00Z'));
   await page.goto('./');
   await expect(page.locator('#profile-name')).toHaveText('Дмитрий Козлов');
   await expect(page.locator('#profile-manager')).toHaveText('Владислав Ерофеев');
@@ -191,21 +192,22 @@ test('profile and leadership proposal use explicit user details and copy the sel
   await page.locator('#proposal-pay-format').selectOption('gross');
   await expect(page.locator('#proposal-text')).toContainText('до вычета налогов');
   await expect(page.locator('#proposal-text')).not.toContainText('на руки');
-  await page.locator('#profile .profile-editor summary').click();
-  await page.locator('#profile-name-input').fill('Дмитрий Козлов · QA');
-  await expect(page.locator('#profile-name')).toHaveText('Дмитрий Козлов · QA');
-  await page.locator('#profile-name-input').fill('Дмитрий Козлов');
-  await page.locator('#profile-manager-input').fill('');
-  await expect(page.locator('#profile-manager-row')).not.toBeVisible();
-  await page.locator('#profile-manager-input').fill('Владислав Ерофеев');
-  await expect(page.locator('#profile-manager-row')).toBeVisible();
+  await expect(page.locator('#profile-title')).toHaveText('Обо мне');
+  await expect(page.locator('#profile #responsibility article')).toHaveCount(3);
+  await expect(page.locator('#profile-tenure')).toHaveText('1 год 2 месяца 27 дней');
+  await expect(page.locator('#employment-start')).toHaveAttribute('datetime', '2025-08-20');
+  await expect(page.locator('.intro-strip,.profile-editor,.profile-pillars,#portrait-file,#profile-name-input,#profile-manager-input')).toHaveCount(0);
+  await page.clock.setFixedTime(new Date('2026-11-19T20:59:59Z'));
+  await page.evaluate(() => window.dispatchEvent(new Event('beforeprint')));
+  await expect(page.locator('#profile-tenure')).toHaveText('1 год 2 месяца 30 дней');
+  await page.clock.setFixedTime(new Date('2026-11-19T21:00:00Z'));
+  await page.evaluate(() => window.dispatchEvent(new Event('beforeprint')));
+  await expect(page.locator('#profile-tenure')).toHaveText('1 год 3 месяца');
+  await page.evaluate(() => window.dispatchEvent(new Event('afterprint')));
   await page.evaluate(() => Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText: async () => { throw new Error('Clipboard denied by test'); } } }));
   await page.locator('#copy-proposal').click();
   await expect(page.locator('#proposal-copy-fallback')).toBeVisible();
   await expect(page.locator('#proposal-copy-fallback')).toHaveValue(await page.locator('#proposal-text').innerText());
-  await page.locator('#portrait-file').setInputFiles({ name: 'qa-only.png', mimeType: 'image/png', buffer: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=', 'base64') });
-  await expect(page.locator('#profile-photo')).toBeVisible();
-  await expect(page.locator('#portrait-status')).toContainText('Фото добавлено');
   await page.emulateMedia({ media: 'print' });
   await expect(page.locator('.proposal-preparation')).not.toBeVisible();
   await expect(page.locator('#proposal-text')).toContainText('до вычета налогов');
